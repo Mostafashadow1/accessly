@@ -1,0 +1,64 @@
+{
+  "name": "accessly",
+  "version": "0.1.0",
+  "description": "Explainable access control for React and Next.js — permission checks, RBAC, feature flags, backend adapters, and explainable decisions",
+  "type": "module",
+  "sideEffects": false,
+  "license": "MIT",
+  "author": "Accessly",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/accessly/accessly"
+  },
+  "keywords": [
+    "react",
+    "nextjs",
+    "access-control",
+    "permissions",
+    "rbac",
+    "authorization",
+    "feature-flags",
+    "abac"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "type-check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/react": "^18.3.0",
+    "jsdom": "^29.1.1",
+    "react": "^18.3.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.1.0"
+  }
+}
