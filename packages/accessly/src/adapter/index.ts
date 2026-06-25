@@ -4,5 +4,5 @@ export {
   createActionsAdapter,
   pagesOnlyAdapter,
   nestedModulesAdapter,
-  featuresAdapter,
+  featureFlagsAdapter,
 } from "./built-in-adapters";

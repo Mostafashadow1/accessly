@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { PermissionProvider, usePermissionResult, formatDecision } from "accessly";
+import { PermissionProvider, useAccessDecision, formatDecision } from "accessly";
 
 function DecisionInspector({ permission }: { permission: string }) {
-  const decision = usePermissionResult(permission);
+  const decision = useAccessDecision(permission);
   return (
     <pre
       style={{
@@ -22,7 +22,7 @@ ${formatDecision(decision)}`}
 }
 
 function DecisionJSON({ permission }: { permission: string }) {
-  const decision = usePermissionResult(permission);
+  const decision = useAccessDecision(permission);
   return (
     <pre
       style={{
@@ -82,9 +82,9 @@ export default function ExplainEngine() {
         <DecisionInspector permission="users.create" />
       </PermissionProvider>
 
-      <h2>usePermissionResult Hook</h2>
+      <h2>useAccessDecision Hook</h2>
       <p>
-        Use <code>usePermissionResult</code> when you need the full decision
+        Use <code>useAccessDecision</code> when you need the full decision
         object, or <code>usePermission</code> when you only need a boolean.
       </p>
       <pre
@@ -95,7 +95,7 @@ export default function ExplainEngine() {
           borderRadius: 8,
         }}
       >
-{`const result = usePermissionResult("users.create");
+{`const result = useAccessDecision("users.create");
 // { allowed: true, reason: "allowed", matched: ["users.create"], ... }
 
 const allowed = usePermission("users.create");

@@ -16,7 +16,9 @@ export function filterNavigation(
 
     if (item.children) {
       const filteredChildren = filterNavigation(item.children, model);
-      if (filteredChildren.length === 0 && item.permission) return acc;
+      // Skip parent if all children were filtered out (regardless of
+      // whether the parent itself carries a permission)
+      if (filteredChildren.length === 0) return acc;
       acc.push({ ...item, children: filteredChildren });
     } else {
       acc.push({ ...item });

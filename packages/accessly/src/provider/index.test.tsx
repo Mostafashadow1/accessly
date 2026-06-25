@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import { PermissionProvider, useAccessContext } from "./index";
-import { useAccess } from "../hooks";
+import { useAccessModel } from "../hooks";
 import type { AccessAdapter } from "../types/access";
 
 function TestConsumer() {
@@ -20,7 +20,7 @@ function TestConsumer() {
 }
 
 function AccessDisplay() {
-  const access = useAccess();
+  const access = useAccessModel();
   return (
     <div data-testid="access">
       {access ? JSON.stringify(access.permissions) : "null"}

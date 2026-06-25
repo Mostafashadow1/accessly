@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import { PermissionProvider } from "../provider";
-import { usePermission, usePermissionResult, useAccess } from "./index";
+import { usePermission, useAccessDecision, useAccessModel } from "./index";
 
 function PermissionCheck({ permission }: { permission: string }) {
   const allowed = usePermission(permission);
@@ -10,7 +10,7 @@ function PermissionCheck({ permission }: { permission: string }) {
 }
 
 function ResultCheck({ permission }: { permission: string }) {
-  const result = usePermissionResult(permission);
+  const result = useAccessDecision(permission);
   return (
     <div>
       <span data-testid="allowed">{result.allowed ? "yes" : "no"}</span>
@@ -20,8 +20,17 @@ function ResultCheck({ permission }: { permission: string }) {
 }
 
 function AccessCheck() {
-  const model = useAccess();
+  const model = useAccessModel();
   return <div data-testid="model">{model ? "exists" : "none"}</div>;
+}
+
+function LoadingAccessCheck() {
+  const model = useAccessModel();
+  return (
+    <div data-testid="loading-model">
+      {model ? (model.isLoading ? "loading" : "loaded") : "null"}
+    </div>
+  );
 }
 
 describe("usePermission", () => {
@@ -44,7 +53,7 @@ describe("usePermission", () => {
   });
 });
 
-describe("usePermissionResult", () => {
+describe("useAccessDecision", () => {
   it("returns full decision object", () => {
     render(
       <PermissionProvider access={{ permissions: ["users.create"] }}>
@@ -66,7 +75,7 @@ describe("usePermissionResult", () => {
   });
 });
 
-describe("useAccess", () => {
+describe("useAccessModel", () => {
   it("returns the access model", () => {
     render(
       <PermissionProvider access={{ permissions: ["users.create"] }}>
@@ -83,5 +92,24 @@ describe("useAccess", () => {
       </PermissionProvider>,
     );
     expect(screen.getByTestId("model").textContent).toBe("none");
+  });
+
+  it("returns loading model when loading prop is true", () => {
+    render(
+      <PermissionProvider access={{ permissions: ["users.create"] }} loading>
+        <LoadingAccessCheck />
+      </PermissionProvider>,
+    );
+    expect(screen.getByTestId("loading-model").textContent).toBe("loading");
+  });
+
+  it("returns null when loading prop is true but no model", () => {
+    render(
+      <PermissionProvider loading>
+        <LoadingAccessCheck />
+      </PermissionProvider>,
+    );
+    // With loading=true and no model, getModel returns LOADING_MODEL
+    expect(screen.getByTestId("loading-model").textContent).toBe("loading");
   });
 });

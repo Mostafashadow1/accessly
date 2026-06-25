@@ -25,7 +25,6 @@ export default function API() {
   rolePermissions={roles}  // Role-to-permissions map
   registry={[]}            // Known permission registry
   unknownPermission="warn" // "ignore" | "warn" | "throw"
-  debug                    // Enable debug mode
   loading                  // Show loading state
 >
   <App />
@@ -127,8 +126,8 @@ export default function API() {
         }}
 >
 {`const allowed = usePermission("users.create");
-const result = usePermissionResult("users.create");
-const model = useAccess();`}
+const result = useAccessDecision("users.create");
+const model = useAccessModel();`}
       </pre>
     </div>
   );

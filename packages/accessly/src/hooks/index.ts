@@ -30,19 +30,19 @@ function inputKey(input: PermissionCheckInput): string {
   return "invalid";
 }
 
-export function useAccess() {
+export function useAccessModel(): AccessModel | null {
   const ctx = useAccessContext();
-  return ctx.model;
+  return getModel(ctx);
 }
 
 export function usePermission(
   input: string | PermissionCheckInput,
 ): boolean {
-  const result = usePermissionResult(input);
+  const result = useAccessDecision(input);
   return result.allowed;
 }
 
-export function usePermissionResult(
+export function useAccessDecision(
   input: string | PermissionCheckInput,
 ): AccessDecision {
   const ctx = useAccessContext();

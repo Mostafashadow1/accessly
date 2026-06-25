@@ -94,7 +94,7 @@ const adapter = createAdapter((apiResponse) => ({
   );
 }
 
-// While loading, all usePermission/usePermissionResult calls
+// While loading, all usePermission/useAccessDecision calls
 // return { allowed: false, reason: "not_ready" }
 `}
       </pre>
@@ -119,7 +119,7 @@ console.log(inspectAccess(model));
 //   - users.delete
 //   - pages.dashboard
 
-const decision = usePermissionResult("users.create");
+const decision = useAccessDecision("users.create");
 console.log(formatDecision(decision));
 // Allowed: true
 // Reason: allowed

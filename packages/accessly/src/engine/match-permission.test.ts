@@ -13,6 +13,8 @@ describe("matchPermission", () => {
   it("global wildcard matches everything", () => {
     expect(matchPermission("*", "users.create")).toBe(true);
     expect(matchPermission("*", "anything.here")).toBe(true);
+    expect(matchPermission("*", "a.b.c.d.e")).toBe(true);
+    expect(matchPermission("*", "single")).toBe(true);
   });
 
   it("resource wildcard matches one level", () => {
@@ -50,5 +52,43 @@ describe("matchPermission", () => {
 
   it("rejects middle wildcard when other segments differ", () => {
     expect(matchPermission("users.*.edit", "posts.profile.edit")).toBe(false);
+  });
+
+  it("multiple wildcards in same pattern", () => {
+    expect(matchPermission("*.profile.*", "users.profile.edit")).toBe(true);
+    expect(matchPermission("*.profile.*", "admin.profile.view")).toBe(true);
+    expect(matchPermission("*.profile.*", "users.settings.edit")).toBe(false);
+  });
+
+  it("consecutive wildcards", () => {
+    expect(matchPermission("*.*", "users.create")).toBe(true);
+    expect(matchPermission("*.*", "users")).toBe(false);
+    expect(matchPermission("*.*", "a.b.c")).toBe(false);
+  });
+
+  it("all wildcard pattern", () => {
+    expect(matchPermission("*.*.*", "a.b.c")).toBe(true);
+    expect(matchPermission("*.*.*", "a.b")).toBe(false);
+    expect(matchPermission("*.*.*", "a.b.c.d")).toBe(false);
+  });
+
+  it("handles empty strings gracefully", () => {
+    expect(matchPermission("", "")).toBe(true);
+    expect(matchPermission("", "a")).toBe(false);
+    expect(matchPermission("a", "")).toBe(false);
+  });
+
+  it("case sensitivity", () => {
+    expect(matchPermission("Users.Create", "users.create")).toBe(false);
+    expect(matchPermission("USERS.*", "users.create")).toBe(false);
+  });
+
+  it("single segment exact match", () => {
+    expect(matchPermission("admin", "admin")).toBe(true);
+    expect(matchPermission("admin", "user")).toBe(false);
+  });
+
+  it("single segment wildcard", () => {
+    expect(matchPermission("*", "anything")).toBe(true);
   });
 });

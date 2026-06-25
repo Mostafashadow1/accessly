@@ -6,7 +6,7 @@ import {
   Can,
   Cannot,
   ProtectedRoute,
-  usePermissionResult,
+  useAccessDecision,
   formatDecision,
   inspectAccess,
   createActionsAdapter,
@@ -23,7 +23,7 @@ function ExplainBox({ permission, access }: { permission: string; access: any })
 }
 
 function ExplainInner({ permission }: { permission: string }) {
-  const decision = usePermissionResult(permission);
+  const decision = useAccessDecision(permission);
   return (
     <pre
       style={{

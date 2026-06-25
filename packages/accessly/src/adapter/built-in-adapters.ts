@@ -55,7 +55,7 @@ export function nestedModulesAdapter(
 }
 
 /** Adapter for feature flag backends. */
-export function featuresAdapter(
+export function featureFlagsAdapter(
   source: { features?: Record<string, boolean> },
 ): AccessModel {
   const flags: string[] = [];

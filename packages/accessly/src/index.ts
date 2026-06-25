@@ -11,7 +11,7 @@ export type {
 } from "./types/access";
 
 // Engine
-export { checkPermission, matchPermission, resetWarnings } from "./engine";
+export { checkPermission, matchPermission } from "./engine";
 
 // Adapters
 export {
@@ -20,14 +20,15 @@ export {
   createActionsAdapter,
   pagesOnlyAdapter,
   nestedModulesAdapter,
-  featuresAdapter,
+  featureFlagsAdapter,
 } from "./adapter";
 
 // Provider
 export { PermissionProvider } from "./provider";
+export type { PermissionProviderProps } from "./provider";
 
 // Hooks
-export { usePermission, usePermissionResult, useAccess } from "./hooks";
+export { usePermission, useAccessDecision, useAccessModel } from "./hooks";
 
 // Components
 export { Can, Cannot, ProtectedRoute } from "./components";

@@ -50,6 +50,49 @@ function findMatch(
   return null;
 }
 
+/**
+ * Determine whether a target permission is "unknown" (not recognised by
+ * the system).  Without a registry we conservatively treat every missing
+ * permission as potentially unknown.
+ */
+function isUnknownPermission(
+  target: string,
+  registry?: readonly string[],
+): boolean {
+  return registry ? !registry.includes(target) : true;
+}
+
+/**
+ * Handle the unknownPermission strategy for a list of targets that were
+ * all denied.  Returns `true` if the caller should return early with an
+ * `unknown_permission` decision (when the strategy is "throw").
+ *
+ * When the strategy is "warn", issues warnings for each unknown target.
+ */
+function handleUnknownStrategy(
+  deniedTargets: string[],
+  unknownPermission: "ignore" | "warn" | "throw" | undefined,
+  registry: readonly string[] | undefined,
+): boolean {
+  if (!unknownPermission || unknownPermission === "ignore") return false;
+
+  let hasUnknown = false;
+  for (const target of deniedTargets) {
+    if (isUnknownPermission(target, registry)) {
+      hasUnknown = true;
+      if (unknownPermission === "warn") {
+        warnOnce(target);
+      }
+    }
+  }
+
+  if (unknownPermission === "throw" && hasUnknown) {
+    return true;
+  }
+
+  return false;
+}
+
 export function checkPermission(
   model: AccessModel | null | undefined,
   input: PermissionCheckInput,
@@ -71,6 +114,8 @@ export function checkPermission(
   const flags = model.flags ?? [];
   const roles = model.user?.roles;
   const rolePermissions = options?.rolePermissions;
+  const unknownPermission = options?.unknownPermission;
+  const registry = options?.registry;
 
   // Expand role-based permissions
   const roleBasedPermissions = expandRolePermissions(roles, rolePermissions);
@@ -97,8 +142,8 @@ export function checkPermission(
       effectivePermissions,
       directCount,
       input.permission,
-      options?.unknownPermission,
-      options?.registry,
+      unknownPermission,
+      registry,
     );
   }
 
@@ -117,6 +162,17 @@ export function checkPermission(
         };
       }
     }
+
+    // None matched – apply unknownPermission strategy before deciding
+    if (handleUnknownStrategy(requested, unknownPermission, registry)) {
+      return {
+        allowed: false,
+        reason: "unknown_permission",
+        requested,
+        checkedFrom: "none",
+      };
+    }
+
     return {
       allowed: false,
       reason: "missing_permission",
@@ -146,6 +202,19 @@ export function checkPermission(
         }
       } else {
         missing.push(perm);
+      }
+    }
+
+    if (missing.length > 0) {
+      // Some items denied – apply unknownPermission strategy
+      if (handleUnknownStrategy(missing, unknownPermission, registry)) {
+        return {
+          allowed: false,
+          reason: "unknown_permission",
+          requested,
+          missing,
+          checkedFrom: "none",
+        };
       }
     }
 
@@ -184,12 +253,8 @@ function checkSinglePermission(
     };
   }
 
-  // Determine if this permission is genuinely "unknown" to the system.
-  // Without a registry we fall back to treating every denial as a
-  // potentially unknown permission.
-  const isUnknown = registry ? !registry.includes(target) : true;
-
-  if (unknownPermission === "throw" && isUnknown) {
+  // Permission not found – apply unknownPermission strategy
+  if (unknownPermission === "throw" && isUnknownPermission(target, registry)) {
     return {
       allowed: false,
       reason: "unknown_permission",
@@ -198,7 +263,7 @@ function checkSinglePermission(
     };
   }
 
-  if (unknownPermission === "warn" && isUnknown) {
+  if (unknownPermission === "warn" && isUnknownPermission(target, registry)) {
     warnOnce(target);
   }
 

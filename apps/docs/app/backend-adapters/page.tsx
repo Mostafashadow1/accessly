@@ -7,7 +7,7 @@ import {
   directPermissionsAdapter,
   pagesOnlyAdapter,
   nestedModulesAdapter,
-  featuresAdapter,
+  featureFlagsAdapter,
 } from "accessly";
 
 export default function BackendAdapters() {
@@ -24,7 +24,7 @@ export default function BackendAdapters() {
     users: { create: true, delete: false, view: true },
   });
 
-  const featuresModel = featuresAdapter({
+  const featuresModel = featureFlagsAdapter({
     features: { "new-dashboard": true, "beta-reports": false },
   });
 
@@ -120,7 +120,7 @@ export default function BackendAdapters() {
         </Can>
       </PermissionProvider>
 
-      <h3>featuresAdapter</h3>
+      <h3>featureFlagsAdapter</h3>
       <p>For feature flag backends.</p>
       <PermissionProvider access={featuresModel}>
         <Can permission={{ flag: "features.new-dashboard" }}>

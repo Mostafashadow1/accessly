@@ -4,7 +4,7 @@ import {
   createActionsAdapter,
   pagesOnlyAdapter,
   nestedModulesAdapter,
-  featuresAdapter,
+  featureFlagsAdapter,
 } from "./built-in-adapters";
 
 describe("directPermissionsAdapter", () => {
@@ -84,9 +84,9 @@ describe("nestedModulesAdapter", () => {
   });
 });
 
-describe("featuresAdapter", () => {
+describe("featureFlagsAdapter", () => {
   it("converts enabled features to flags", () => {
-    const result = featuresAdapter({
+    const result = featureFlagsAdapter({
       features: { "new-dashboard": true, "beta-reports": false },
     });
     expect(result.flags).toContain("features.new-dashboard");
@@ -96,7 +96,7 @@ describe("featuresAdapter", () => {
   });
 
   it("handles empty input", () => {
-    const result = featuresAdapter({});
+    const result = featureFlagsAdapter({});
     expect(result.flags).toEqual([]);
   });
 });

@@ -12,6 +12,14 @@ function renderWithAccess(ui: React.ReactElement, permissions: string[] = []) {
   );
 }
 
+function renderWithLoading(ui: React.ReactElement) {
+  return render(
+    <PermissionProvider access={null} loading>
+      {ui}
+    </PermissionProvider>,
+  );
+}
+
 describe("Can", () => {
   it("renders children when allowed", () => {
     renderWithAccess(
@@ -80,6 +88,45 @@ describe("Can", () => {
     );
     expect(screen.getByText("Beta feature")).not.toBeNull();
   });
+
+  it("renders loading indicator when loading and no fallback", () => {
+    renderWithLoading(
+      <Can permission="users.create" loading={<span>Loading...</span>}>
+        <button>Create User</button>
+      </Can>,
+    );
+    expect(screen.getByText("Loading...")).not.toBeNull();
+    expect(screen.queryByText("Create User")).toBeNull();
+  });
+
+  it("falls back to fallback when loading and no loading prop", () => {
+    renderWithLoading(
+      <Can permission="users.create" fallback={<span>Denied</span>}>
+        <button>Create User</button>
+      </Can>,
+    );
+    // When loading, it should show fallback (not children)
+    expect(screen.getByText("Denied")).not.toBeNull();
+  });
+
+  it("renders nothing when loading and no loading or fallback prop", () => {
+    renderWithLoading(
+      <Can permission="users.create">
+        <button>Create User</button>
+      </Can>,
+    );
+    expect(screen.queryByText("Create User")).toBeNull();
+  });
+
+  it("renders loading over fallback when both are provided", () => {
+    renderWithLoading(
+      <Can permission="users.create" loading={<span>Loading...</span>} fallback={<span>Denied</span>}>
+        <button>Create User</button>
+      </Can>,
+    );
+    expect(screen.getByText("Loading...")).not.toBeNull();
+    expect(screen.queryByText("Denied")).toBeNull();
+  });
 });
 
 describe("Cannot", () => {
@@ -112,6 +159,24 @@ describe("Cannot", () => {
     );
     expect(screen.getByText("Has access")).not.toBeNull();
     expect(screen.queryByText("No access")).toBeNull();
+  });
+
+  it("renders loading when loading state", () => {
+    renderWithLoading(
+      <Cannot permission="users.create" loading={<span>Checking...</span>}>
+        <span>No access</span>
+      </Cannot>,
+    );
+    expect(screen.getByText("Checking...")).not.toBeNull();
+  });
+
+  it("render prop receives decision during loading", () => {
+    renderWithLoading(
+      <Cannot permission="users.create">
+        {(decision) => <span data-testid="reason">{decision.reason}</span>}
+      </Cannot>,
+    );
+    expect(screen.getByTestId("reason").textContent).toBe("not_ready");
   });
 });
 
@@ -149,5 +214,33 @@ describe("ProtectedRoute", () => {
       ["pages.admin"],
     );
     expect(screen.getByText("Admin")).not.toBeNull();
+  });
+
+  it("shows loading indicator during loading state", () => {
+    renderWithLoading(
+      <ProtectedRoute permission="pages.admin" loading={<span>Verifying...</span>}>
+        <div>Admin</div>
+      </ProtectedRoute>,
+    );
+    expect(screen.getByText("Verifying...")).not.toBeNull();
+    expect(screen.queryByText("Admin")).toBeNull();
+  });
+
+  it("falls back to fallback during loading when no loading prop", () => {
+    renderWithLoading(
+      <ProtectedRoute permission="pages.admin" fallback={<span>Access Denied</span>}>
+        <div>Admin</div>
+      </ProtectedRoute>,
+    );
+    expect(screen.getByText("Access Denied")).not.toBeNull();
+  });
+
+  it("render prop receives decision in loading state", () => {
+    renderWithLoading(
+      <ProtectedRoute permission="pages.admin">
+        {(decision) => <span data-testid="reason">{decision.reason}</span>}
+      </ProtectedRoute>,
+    );
+    expect(screen.getByTestId("reason").textContent).toBe("not_ready");
   });
 });
