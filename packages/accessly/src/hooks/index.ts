@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import type { PermissionCheckInput, AccessDecision, AccessModel } from "../types/access";
-import { checkPermission } from "../engine/check-permission";
+import { checkPermission } from "../debug";
 import { useAccessContext } from "../provider";
 
 const LOADING_MODEL: AccessModel = { isLoading: true };

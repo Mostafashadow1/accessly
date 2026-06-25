@@ -55,7 +55,7 @@ function findMatch(
  * the system).  Without a registry we conservatively treat every missing
  * permission as potentially unknown.
  */
-function isUnknownPermission(
+export function isUnknownPermission(
   target: string,
   registry?: readonly string[],
 ): boolean {
@@ -67,27 +67,22 @@ function isUnknownPermission(
  * all denied.  Returns `true` if the caller should return early with an
  * `unknown_permission` decision (when the strategy is "throw").
  *
- * When the strategy is "warn", issues warnings for each unknown target.
+ * Note: this function is pure — warning about unknown permissions is
+ * handled by the debug layer, not the engine.
  */
 function handleUnknownStrategy(
   deniedTargets: string[],
   unknownPermission: "ignore" | "warn" | "throw" | undefined,
   registry: readonly string[] | undefined,
 ): boolean {
-  if (!unknownPermission || unknownPermission === "ignore") return false;
+  // Only "throw" changes the decision output.
+  // "ignore" and "warn" both fall through to "missing_permission".
+  if (unknownPermission !== "throw") return false;
 
-  let hasUnknown = false;
   for (const target of deniedTargets) {
     if (isUnknownPermission(target, registry)) {
-      hasUnknown = true;
-      if (unknownPermission === "warn") {
-        warnOnce(target);
-      }
+      return true;
     }
-  }
-
-  if (unknownPermission === "throw" && hasUnknown) {
-    return true;
   }
 
   return false;
@@ -263,10 +258,6 @@ function checkSinglePermission(
     };
   }
 
-  if (unknownPermission === "warn" && isUnknownPermission(target, registry)) {
-    warnOnce(target);
-  }
-
   return {
     allowed: false,
     reason: "missing_permission",
@@ -276,19 +267,3 @@ function checkSinglePermission(
   };
 }
 
-const warnedPermissions = new Set<string>();
-
-function warnOnce(permission: string): void {
-  if (!warnedPermissions.has(permission)) {
-    warnedPermissions.add(permission);
-    console.warn(
-      `[Accessly] Unknown permission checked: "${permission}". ` +
-        "Add it to the registry or provide it in the access model.",
-    );
-  }
-}
-
-/** @internal Reset warning cache (useful for testing). */
-export function resetWarnings(): void {
-  warnedPermissions.clear();
-}

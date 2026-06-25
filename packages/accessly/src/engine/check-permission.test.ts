@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from "vitest";
-import { checkPermission, resetWarnings } from "./check-permission";
+import { describe, it, expect } from "vitest";
+import { checkPermission } from "./check-permission";
 import type { AccessModel } from "../types/access";
 
 const baseModel: AccessModel = {
@@ -9,10 +9,6 @@ const baseModel: AccessModel = {
     roles: ["admin"],
   },
 };
-
-beforeEach(() => {
-  resetWarnings();
-});
 
 describe("checkPermission", () => {
   describe("null/loading model", () => {
@@ -213,63 +209,6 @@ describe("checkPermission", () => {
       expect(result.reason).toBe("unknown_permission");
     });
 
-    it("warns when unknownPermission is warn and permission not in registry", () => {
-      const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
-      const model: AccessModel = { permissions: [] };
-      const result = checkPermission(
-        model,
-        { permission: "unknown.perm" },
-        { unknownPermission: "warn", registry: ["known.perm"] },
-      );
-      expect(result.allowed).toBe(false);
-      expect(result.reason).toBe("missing_permission");
-      expect(spy).toHaveBeenCalledWith(
-        expect.stringContaining("Unknown permission"),
-      );
-      spy.mockRestore();
-    });
-
-    it("does not warn for permissions in the registry", () => {
-      const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
-      const model: AccessModel = { permissions: [] };
-      checkPermission(
-        model,
-        { permission: "known.perm" },
-        { unknownPermission: "warn", registry: ["known.perm"] },
-      );
-      expect(spy).not.toHaveBeenCalled();
-      spy.mockRestore();
-    });
-
-    it("deduplicates warnings", () => {
-      const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
-      const model: AccessModel = { permissions: [] };
-      checkPermission(
-        model,
-        { permission: "dup.perm" },
-        { unknownPermission: "warn", registry: ["known.perm"] },
-      );
-      checkPermission(
-        model,
-        { permission: "dup.perm" },
-        { unknownPermission: "warn", registry: ["known.perm"] },
-      );
-      expect(spy).toHaveBeenCalledTimes(1);
-      spy.mockRestore();
-    });
-
-    it("does not warn when unknownPermission is ignore", () => {
-      const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
-      const model: AccessModel = { permissions: [] };
-      checkPermission(
-        model,
-        { permission: "unknown.perm" },
-        { unknownPermission: "ignore", registry: ["known.perm"] },
-      );
-      expect(spy).not.toHaveBeenCalled();
-      spy.mockRestore();
-    });
-
     it("does not throw when unknownPermission is ignore", () => {
       const model: AccessModel = { permissions: [] };
       const result = checkPermission(
@@ -281,16 +220,15 @@ describe("checkPermission", () => {
       expect(result.reason).toBe("missing_permission");
     });
 
-    it("does not warn when permission is in user's effective permissions", () => {
-      const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
-      const model: AccessModel = { permissions: ["users.create"] };
-      checkPermission(
+    it("returns missing_permission when unknownPermission is warn", () => {
+      const model: AccessModel = { permissions: [] };
+      const result = checkPermission(
         model,
-        { permission: "users.create" },
-        { unknownPermission: "warn", registry: ["users.create"] },
+        { permission: "unknown.perm" },
+        { unknownPermission: "warn", registry: ["known.perm"] },
       );
-      expect(spy).not.toHaveBeenCalled();
-      spy.mockRestore();
+      expect(result.allowed).toBe(false);
+      expect(result.reason).toBe("missing_permission");
     });
   });
 
@@ -318,8 +256,7 @@ describe("checkPermission", () => {
       expect(result.reason).toBe("allowed");
     });
 
-    it("warns for each unknown permission in any when strategy is warn", () => {
-      const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    it("returns missing_permission for any when strategy is warn", () => {
       const model: AccessModel = { permissions: [] };
       const result = checkPermission(
         model,
@@ -328,21 +265,6 @@ describe("checkPermission", () => {
       );
       expect(result.allowed).toBe(false);
       expect(result.reason).toBe("missing_permission");
-      // Should warn for both unknown permissions
-      expect(spy).toHaveBeenCalledTimes(2);
-      spy.mockRestore();
-    });
-
-    it("does not warn in any for permissions in registry", () => {
-      const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
-      const model: AccessModel = { permissions: [] };
-      checkPermission(
-        model,
-        { any: ["known.perm"] },
-        { unknownPermission: "warn", registry: ["known.perm"] },
-      );
-      expect(spy).not.toHaveBeenCalled();
-      spy.mockRestore();
     });
   });
 
@@ -384,8 +306,7 @@ describe("checkPermission", () => {
       expect(result.missing).toEqual(["known.perm"]);
     });
 
-    it("warns for unknown permissions in all when strategy is warn", () => {
-      const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    it("returns missing_permission for all when strategy is warn", () => {
       const model: AccessModel = { permissions: [] };
       const result = checkPermission(
         model,
@@ -394,21 +315,6 @@ describe("checkPermission", () => {
       );
       expect(result.allowed).toBe(false);
       expect(result.reason).toBe("missing_permission");
-      expect(spy).toHaveBeenCalledTimes(1);
-      spy.mockRestore();
-    });
-
-    it("does not warn in all for permissions in registry that are missing", () => {
-      const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
-      const model: AccessModel = { permissions: [] };
-      checkPermission(
-        model,
-        { all: ["known.perm"] },
-        { unknownPermission: "warn", registry: ["known.perm"] },
-      );
-      // known.perm is in registry, so it's not unknown — user just doesn't have it
-      expect(spy).not.toHaveBeenCalled();
-      spy.mockRestore();
     });
   });
 
@@ -471,6 +377,74 @@ describe("checkPermission", () => {
       const result = checkPermission(baseModel, {} as any);
       expect(result.allowed).toBe(false);
       expect(result.reason).toBe("invalid_request");
+    });
+  });
+
+  describe("purity", () => {
+    it("returns identical results for identical inputs regardless of call count", () => {
+      const model: AccessModel = { permissions: ["users.create"] };
+      const input = { permission: "users.create" };
+      const options = {
+        unknownPermission: "throw" as const,
+        registry: ["users.create"] as readonly string[],
+      };
+
+      const results = Array.from({ length: 50 }, () =>
+        checkPermission(model, input, options),
+      );
+
+      const first = results[0];
+      for (const r of results) {
+        expect(r).toEqual(first);
+      }
+    });
+
+    it("does not throw for any input", () => {
+      expect(() => checkPermission(null, { permission: "test" })).not.toThrow();
+      expect(() =>
+        checkPermission({ permissions: [] }, { permission: "test" }),
+      ).not.toThrow();
+      expect(() =>
+        checkPermission({ permissions: ["a.*"] }, { permission: "a.b.c" }),
+      ).not.toThrow();
+    });
+
+    it("does not retain state between calls", () => {
+      const model: AccessModel = { permissions: [] };
+
+      // First call with unknown permission under "throw" strategy
+      const result1 = checkPermission(
+        model,
+        { permission: "unknown.perm" },
+        { unknownPermission: "throw", registry: ["known.perm"] },
+      );
+      expect(result1.reason).toBe("unknown_permission");
+
+      // Second call with same inputs — no hidden state should affect it
+      const result2 = checkPermission(
+        model,
+        { permission: "unknown.perm" },
+        { unknownPermission: "throw", registry: ["known.perm"] },
+      );
+      expect(result2).toEqual(result1);
+    });
+
+    it("warn strategy produces same decision output as ignore", () => {
+      const model: AccessModel = { permissions: [] };
+      const registry = ["known.perm"] as readonly string[];
+
+      const withWarn = checkPermission(
+        model,
+        { permission: "unknown.perm" },
+        { unknownPermission: "warn", registry },
+      );
+      const withIgnore = checkPermission(
+        model,
+        { permission: "unknown.perm" },
+        { unknownPermission: "ignore", registry },
+      );
+
+      expect(withWarn).toEqual(withIgnore);
     });
   });
 });

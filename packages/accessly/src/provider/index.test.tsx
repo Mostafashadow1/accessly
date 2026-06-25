@@ -9,9 +9,7 @@ function TestConsumer() {
   const ctx = useAccessContext();
   return (
     <div>
-      <span data-testid="model">
-        {ctx.model ? "has-model" : "no-model"}
-      </span>
+      <span data-testid="model">{ctx.model ? "has-model" : "no-model"}</span>
       <span data-testid="loading">
         {ctx.loading ? "loading" : "not-loading"}
       </span>
@@ -114,6 +112,8 @@ describe("useAccessContext", () => {
       return <div>no-error</div>;
     }
     render(<ErrorCatcher />);
-    expect(screen.getByText(/usePermission hooks must be used inside/)).not.toBeNull();
+    expect(
+      screen.getByText(/usePermission hooks must be used inside/),
+    ).not.toBeNull();
   });
 });

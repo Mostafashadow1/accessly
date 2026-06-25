@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { formatDecision, inspectAccess } from "./index";
+import { describe, it, expect, beforeEach } from "vitest";
+import { formatDecision, inspectAccess, checkPermission, resetWarnings } from "./index";
 import type { AccessDecision, AccessModel } from "../types/access";
 
 describe("formatDecision", () => {
@@ -99,5 +99,134 @@ describe("inspectAccess", () => {
     const output = inspectAccess(model);
     expect(output).toContain("User: 42");
     expect(output).not.toContain("Roles:");
+  });
+});
+
+describe("checkPermission (debug wrapper)", () => {
+  beforeEach(() => {
+    resetWarnings();
+  });
+
+  it("warns when unknownPermission is warn and permission not in registry", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const model: AccessModel = { permissions: [] };
+    const result = checkPermission(
+      model,
+      { permission: "unknown.perm" },
+      { unknownPermission: "warn", registry: ["known.perm"] },
+    );
+    expect(result.allowed).toBe(false);
+    expect(result.reason).toBe("missing_permission");
+    expect(spy).toHaveBeenCalledWith(
+      expect.stringContaining("Unknown permission"),
+    );
+    spy.mockRestore();
+  });
+
+  it("does not warn for permissions in the registry", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const model: AccessModel = { permissions: [] };
+    checkPermission(
+      model,
+      { permission: "known.perm" },
+      { unknownPermission: "warn", registry: ["known.perm"] },
+    );
+    expect(spy).not.toHaveBeenCalled();
+    spy.mockRestore();
+  });
+
+  it("deduplicates warnings", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const model: AccessModel = { permissions: [] };
+    checkPermission(
+      model,
+      { permission: "dup.perm" },
+      { unknownPermission: "warn", registry: ["known.perm"] },
+    );
+    checkPermission(
+      model,
+      { permission: "dup.perm" },
+      { unknownPermission: "warn", registry: ["known.perm"] },
+    );
+    expect(spy).toHaveBeenCalledTimes(1);
+    spy.mockRestore();
+  });
+
+  it("does not warn when permission is in user's effective permissions", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const model: AccessModel = { permissions: ["users.create"] };
+    checkPermission(
+      model,
+      { permission: "users.create" },
+      { unknownPermission: "warn", registry: ["users.create"] },
+    );
+    expect(spy).not.toHaveBeenCalled();
+    spy.mockRestore();
+  });
+
+  it("warns for each unknown permission in any", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const model: AccessModel = { permissions: [] };
+    const result = checkPermission(
+      model,
+      { any: ["unknown.perm", "also.unknown"] },
+      { unknownPermission: "warn", registry: ["known.perm"] },
+    );
+    expect(result.allowed).toBe(false);
+    expect(result.reason).toBe("missing_permission");
+    expect(spy).toHaveBeenCalledTimes(2);
+    spy.mockRestore();
+  });
+
+  it("warns for unknown permissions in all", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const model: AccessModel = { permissions: [] };
+    const result = checkPermission(
+      model,
+      { all: ["unknown.perm"] },
+      { unknownPermission: "warn", registry: ["known.perm"] },
+    );
+    expect(result.allowed).toBe(false);
+    expect(result.reason).toBe("missing_permission");
+    expect(spy).toHaveBeenCalledTimes(1);
+    spy.mockRestore();
+  });
+
+  it("does not warn when unknownPermission is ignore", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const model: AccessModel = { permissions: [] };
+    checkPermission(
+      model,
+      { permission: "unknown.perm" },
+      { unknownPermission: "ignore", registry: ["known.perm"] },
+    );
+    expect(spy).not.toHaveBeenCalled();
+    spy.mockRestore();
+  });
+
+  it("resetWarnings clears the deduplication cache", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const model: AccessModel = { permissions: [] };
+
+    // First call warns
+    checkPermission(
+      model,
+      { permission: "warn.me" },
+      { unknownPermission: "warn", registry: ["known.perm"] },
+    );
+    expect(spy).toHaveBeenCalledTimes(1);
+
+    // Reset
+    resetWarnings();
+
+    // Second call should warn again (cache was cleared)
+    checkPermission(
+      model,
+      { permission: "warn.me" },
+      { unknownPermission: "warn", registry: ["known.perm"] },
+    );
+    expect(spy).toHaveBeenCalledTimes(2);
+
+    spy.mockRestore();
   });
 });
