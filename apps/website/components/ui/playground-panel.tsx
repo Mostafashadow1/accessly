@@ -7,13 +7,13 @@ interface PlaygroundPanelProps {
 
 export function PlaygroundPanel({ header, children }: PlaygroundPanelProps) {
   return (
-    <div className="rounded-xl border border-border-light bg-surface overflow-hidden">
+    <div className="rounded-xl border border-border bg-surface overflow-hidden transition-all duration-200 hover:border-border/80">
       {header && (
-        <div className="flex items-center gap-2 px-4 py-2.5 bg-surface-hover border-b border-border-light text-xs font-semibold text-muted uppercase tracking-wider">
+        <div className="flex items-center gap-2 px-5 py-3 bg-surface-hover border-b border-border text-xs font-semibold text-muted uppercase tracking-wider">
           {header}
         </div>
       )}
-      <div className="p-4">{children}</div>
+      <div className="p-5">{children}</div>
     </div>
   );
 }

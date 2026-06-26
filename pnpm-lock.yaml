@@ -23,6 +23,9 @@ importers:
       next:
         specifier: ^15.0.0
         version: 15.5.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      postcss:
+        specifier: ^8.5.15
+        version: 8.5.15
       react:
         specifier: ^18.3.0
         version: 18.3.1
@@ -31,7 +34,7 @@ importers:
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@tailwindcss/postcss':
-        specifier: ^4.1.0
+        specifier: ^4.3.1
         version: 4.3.1
       '@types/node':
         specifier: ^22.0.0
@@ -43,7 +46,7 @@ importers:
         specifier: ^18.3.0
         version: 18.3.7(@types/react@18.3.31)
       tailwindcss:
-        specifier: ^4.1.0
+        specifier: ^4.3.1
         version: 4.3.1
       typescript:
         specifier: ^5.8.0

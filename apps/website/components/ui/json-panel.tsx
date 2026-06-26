@@ -22,15 +22,15 @@ export function JsonPanel({ data, label }: JsonPanelProps) {
     .replace(/:\s*(null)/g, ': <span class="token-null">$1</span>');
 
   return (
-    <div className="rounded-xl border border-border-light bg-surface overflow-hidden">
+    <div className="rounded-xl border border-border bg-surface overflow-hidden transition-all duration-200 code-panel-accent">
       {label && (
-        <div className="px-4 py-2.5 bg-surface-hover border-b border-border-light text-xs font-semibold text-muted uppercase tracking-wider">
+        <div className="px-4 py-2.5 bg-surface-hover border-b border-border text-xs font-semibold text-muted uppercase tracking-wider">
           {label}
         </div>
       )}
-      <div className="p-4">
+      <div className="p-5">
         <pre
-          className="m-0 text-sm leading-relaxed overflow-auto whitespace-pre-wrap font-mono text-foreground"
+          className="m-0 text-[13px] leading-relaxed overflow-auto whitespace-pre-wrap font-mono text-foreground [&>span]:font-mono"
           dangerouslySetInnerHTML={{ __html: highlighted }}
         />
       </div>

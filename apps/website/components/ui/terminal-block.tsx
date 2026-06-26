@@ -16,27 +16,43 @@ export function TerminalBlock({ commands, title = "Terminal" }: TerminalBlockPro
     setTimeout(() => setCopied(false), 1500);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleCopy();
+    }
+  };
+
   return (
-    <div className="rounded-xl border border-border-light bg-black overflow-hidden font-mono text-sm">
+    <div className="rounded-xl border border-border bg-black overflow-hidden font-mono text-sm transition-all duration-200 hover:border-border/80 code-panel-accent">
       {/* Header with traffic lights */}
-      <div className="flex items-center gap-2 px-4 py-2.5 bg-surface border-b border-border-light">
-        <span className="w-2.5 h-2.5 rounded-full bg-danger" />
-        <span className="w-2.5 h-2.5 rounded-full bg-warning" />
-        <span className="w-2.5 h-2.5 rounded-full bg-success" />
-        <span className="ml-2 text-xs font-medium text-muted">{title}</span>
+      <div className="flex items-center gap-3 px-4 py-2.5 bg-surface/80 border-b border-border min-h-[40px]">
+        <div className="flex gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#ff5f57", border: "1px solid rgba(0,0,0,0.3)" }} />
+          <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#febc2e", border: "1px solid rgba(0,0,0,0.3)" }} />
+          <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#28c840", border: "1px solid rgba(0,0,0,0.3)" }} />
+        </div>
+        <span className="text-xs font-mono text-muted">{title}</span>
         <button
           onClick={handleCopy}
-          className="ml-auto text-xs font-medium px-2 py-1 rounded transition-colors text-muted hover:text-foreground hover:bg-surface-hover"
+          onKeyDown={handleKeyDown}
+          role="button"
+          tabIndex={0}
+          className={`ml-auto text-xs font-medium px-2.5 py-1 rounded-lg transition-all duration-150 border border-transparent ${
+            copied
+              ? "text-success bg-success-bg border-success/20"
+              : "text-muted hover:text-foreground hover:bg-surface-hover hover:border-border"
+          }`}
           aria-label={copied ? "Copied" : "Copy commands"}
         >
-          {copied ? "Copied!" : "Copy"}
+          {copied ? "Copied ✓" : "Copy"}
         </button>
       </div>
       {/* Content */}
-      <div className="p-4 text-sm leading-relaxed text-foreground">
+      <div className="p-5 text-sm leading-relaxed text-foreground">
         {commands.map((cmd, i) => (
-          <div key={i} className={i < commands.length - 1 ? "mb-1" : ""}>
-            <span className="text-primary">$</span> {cmd}
+          <div key={i} className={`font-mono ${i < commands.length - 1 ? "mb-1.5" : ""}`}>
+            <span className="text-primary font-bold">$</span> <span className="text-foreground/80">{cmd}</span>
           </div>
         ))}
       </div>
