@@ -13,6 +13,9 @@ export function HeroBackground() {
       {/* Soft arc ring */}
       <div className="hero-arc-ring" />
 
+      {/* Radiant glow behind the title */}
+      <div className="hero-title-glow" />
+
       {/* Fine dot grid */}
       <div className="absolute inset-0 bg-dot-grid-lg pointer-events-none" />
 

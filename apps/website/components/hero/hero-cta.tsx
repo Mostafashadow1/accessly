@@ -11,7 +11,7 @@ const pmConfig: Record<PackageManager, { command: string; label: string }> = {
   pnpm: { command: "pnpm add accessly", label: "pnpm" },
   npm: { command: "npm install accessly", label: "npm" },
   bun: { command: "bun add accessly", label: "bun" },
-  yarn: { command: "yarn add accessly", label: "Yarn" },
+  yarn: { command: "yarn add accessly", label: "yarn" },
 };
 
 const pmList: PackageManager[] = ["pnpm", "npm", "bun", "yarn"];
@@ -21,9 +21,9 @@ const pmList: PackageManager[] = ["pnpm", "npm", "bun", "yarn"];
 /**
  * HeroCTA — primary/secondary action buttons + interactive install command.
  *
- * The install area features package-manager tabs (pnpm, npm, bun, yarn)
- * with a copy-able command that updates when the selected tab changes.
- * Default package manager is pnpm.
+ * Features a premium segmented control for package-manager selection
+ * (default: pnpm) and a polished copy-command row with strong visual
+ * hierarchy.
  */
 export function HeroCTA() {
   const [pm, setPm] = useState<PackageManager>("pnpm");
@@ -36,7 +36,7 @@ export function HeroCTA() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-5">
+    <div className="flex flex-col items-center gap-6">
       {/* Primary navigation actions */}
       <div className="flex flex-wrap items-center justify-center gap-3">
         <Link href="/lab" className="btn-primary">
@@ -60,9 +60,9 @@ export function HeroCTA() {
       </div>
 
       {/* Interactive install area */}
-      <div className="flex flex-col items-center gap-2.5">
-        {/* Package-manager tabs */}
-        <div className="flex items-center gap-0.5 bg-surface rounded-lg p-0.5 border border-border">
+      <div className="flex flex-col items-center gap-3">
+        {/* Premium segmented control */}
+        <div className="inline-flex items-center rounded-xl bg-surface border border-border p-0.5 shadow-sm">
           {pmList.map((id) => (
             <button
               key={id}
@@ -70,7 +70,7 @@ export function HeroCTA() {
                 setPm(id);
                 setCopied(false);
               }}
-              className={`px-3 py-1.5 text-[11px] font-mono font-semibold rounded-md transition-all duration-150 cursor-pointer ${
+              className={`relative px-3.5 py-1.5 text-[11px] font-mono font-semibold rounded-lg transition-all duration-150 cursor-pointer ${
                 pm === id
                   ? "bg-primary/12 text-accent shadow-sm border border-primary/15"
                   : "text-muted hover:text-foreground border border-transparent"
@@ -84,18 +84,18 @@ export function HeroCTA() {
         {/* Command display with copy button */}
         <button
           onClick={handleCopy}
-          className="group flex items-center gap-3 px-5 py-2.5 rounded-xl bg-surface border border-border hover:border-primary/20 hover:bg-primary/[0.02] transition-all duration-200 cursor-pointer"
+          className="group flex items-center gap-3 px-5 py-3 rounded-xl bg-surface border border-border hover:border-primary/25 hover:bg-primary/[0.02] hover:shadow-sm hover:shadow-primary/5 transition-all duration-200 cursor-pointer"
         >
-          <span className="text-primary font-mono text-sm font-bold select-none">
+          <span className="text-primary font-mono text-sm font-bold select-none mr-0.5">
             $
           </span>
-          <span className="font-mono text-sm text-foreground/80 group-hover:text-foreground transition-colors whitespace-nowrap">
+          <span className="font-mono text-sm text-foreground/85 group-hover:text-foreground transition-colors whitespace-nowrap tracking-tight">
             {copied ? "Copied!" : pmConfig[pm].command}
           </span>
-          <span className="shrink-0 text-muted-dark group-hover:text-muted transition-colors">
+          <span className="shrink-0 ml-1 text-muted-dark group-hover:text-muted transition-colors">
             <svg
-              width="14"
-              height="14"
+              width="15"
+              height="15"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"

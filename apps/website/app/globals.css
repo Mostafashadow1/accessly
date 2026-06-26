@@ -126,6 +126,22 @@ code {
   font-family: var(--font-mono);
 }
 
+/* ── Live dot pulsing ──────────────────────── */
+@keyframes pulse-live {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.85);
+  }
+}
+.animate-pulse-live {
+  animation: pulse-live 2s ease-in-out infinite;
+}
+
 /* ── Gradient animation for hero headline ──── */
 @keyframes gradient-slow {
   0%,
@@ -168,14 +184,14 @@ h3 {
 /* Fine dot grid */
 .bg-dot-grid {
   background-image: radial-gradient(
-    rgba(255, 255, 255, 0.025) 1px,
+    rgba(255, 255, 255, 0.018) 1px,
     transparent 1px
   );
   background-size: 22px 22px;
 }
 .bg-dot-grid-lg {
   background-image: radial-gradient(
-    rgba(255, 255, 255, 0.018) 1px,
+    rgba(255, 255, 255, 0.012) 1px,
     transparent 1px
   );
   background-size: 28px 28px;
@@ -200,19 +216,19 @@ h3 {
   filter: blur(1px);
 }
 
-/* Subtle large arc ring */
+/* Subtle large arc ring — increased size for premium feel */
 .hero-arc-ring {
   position: absolute;
-  top: -80px;
+  top: -120px;
   left: 50%;
   transform: translateX(-50%);
-  width: 1100px;
-  height: 500px;
+  width: 1400px;
+  height: 600px;
   border-radius: 50%;
   border: 1px solid rgba(99, 102, 241, 0.06);
   pointer-events: none;
-  mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
+  mask-image: linear-gradient(to bottom, black 0%, transparent 75%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 75%);
 }
 
 /* Hero grid lines */
@@ -220,8 +236,8 @@ h3 {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.007) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.007) 1px, transparent 1px);
   background-size: 60px 60px;
   mask-image: linear-gradient(
     to bottom,
@@ -238,6 +254,25 @@ h3 {
     transparent 100%
   );
   pointer-events: none;
+}
+
+/* Radial light behind the title for extra depth */
+.hero-title-glow {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 900px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(99, 102, 241, 0.06) 0%,
+    rgba(99, 102, 241, 0.02) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  filter: blur(60px);
 }
 
 /* Bottom fade for hero */
