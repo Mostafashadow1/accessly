@@ -11,30 +11,38 @@ const navLinks = [
 
 export function Navbar() {
   return (
-    <nav className="navbar" role="navigation" aria-label="Main navigation">
-      <div className="navbar-inner">
-        <Link href="/" className="navbar-logo">
-          <span className="navbar-logo-mark">A</span>
-          Accessly
+    <nav
+      className="sticky top-0 z-50 flex items-center justify-between h-14 px-6 bg-canvas/70 backdrop-blur-xl border-b border-border"
+      role="navigation"
+      aria-label="Main navigation"
+    >
+      <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2.5 text-base font-semibold text-foreground no-underline hover:opacity-80 transition-opacity">
+          <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-violet text-xs font-bold text-white shadow-sm shadow-primary/20">
+            A
+          </span>
+          <span>Accessly</span>
         </Link>
 
-        <div className="flex items-center gap-lg">
+        {/* Right side */}
+        <div className="flex items-center gap-1">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="navbar-link"
+              className="hidden sm:inline-flex px-3 py-1.5 text-sm font-medium text-muted no-underline hover:text-foreground transition-colors rounded-md hover:bg-surface-hover"
             >
               {link.label}
             </Link>
           ))}
 
-          <div className="flex items-center gap-xs">
+          <div className="flex items-center gap-0.5 ml-2">
             <a
               href="https://github.com/accessly/accessly"
               target="_blank"
               rel="noopener noreferrer"
-              className="navbar-icon-btn"
+              className="inline-flex items-center justify-center w-8 h-8 rounded-md text-muted hover:text-foreground hover:bg-surface-hover transition-colors"
               aria-label="GitHub repository"
             >
               <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
@@ -45,7 +53,7 @@ export function Navbar() {
               href="https://www.npmjs.com/package/accessly"
               target="_blank"
               rel="noopener noreferrer"
-              className="navbar-icon-btn"
+              className="inline-flex items-center justify-center w-8 h-8 rounded-md text-muted hover:text-foreground hover:bg-surface-hover transition-colors"
               aria-label="npm package"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -53,6 +61,16 @@ export function Navbar() {
               </svg>
             </a>
           </div>
+
+          <Link
+            href="/lab"
+            className="ml-3 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-primary to-violet shadow-sm shadow-primary/20 hover:shadow-primary/30 hover:scale-[1.02] transition-all duration-200"
+          >
+            Lab
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 4l4 4-4 4" />
+            </svg>
+          </Link>
         </div>
       </div>
     </nav>

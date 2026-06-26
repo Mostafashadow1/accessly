@@ -18,19 +18,23 @@ export function CodeBlock({ code, language = "tsx", title }: CodeBlockProps) {
   };
 
   return (
-    <div className="code-block">
-      <div className="code-block-header">
-        <span>{title || language}</span>
+    <div className="rounded-xl border border-border bg-surface overflow-hidden">
+      <div className="flex items-center justify-between px-5 py-3 bg-surface/60 border-b border-border">
+        <span className="text-xs font-medium text-muted">{title || language}</span>
         <button
           onClick={handleCopy}
-          className={`copy-btn ${copied ? "copy-btn-copied" : ""}`}
+          className={`text-xs font-medium px-2.5 py-1 rounded-lg transition-colors ${
+            copied
+              ? "text-accent bg-primary-light"
+              : "text-muted hover:text-foreground hover:bg-surface-hover"
+          }`}
           aria-label={copied ? "Copied" : "Copy code"}
         >
           {copied ? "Copied!" : "Copy"}
         </button>
       </div>
-      <div className="code-block-content">
-        <pre>{code}</pre>
+      <div className="p-5 overflow-x-auto text-sm leading-relaxed text-foreground">
+        <pre className="m-0 whitespace-pre-wrap font-mono">{code}</pre>
       </div>
     </div>
   );

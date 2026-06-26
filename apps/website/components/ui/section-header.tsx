@@ -14,11 +14,19 @@ export function SectionHeader({
   align = "left",
 }: SectionHeaderProps) {
   return (
-    <div className={`section-header ${align === "center" ? "section-header-centered" : ""}`}>
-      {badge && <div>{badge}</div>}
-      <h2 className="section-header-title">{title}</h2>
+    <div
+      className={`flex flex-col gap-3 mb-12 max-w-2xl ${
+        align === "center" ? "items-center text-center mx-auto" : ""
+      }`}
+    >
+      {badge && <div className="mb-1">{badge}</div>}
+      <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight leading-tight">
+        {title}
+      </h2>
       {description && (
-        <p className="section-header-desc">{description}</p>
+        <p className="text-base md:text-lg text-muted leading-relaxed max-w-xl">
+          {description}
+        </p>
       )}
     </div>
   );

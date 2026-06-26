@@ -14,32 +14,20 @@ export default function DocsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex" style={{ minHeight: "calc(100vh - 56px)", background: "var(--bg-primary)" }}>
+    <div className="flex min-h-[calc(100vh-56px)] bg-canvas">
       <nav
-        className="hide-mobile flex-col"
-        style={{
-          width: "15rem",
-          flexShrink: 0,
-          padding: "var(--space-xl) var(--space-lg)",
-          borderRight: "1px solid var(--border-subtle)",
-          background: "var(--bg-elevated)",
-        }}
+        className="hidden md:flex flex-col w-60 shrink-0 p-6 border-r border-border bg-surface/30"
         aria-label="Documentation sidebar"
       >
-        <h2 className="text-xs font-semibold uppercase mb-md text-muted" style={{ letterSpacing: "0.08em" }}>
+        <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-dark mb-5">
           Documentation
         </h2>
-        <ul className="flex flex-col gap-1 list-none">
+        <ul className="flex flex-col gap-1 list-none p-0 m-0">
           {sidebarLinks.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="block text-base font-medium text-secondary hover-text-primary"
-                style={{
-                  padding: "6px 12px",
-                  borderRadius: "var(--radius-md)",
-                  transition: "background var(--transition-fast), color var(--transition-fast)",
-                }}
+                className="block px-3 py-1.5 rounded-md text-sm font-medium text-muted hover:text-foreground hover:bg-surface-hover transition-colors no-underline"
               >
                 {link.label}
               </Link>
@@ -48,7 +36,7 @@ export default function DocsLayout({
         </ul>
       </nav>
 
-      <main className="flex-1 p-lg" style={{ maxWidth: "48rem" }}>
+      <main className="flex-1 p-6 max-w-3xl">
         {children}
       </main>
     </div>

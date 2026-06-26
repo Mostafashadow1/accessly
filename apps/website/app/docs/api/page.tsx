@@ -5,13 +5,13 @@ import { CodeBlock } from "@/components/ui/code-block";
 export default function ApiReference() {
   return (
     <div>
-      <h1 className="text-[26px] font-bold mb-2">API Reference</h1>
-      <p className="text-[14px] mb-8 text-secondary">
+      <h1 className="text-2xl font-bold text-foreground mb-2">API Reference</h1>
+      <p className="text-sm text-muted mb-8">
         Complete API surface for Accessly.
       </p>
 
-      <h2 className="text-[18px] font-semibold mb-3">PermissionProvider</h2>
-      <p className="text-[13px] mb-3 text-secondary">
+      <h2 className="text-lg font-semibold text-foreground mb-3">PermissionProvider</h2>
+      <p className="text-sm text-muted mb-3">
         The root context provider for all Accessly features.
       </p>
       <CodeBlock
@@ -29,13 +29,13 @@ export default function ApiReference() {
 </PermissionProvider>`}
       />
 
-      <div className="overflow-x-auto rounded-lg border border-surface my-6">
-        <table className="w-full text-[13px]">
+      <div className="overflow-x-auto rounded-lg border border-border my-6">
+        <table className="w-full text-sm">
           <thead>
-            <tr className="border-b-surface">
-              <th className="text-left px-4 py-3 font-semibold text-tertiary">Prop</th>
-              <th className="text-left px-4 py-3 font-semibold text-tertiary">Type</th>
-              <th className="text-left px-4 py-3 font-semibold text-tertiary">Description</th>
+            <tr className="border-b border-border">
+              <th className="text-left px-4 py-3 font-semibold text-muted-dark">Prop</th>
+              <th className="text-left px-4 py-3 font-semibold text-muted-dark">Type</th>
+              <th className="text-left px-4 py-3 font-semibold text-muted-dark">Description</th>
             </tr>
           </thead>
           <tbody>
@@ -45,17 +45,17 @@ export default function ApiReference() {
               ["adapter", "AccessAdapter", "Normalizer for source"],
               ["loading", "boolean", "Show loading state"],
             ] as const).map(([prop, type, desc]) => (
-              <tr key={prop} className="border-b-surface">
-                <td className="px-4 py-3"><code className="text-code-key text-[12px]">{prop}</code></td>
-                <td className="px-4 py-3"><code className="text-code-string text-[12px]">{type}</code></td>
-                <td className="px-4 py-3 text-secondary">{desc}</td>
+              <tr key={prop} className="border-b border-border">
+                <td className="px-4 py-3"><code className="text-accent text-xs font-mono">{prop}</code></td>
+                <td className="px-4 py-3"><code className="text-success text-xs font-mono">{type}</code></td>
+                <td className="px-4 py-3 text-muted">{desc}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      <h2 className="text-[18px] font-semibold mb-3 mt-8">Can</h2>
+      <h2 className="text-lg font-semibold text-foreground mb-3 mt-8">Can</h2>
       <CodeBlock
         title="Can"
         code={`<Can permission="users.create">
@@ -68,7 +68,7 @@ export default function ApiReference() {
 </Can>`}
       />
 
-      <h2 className="text-[18px] font-semibold mb-3 mt-8">Cannot</h2>
+      <h2 className="text-lg font-semibold text-foreground mb-3 mt-8">Cannot</h2>
       <CodeBlock
         title="Cannot"
         code={`<Cannot permission="users.delete">
@@ -76,7 +76,7 @@ export default function ApiReference() {
 </Cannot>`}
       />
 
-      <h2 className="text-[18px] font-semibold mb-3 mt-8">ProtectedRoute</h2>
+      <h2 className="text-lg font-semibold text-foreground mb-3 mt-8">ProtectedRoute</h2>
       <CodeBlock
         title="ProtectedRoute"
         code={`<ProtectedRoute
@@ -87,7 +87,7 @@ export default function ApiReference() {
 </ProtectedRoute>`}
       />
 
-      <h2 className="text-[18px] font-semibold mb-3 mt-8">Hooks</h2>
+      <h2 className="text-lg font-semibold text-foreground mb-3 mt-8">Hooks</h2>
       <CodeBlock
         title="usePermission / useAccessDecision"
         code={`const allowed = usePermission("users.create");
