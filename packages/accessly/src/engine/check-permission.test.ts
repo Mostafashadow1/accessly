@@ -446,5 +446,71 @@ describe("checkPermission", () => {
 
       expect(withWarn).toEqual(withIgnore);
     });
+
+    it("does not call console.warn as a side effect (engine is pure)", () => {
+      const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+      try {
+        const model: AccessModel = { permissions: [] };
+
+        // Engine handles "warn" strategy without side effects —
+        // it returns AccessDecision only, never calls console.warn
+        checkPermission(
+          model,
+          { permission: "unknown.perm" },
+          { unknownPermission: "warn", registry: ["known.perm"] },
+        );
+        checkPermission(
+          model,
+          { any: ["unknown.perm", "also.unknown"] },
+          { unknownPermission: "warn", registry: ["known.perm"] },
+        );
+        checkPermission(
+          model,
+          { all: ["unknown.perm"] },
+          { unknownPermission: "warn", registry: ["known.perm"] },
+        );
+
+        expect(spy).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
+    });
+
+    it("produces deterministic output independent of call ordering", () => {
+      const modelA: AccessModel = { permissions: ["users.create"] };
+      const modelB: AccessModel = { permissions: ["reports.export"] };
+
+      // Calling in different order should not change individual results
+      const r1 = checkPermission(modelA, { permission: "users.create" });
+      const r2 = checkPermission(modelB, { permission: "reports.export" });
+      const r3 = checkPermission(modelA, { permission: "users.create" });
+      const r4 = checkPermission(modelB, { permission: "reports.export" });
+
+      expect(r1).toEqual(r3);
+      expect(r2).toEqual(r4);
+    });
+
+    it("does not use any module-level state (no warning cache or counters)", () => {
+      // The engine should have no module-level mutable state.
+      // Verify by checking that a never-before-requested permission
+      // produces the same result as any other missing permission,
+      // regardless of what was checked before it.
+      const model: AccessModel = { permissions: ["existing.perm"] };
+
+      const first = checkPermission(
+        model,
+        { permission: "brand.new.perm" },
+        { unknownPermission: "throw", registry: ["existing.perm"] },
+      );
+      const second = checkPermission(
+        model,
+        { permission: "brand.new.perm" },
+        { unknownPermission: "throw", registry: ["existing.perm"] },
+      );
+
+      // Both should be unknown (not in registry, not in effective perms)
+      expect(first.reason).toBe("unknown_permission");
+      expect(second).toEqual(first);
+    });
   });
 });
