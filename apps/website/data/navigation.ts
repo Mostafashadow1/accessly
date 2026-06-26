@@ -38,6 +38,13 @@ export const communityLinks: FooterLink[] = [
   { href: "https://github.com/accessly/accessly/discussions/new", label: "Request Feature", external: true },
 ];
 
+export const docSidebarLinks = [
+  { href: "/docs", label: "Getting Started" },
+  { href: "/docs/core-concepts", label: "Core Concepts" },
+  { href: "/docs/backend-adapters", label: "Backend Adapters" },
+  { href: "/docs/api", label: "API Reference" },
+];
+
 export const trustBadges = [
   "React",
   "Next.js",

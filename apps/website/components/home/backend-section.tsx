@@ -36,7 +36,7 @@ export function BackendSection() {
   const [activeBackend, setActiveBackend] = useState(0);
 
   return (
-    <section className="py-[100px] md:py-[140px] border-b border-border">
+    <section id="backend" className="py-24 md:py-36 border-b border-border">
       <div className="w-full max-w-[1280px] mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Left: heading + description */}

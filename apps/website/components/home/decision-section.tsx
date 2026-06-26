@@ -5,7 +5,7 @@ import { diagItems } from "@/data/features";
  */
 export function DecisionSection() {
   return (
-    <section className="py-[100px] md:py-[140px] border-b border-border bg-[rgba(6,6,8,0.5)]">
+    <section id="decision" className="py-24 md:py-36 border-b border-border bg-[rgba(6,6,8,0.5)]">
       <div className="w-full max-w-[1280px] mx-auto px-6 lg:px-12">
         <div className="flex flex-col items-center text-center mb-20">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-bold tracking-[0.12em] uppercase text-accent bg-primary-light border border-primary/15 mb-5">Inspection</div>

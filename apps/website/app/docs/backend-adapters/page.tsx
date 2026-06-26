@@ -30,24 +30,31 @@ export default function BackendAdapters() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-3">
+      {/* Page Header */}
+      <div className="mb-10 pb-8 border-b border-border">
+        <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-accent text-[11px] font-semibold tracking-[0.06em] uppercase mb-4">
+          Backend Adapters
+        </span>
+        <h1 className="text-3xl md:text-[40px] font-bold -tracking-[0.03em] text-foreground mb-3">
           Backend Adapters
         </h1>
-        <p className="text-base text-muted leading-relaxed max-w-2xl">
+        <p className="text-[16px] leading-relaxed text-muted max-w-2xl">
           Every backend returns authorization data in its own custom format. Accessly uses lightweight adapters to normalize any response structure into a standard AccessModel shape.
         </p>
       </div>
 
-      <div className="flex flex-col gap-12">
-        <section className="border-b border-border-light pb-10">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-mid border border-primary text-accent font-bold font-mono text-sm">1</span>
-            <h2 className="text-xl font-semibold text-foreground">
+      <div className="flex flex-col">
+        {/* Section 1: createActionsAdapter */}
+        <section className="pb-12 mb-12 border-b border-border-light last:border-b-0 last:mb-0">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
+              1
+            </span>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground -tracking-[0.02em]">
               createActionsAdapter
             </h2>
           </div>
-          <p className="text-sm text-muted mb-4 leading-relaxed">
+          <p className="text-[14px] text-muted leading-relaxed mb-5">
             Converts a mapping of resources to lists of actions into dot-notation strings.
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -86,14 +93,17 @@ const access = createActionsAdapter({
           </div>
         </section>
 
-        <section className="border-b border-border-light pb-10">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-mid border border-primary text-accent font-bold font-mono text-sm">2</span>
-            <h2 className="text-xl font-semibold text-foreground">
+        {/* Section 2: pagesOnlyAdapter */}
+        <section className="pb-12 mb-12 border-b border-border-light last:border-b-0 last:mb-0">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
+              2
+            </span>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground -tracking-[0.02em]">
               pagesOnlyAdapter
             </h2>
           </div>
-          <p className="text-sm text-muted mb-4 leading-relaxed">
+          <p className="text-[14px] text-muted leading-relaxed mb-5">
             For backends that only return high-level route or page access lists. Prepend namespace prefixes automatically.
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -122,14 +132,17 @@ const access = pagesOnlyAdapter({
           </div>
         </section>
 
-        <section className="border-b border-border-light pb-10">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-mid border border-primary text-accent font-bold font-mono text-sm">3</span>
-            <h2 className="text-xl font-semibold text-foreground">
+        {/* Section 3: nestedModulesAdapter */}
+        <section className="pb-12 mb-12 border-b border-border-light last:border-b-0 last:mb-0">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
+              3
+            </span>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground -tracking-[0.02em]">
               nestedModulesAdapter
             </h2>
           </div>
-          <p className="text-sm text-muted mb-4 leading-relaxed">
+          <p className="text-[14px] text-muted leading-relaxed mb-5">
             For backends returning boolean toggle trees mapping modules to nested action permissions.
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -167,14 +180,17 @@ const access = nestedModulesAdapter({
           </div>
         </section>
 
-        <section className="border-b border-border-light pb-10">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-mid border border-primary text-accent font-bold font-mono text-sm">4</span>
-            <h2 className="text-xl font-semibold text-foreground">
+        {/* Section 4: featureFlagsAdapter */}
+        <section className="pb-12 mb-12 border-b border-border-light last:border-b-0 last:mb-0">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
+              4
+            </span>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground -tracking-[0.02em]">
               featureFlagsAdapter
             </h2>
           </div>
-          <p className="text-sm text-muted mb-4 leading-relaxed">
+          <p className="text-[14px] text-muted leading-relaxed mb-5">
             Translates feature flags or active split key responses directly into access flags.
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -212,15 +228,19 @@ const access = featureFlagsAdapter({
           </div>
         </section>
 
-        <section className="pb-10">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-mid border border-primary text-accent font-bold font-mono text-sm">5</span>
-            <h2 className="text-xl font-semibold text-foreground">
+        {/* Section 5: Custom Adaption */}
+        <section className="pb-12 mb-12 border-b border-border-light last:border-b-0 last:mb-0">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
+              5
+            </span>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground -tracking-[0.02em]">
               Custom Adaption
             </h2>
           </div>
-          <p className="text-sm text-muted mb-4 leading-relaxed">
-            If your backend returns a highly custom or deeply nested data shape, use the base <code className="text-xs font-mono">createAdapter</code> function to write a custom mapper.
+          <p className="text-[14px] text-muted leading-relaxed mb-5">
+            If your backend returns a highly custom or deeply nested data shape, use the base{" "}
+            <code className="text-xs font-mono text-accent">createAdapter</code> function to write a custom mapper.
           </p>
           <CodeBlock
             title="Custom Adapter Definition"
@@ -247,4 +267,3 @@ export const myAdapter = createAdapter((apiResponse: MyBackendResponse) => ({
     </div>
   );
 }
-

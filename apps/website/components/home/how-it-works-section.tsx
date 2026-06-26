@@ -6,7 +6,7 @@ import { pipelineSteps, explainItems } from "@/data/features";
  */
 export function HowItWorksSection() {
   return (
-    <section className="py-[100px] md:py-[140px] border-b border-border">
+    <section id="how-it-works" className="py-24 md:py-36 border-b border-border">
       <div className="w-full max-w-[1280px] mx-auto px-6 lg:px-12">
         {/* Section header */}
         <div className="flex flex-col items-center text-center mb-20">
@@ -29,7 +29,7 @@ export function HowItWorksSection() {
             {pipelineSteps.map((step) => (
               <div
                 key={step.num}
-                className="rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.1),0_8px_40px_rgba(99,102,241,0.08)] transition-all duration-250 flex flex-col gap-4 p-6 relative"
+                className="rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.10),0_12px_48px_rgba(99,102,241,0.07)] transition-all duration-300 flex flex-col gap-4 p-6 relative"
               >
                 {/* Step badge */}
                 <div
@@ -110,7 +110,7 @@ const decision = useAccessDecision("users.create");
           </div>
 
           {/* Explanation card */}
-          <div className="lg:col-span-2 rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 transition-all duration-250 flex flex-col p-8 gap-6">
+          <div className="lg:col-span-2 rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.08),0_12px_48px_rgba(99,102,241,0.06)] transition-all duration-300 flex flex-col p-8 gap-6">
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-dark mb-3">
                 Why this matters

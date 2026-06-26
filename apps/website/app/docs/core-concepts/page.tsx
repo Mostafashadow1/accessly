@@ -7,23 +7,30 @@ import { PlaygroundPanel } from "@/components/ui/playground-panel";
 export default function CoreConcepts() {
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-3">
+      {/* Page Header */}
+      <div className="mb-10 pb-8 border-b border-border">
+        <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-accent text-[11px] font-semibold tracking-[0.06em] uppercase mb-4">
+          Core Concepts
+        </span>
+        <h1 className="text-3xl md:text-[40px] font-bold -tracking-[0.03em] text-foreground mb-3">
           Core Concepts
         </h1>
-        <p className="text-base text-muted leading-relaxed max-w-2xl">
+        <p className="text-[16px] leading-relaxed text-muted max-w-2xl">
           Understand the internal normalized shape used by Accessly to resolve all permission rules and checks.
         </p>
       </div>
 
-      <section className="mb-12">
+      {/* Section 1: AccessModel */}
+      <section className="mb-14">
         <div className="flex items-center gap-3 mb-5">
-          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-mid border border-primary text-accent font-bold font-mono text-sm">1</span>
-          <h2 className="text-lg font-semibold text-foreground">
+          <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
+            1
+          </span>
+          <h2 className="text-xl md:text-2xl font-bold text-foreground -tracking-[0.02em]">
             AccessModel
           </h2>
         </div>
-        <p className="text-sm text-muted mb-4">
+        <p className="text-[14px] text-muted leading-relaxed mb-5">
           All user permissions, metadata roles, feature flags, and custom navigation matrices are aggregated into a single unified TypeScript structure.
         </p>
         <CodeBlock
@@ -42,34 +49,37 @@ export default function CoreConcepts() {
         />
       </section>
 
-      <section className="mb-12">
+      {/* Section 2: Permission Namespaces */}
+      <section className="mb-14">
         <div className="flex items-center gap-3 mb-5">
-          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-mid border border-primary text-accent font-bold font-mono text-sm">2</span>
-          <h2 className="text-lg font-semibold text-foreground">
+          <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
+            2
+          </span>
+          <h2 className="text-xl md:text-2xl font-bold text-foreground -tracking-[0.02em]">
             Permission Namespaces
           </h2>
         </div>
-        <p className="text-sm text-muted mb-4">
+        <p className="text-[14px] text-muted leading-relaxed mb-5">
           Accessly structures permissions as hierarchical string tokens. You can group these by pages, features, attributes, or actions using dot-notation.
         </p>
-        <div className="overflow-x-auto rounded-xl border border-border bg-[#08080a] mb-6">
+        <div className="overflow-x-auto rounded-2xl border border-border bg-surface mb-6">
           <table className="w-full text-sm border-collapse">
             <thead>
-              <tr className="border-b border-border bg-surface-hover/40">
-                <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-muted">Type</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-muted">Standard Pattern Example</th>
+              <tr className="bg-surface-2 border-b border-border">
+                <th className="text-left px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">Type</th>
+                <th className="text-left px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">Standard Pattern Example</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border/40">
+            <tbody>
               {([
                 ["Page / Route level", "pages.dashboard"],
                 ["Action / Resource level", "users.create"],
                 ["Granular Field level", "users.salary.view"],
                 ["Feature Flag level", "features.new-dashboard"],
               ] as const).map(([type, example]) => (
-                <tr key={type} className="hover:bg-surface-hover/10 transition-colors">
-                  <td className="px-5 py-3 text-foreground font-medium">{type}</td>
-                  <td className="px-5 py-3">
+                <tr key={type} className="hover:bg-primary/5 transition-colors">
+                  <td className="px-5 py-3.5 border-b border-border/50 text-foreground font-medium">{type}</td>
+                  <td className="px-5 py-3.5 border-b border-border/50">
                     <code className="text-accent text-xs font-mono">{example}</code>
                   </td>
                 </tr>
@@ -79,15 +89,19 @@ export default function CoreConcepts() {
         </div>
       </section>
 
-      <section className="mb-12">
+      {/* Section 3: Feature Flags */}
+      <section className="mb-14">
         <div className="flex items-center gap-3 mb-5">
-          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-mid border border-primary text-accent font-bold font-mono text-sm">3</span>
-          <h2 className="text-lg font-semibold text-foreground">
+          <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
+            3
+          </span>
+          <h2 className="text-xl md:text-2xl font-bold text-foreground -tracking-[0.02em]">
             Feature Flags Checks
           </h2>
         </div>
-        <p className="text-sm text-muted mb-4">
-          Flags represent binary features (A/B testing, rollout levels, settings). Query flags directly with the <code className="text-xs font-mono">flag</code> wrapper syntax.
+        <p className="text-[14px] text-muted leading-relaxed mb-5">
+          Flags represent binary features (A/B testing, rollout levels, settings). Query flags directly with the{" "}
+          <code className="text-xs font-mono text-accent">flag</code> wrapper syntax.
         </p>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           <CodeBlock
@@ -109,7 +123,7 @@ export default function CoreConcepts() {
                 <Can permission={{ flag: "features.beta" }}>
                   <div className="flex items-center gap-2 text-success font-medium text-sm">
                     <span className="w-2 h-2 rounded-full bg-success animate-ping" />
-                    <span>✓ Beta Feature is Enabled & Active</span>
+                    <span>✓ Beta Feature is Enabled &amp; Active</span>
                   </div>
                 </Can>
               </div>
@@ -118,15 +132,20 @@ export default function CoreConcepts() {
         </div>
       </section>
 
-      <section className="mb-10">
+      {/* Section 4: Logical Checks */}
+      <section className="mb-14">
         <div className="flex items-center gap-3 mb-5">
-          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-mid border border-primary text-accent font-bold font-mono text-sm">4</span>
-          <h2 className="text-lg font-semibold text-foreground">
+          <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
+            4
+          </span>
+          <h2 className="text-xl md:text-2xl font-bold text-foreground -tracking-[0.02em]">
             Logical Checks (any / all)
           </h2>
         </div>
-        <p className="text-sm text-muted mb-4">
-          Combine permission names using logical operators to grant access only if a user has at least one matching token (<code className="text-xs font-mono">any</code>) or all required tokens (<code className="text-xs font-mono">all</code>).
+        <p className="text-[14px] text-muted leading-relaxed mb-5">
+          Combine permission names using logical operators to grant access only if a user has at least one matching token (
+          <code className="text-xs font-mono text-accent">any</code>) or all required tokens (
+          <code className="text-xs font-mono text-accent">all</code>).
         </p>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           <CodeBlock

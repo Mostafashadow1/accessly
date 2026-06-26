@@ -38,4 +38,3 @@ export interface DiagItem {
   desc: string;
 }
 
-export type SectionMeta = Record<string, never>;

@@ -1,50 +1,70 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════════════
+   ACCESSLY — DESIGN TOKENS
+   Only: Tailwind import, @theme tokens, base HTML/body, global utilities
+   NO component styles belong here.
+═══════════════════════════════════════════════════════════════════════ */
+
 @theme {
-  /* ── Core palette ───────────────────────────── */
-  --color-canvas: #08080a;
-  --color-surface: #101013;
-  --color-surface-2: #141418;
-  --color-surface-hover: rgba(255, 255, 255, 0.025);
+  /* ── Fonts ─────────────────────────────────────────────────────── */
+  --font-sans: var(--font-sans, "Inter", system-ui, -apple-system, sans-serif);
+  --font-mono: var(--font-mono, "JetBrains Mono", "Fira Code", monospace);
+
+  /* ── Core backgrounds ──────────────────────────────────────────── */
+  --color-canvas:           #08080a;
+  --color-surface:          #101013;
+  --color-surface-2:        #141418;
+  --color-surface-hover:    rgba(255, 255, 255, 0.025);
   --color-surface-elevated: rgba(255, 255, 255, 0.04);
 
-  /* ── Brand ──── */
-  --color-primary: #6366f1;
-  --color-primary-dark: #4f46e5;
-  --color-primary-light: rgba(99, 102, 241, 0.07);
-  --color-primary-mid: rgba(99, 102, 241, 0.12);
-  --color-primary-glow: rgba(99, 102, 241, 0.15);
-  --color-violet: #8b5cf6;
-  --color-accent: #a5b4fc;
+  /* ── Brand ─────────────────────────────────────────────────────── */
+  --color-primary:           #6366f1;
+  --color-primary-dark:      #4f46e5;
+  --color-primary-light:     rgba(99, 102, 241, 0.07);
+  --color-primary-mid:       rgba(99, 102, 241, 0.12);
+  --color-primary-glow:      rgba(99, 102, 241, 0.15);
+  --color-violet:            #8b5cf6;
+  --color-accent:            #a5b4fc;
   --color-accent-foreground: #818cf8;
 
-  /* ── Text ───── */
+  /* ── Text ──────────────────────────────────────────────────────── */
   --color-foreground: #ededef;
-  --color-muted: #8c8c99;
+  --color-muted:      #8c8c99;
   --color-muted-dark: #3a3a42;
 
-  /* ── Borders ── */
-  --color-border: rgba(255, 255, 255, 0.07);
+  /* ── Borders ───────────────────────────────────────────────────── */
+  --color-border:       rgba(255, 255, 255, 0.07);
   --color-border-light: rgba(255, 255, 255, 0.04);
 
-  /* ── Semantic ─ */
-  --color-success: #10b981;
+  /* ── Semantic ──────────────────────────────────────────────────── */
+  --color-success:    #10b981;
   --color-success-bg: rgba(16, 185, 129, 0.05);
-  --color-danger: #ef4444;
-  --color-danger-bg: rgba(239, 68, 68, 0.05);
-  --color-warning: #f59e0b;
+  --color-danger:     #ef4444;
+  --color-danger-bg:  rgba(239, 68, 68, 0.05);
+  --color-warning:    #f59e0b;
   --color-warning-bg: rgba(245, 158, 11, 0.05);
-  --color-info: #3b82f6;
-  --color-info-bg: rgba(59, 130, 246, 0.05);
+  --color-info:       #3b82f6;
+  --color-info-bg:    rgba(59, 130, 246, 0.05);
 
-  /* ── Fonts ──── */
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  /* ── Named animations ──────────────────────────────────────────── */
+  --animate-pulse-live:     pulse-live 2s ease-in-out infinite;
+  --animate-gradient-slow:  gradient-slow 10s cubic-bezier(0.45, 0.05, 0.15, 1) infinite;
+  --animate-shimmer:        shimmer 2s linear infinite;
+  --animate-fade-up:        fadeUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  --animate-scale-in:       scaleIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  --animate-glow-pulse:     glowPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-flow:           flow 1s linear infinite;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   BASE HTML
+═══════════════════════════════════════════════════════════════════════ */
 
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -65,40 +85,11 @@ main {
   flex: 1;
 }
 
-::selection {
-  background: rgba(99, 102, 241, 0.25);
-  color: inherit;
-}
+/* ═══════════════════════════════════════════════════════════════════════
+   GLOBAL ELEMENT DEFAULTS
+═══════════════════════════════════════════════════════════════════════ */
 
-/* ── Scrollbar  */
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-muted-dark);
-  border-radius: 100px;
-  transition: background 0.2s;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-muted);
-}
-
-/* ── Focus ──── */
-:focus-visible {
-  outline: 1.5px solid var(--color-primary);
-  outline-offset: 3px;
-}
-
-/* ── Section scroll margin ─────────────────── */
-section[id] {
-  scroll-margin-top: 80px;
-}
-
-/* ── Code inline ────────────────────────────── */
+/* Inline code — outside of pre blocks */
 code:not(pre code) {
   font-family: var(--font-mono);
   font-size: 0.82em;
@@ -114,87 +105,86 @@ code {
   font-family: var(--font-mono);
 }
 
-/* ═══════════════════════════════════════════════════
-   KEYFRAMES — referenced via Tailwind arbitrary
-   animate-[...] values from components
-   ═══════════════════════════════════════════════════ */
+/* Section anchor offset for sticky nav */
+section[id] {
+  scroll-margin-top: 80px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   GLOBAL UTILITIES
+═══════════════════════════════════════════════════════════════════════ */
+
+/* Text selection */
+::selection {
+  background: rgba(99, 102, 241, 0.25);
+  color: inherit;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--color-muted-dark);
+  border-radius: 100px;
+  transition: background 0.2s;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-muted); }
+
+/* Focus ring — all interactive elements */
+:focus-visible {
+  outline: 1.5px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   KEYFRAMES
+═══════════════════════════════════════════════════════════════════════ */
 
 @keyframes pulse-live {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(0.85);
-  }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.85); }
 }
 
 @keyframes gradient-slow {
-  0% {
-    background-position: 0% 50%;
-  }
-  25% {
-    background-position: 50% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  75% {
-    background-position: 50% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0%   { background-position: 0% 50%; }
+  25%  { background-position: 50% 50%; }
+  50%  { background-position: 100% 50%; }
+  75%  { background-position: 50% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 @keyframes flow {
-  from {
-    stroke-dashoffset: 16;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
+  from { stroke-dashoffset: 16; }
+  to   { stroke-dashoffset: 0; }
 }
 
 @keyframes shimmer {
-  0% {
-    background-position: -200% center;
-  }
-  100% {
-    background-position: 200% center;
-  }
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
 }
 
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 @keyframes glowPulse {
-  0%,
-  100% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
-  }
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes borderGlow {
+  0%, 100% { border-color: rgba(99, 102, 241, 0.2); }
+  50%       { border-color: rgba(99, 102, 241, 0.5); }
 }

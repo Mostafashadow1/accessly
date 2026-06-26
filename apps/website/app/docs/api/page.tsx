@@ -5,25 +5,31 @@ import { CodeBlock } from "@/components/ui/code-block";
 export default function ApiReference() {
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-3">
+      {/* Page Header */}
+      <div className="mb-10 pb-8 border-b border-border">
+        <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-accent text-[11px] font-semibold tracking-[0.06em] uppercase mb-4">
+          API Reference
+        </span>
+        <h1 className="text-3xl md:text-[40px] font-bold -tracking-[0.03em] text-foreground mb-3">
           API Reference
         </h1>
-        <p className="text-base text-muted leading-relaxed max-w-2xl">
+        <p className="text-[16px] leading-relaxed text-muted max-w-2xl">
           Complete programmatic API specification for Accessly context providers, components, hooks, and helpers.
         </p>
       </div>
 
-      <div className="flex flex-col gap-12">
+      <div className="flex flex-col">
         {/* PermissionProvider */}
-        <section className="border-b border-border-light pb-10">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-mid border border-primary text-accent font-bold font-mono text-sm">1</span>
-            <h2 className="text-xl font-semibold text-foreground">
+        <section className="border-b border-border-light pb-12 mb-12 last:border-b-0 last:mb-0">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
+              1
+            </span>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground -tracking-[0.02em]">
               PermissionProvider
             </h2>
           </div>
-          <p className="text-sm text-muted mb-4 leading-relaxed">
+          <p className="text-[14px] text-muted leading-relaxed mb-5">
             The root React Context Provider that stores active access models, roles mappings, and handles validation rules.
           </p>
           <CodeBlock
@@ -41,16 +47,16 @@ export default function ApiReference() {
 </PermissionProvider>`}
           />
 
-          <div className="overflow-x-auto rounded-xl border border-border bg-[#08080a] my-6">
+          <div className="overflow-x-auto rounded-2xl border border-border bg-surface my-6">
             <table className="w-full text-sm border-collapse">
               <thead>
-                <tr className="border-b border-border bg-surface-hover/40">
-                  <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-muted">Prop</th>
-                  <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-muted">Type</th>
-                  <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-muted">Description</th>
+                <tr className="bg-surface-2 border-b border-border">
+                  <th className="text-left px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">Prop</th>
+                  <th className="text-left px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">Type</th>
+                  <th className="text-left px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">Description</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border/40">
+              <tbody>
                 {([
                   ["access", "AccessModel", "Direct AccessModel state (bypasses source/adapter evaluations)"],
                   ["source", "unknown", "Raw authorization payload response returned from any REST/GraphQL endpoint"],
@@ -58,14 +64,14 @@ export default function ApiReference() {
                   ["rolePermissions", "Record<string, string[]>", "Mappings of role identifier arrays to permission arrays"],
                   ["loading", "boolean", "Global loading toggle; disables child checks if loading state is true"],
                 ] as const).map(([prop, type, desc]) => (
-                  <tr key={prop} className="hover:bg-surface-hover/10 transition-colors">
-                    <td className="px-5 py-3">
-                      <code className="text-accent text-xs font-mono">{prop}</code>
+                  <tr key={prop} className="hover:bg-primary/5 transition-colors">
+                    <td className="px-5 py-3.5 border-b border-border/50">
+                      <code className="text-accent font-mono text-xs">{prop}</code>
                     </td>
-                    <td className="px-5 py-3">
-                      <code className="text-success text-xs font-mono">{type}</code>
+                    <td className="px-5 py-3.5 border-b border-border/50">
+                      <code className="text-success font-mono text-xs">{type}</code>
                     </td>
-                    <td className="px-5 py-3 text-muted text-xs leading-relaxed">{desc}</td>
+                    <td className="px-5 py-3.5 border-b border-border/50 text-muted text-[13px] leading-relaxed">{desc}</td>
                   </tr>
                 ))}
               </tbody>
@@ -74,14 +80,16 @@ export default function ApiReference() {
         </section>
 
         {/* Can */}
-        <section className="border-b border-border-light pb-10">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-mid border border-primary text-accent font-bold font-mono text-sm">2</span>
-            <h2 className="text-xl font-semibold text-foreground">
+        <section className="border-b border-border-light pb-12 mb-12 last:border-b-0 last:mb-0">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
+              2
+            </span>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground -tracking-[0.02em]">
               Can
             </h2>
           </div>
-          <p className="text-sm text-muted mb-4 leading-relaxed">
+          <p className="text-[14px] text-muted leading-relaxed mb-5">
             UI component to conditionally render parts of your page based on permissions.
           </p>
           <CodeBlock
@@ -100,15 +108,17 @@ export default function ApiReference() {
         </section>
 
         {/* Cannot */}
-        <section className="border-b border-border-light pb-10">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-mid border border-primary text-accent font-bold font-mono text-sm">3</span>
-            <h2 className="text-xl font-semibold text-foreground">
+        <section className="border-b border-border-light pb-12 mb-12 last:border-b-0 last:mb-0">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
+              3
+            </span>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground -tracking-[0.02em]">
               Cannot
             </h2>
           </div>
-          <p className="text-sm text-muted mb-4 leading-relaxed">
-            The inverse of <code className="text-xs font-mono">&lt;Can&gt;</code>. Render fallback/child options only if permissions check fails.
+          <p className="text-[14px] text-muted leading-relaxed mb-5">
+            The inverse of <code className="text-xs font-mono text-accent">&lt;Can&gt;</code>. Render fallback/child options only if permissions check fails.
           </p>
           <CodeBlock
             title="Cannot Component Usage"
@@ -119,14 +129,16 @@ export default function ApiReference() {
         </section>
 
         {/* ProtectedRoute */}
-        <section className="border-b border-border-light pb-10">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-mid border border-primary text-accent font-bold font-mono text-sm">4</span>
-            <h2 className="text-xl font-semibold text-foreground">
+        <section className="border-b border-border-light pb-12 mb-12 last:border-b-0 last:mb-0">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
+              4
+            </span>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground -tracking-[0.02em]">
               ProtectedRoute
             </h2>
           </div>
-          <p className="text-sm text-muted mb-4 leading-relaxed">
+          <p className="text-[14px] text-muted leading-relaxed mb-5">
             Protect routes without tying logic to specific routing libraries (e.g. React Router, Next.js).
           </p>
           <CodeBlock
@@ -140,15 +152,17 @@ export default function ApiReference() {
           />
         </section>
 
-        {/* Hooks */}
-        <section className="pb-10">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-mid border border-primary text-accent font-bold font-mono text-sm">5</span>
-            <h2 className="text-xl font-semibold text-foreground">
+        {/* React Hooks */}
+        <section className="border-b border-border-light pb-12 mb-12 last:border-b-0 last:mb-0">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
+              5
+            </span>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground -tracking-[0.02em]">
               React Hooks
             </h2>
           </div>
-          <p className="text-sm text-muted mb-4 leading-relaxed">
+          <p className="text-[14px] text-muted leading-relaxed mb-5">
             Access evaluations imperatively using hooks inside your React components.
           </p>
           <CodeBlock
@@ -177,4 +191,3 @@ const model = useAccessModel();
     </div>
   );
 }
-
