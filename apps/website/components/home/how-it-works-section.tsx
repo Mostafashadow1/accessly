@@ -6,15 +6,15 @@ import { pipelineSteps, explainItems } from "@/data/features";
  */
 export function HowItWorksSection() {
   return (
-    <section className="section-py border-b border-border">
+    <section className="py-[100px] md:py-[140px] border-b border-border">
       <div className="w-full max-w-[1280px] mx-auto px-6 lg:px-12">
         {/* Section header */}
         <div className="flex flex-col items-center text-center mb-20">
-          <div className="section-label">Architecture</div>
-          <h2 className="section-heading max-w-[560px]">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-bold tracking-[0.12em] uppercase text-accent bg-primary-light border border-primary/15 mb-5">Architecture</div>
+          <h2 className="text-[clamp(30px,4.5vw,50px)] font-bold -tracking-[0.03em] leading-[1.08] text-foreground max-w-[560px]">
             How Accessly works
           </h2>
-          <p className="section-body text-center mt-4 max-w-[480px]">
+          <p className="text-[15px] leading-[1.75] text-muted text-center mt-4 max-w-[480px]">
             A transparent pipeline from API response to gated UI — every step
             is observable.
           </p>
@@ -29,7 +29,7 @@ export function HowItWorksSection() {
             {pipelineSteps.map((step) => (
               <div
                 key={step.num}
-                className="card-base card-glow flex flex-col gap-4 p-6 relative"
+                className="rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.1),0_8px_40px_rgba(99,102,241,0.08)] transition-all duration-250 flex flex-col gap-4 p-6 relative"
               >
                 {/* Step badge */}
                 <div
@@ -63,8 +63,8 @@ export function HowItWorksSection() {
         {/* Code + Explanation split */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mt-16">
           {/* Code panel */}
-          <div className="lg:col-span-3 panel-dark overflow-hidden flex flex-col">
-            <div className="panel-header">
+          <div className="lg:col-span-3 rounded-xl border border-border bg-[rgba(6,6,8,0.7)] backdrop-blur-md overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between px-4 py-2.5 min-h-[40px] border-b border-border bg-[rgba(12,12,15,0.8)]">
               <div className="flex items-center gap-2">
                 <div className="flex gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-danger/60" />
@@ -110,12 +110,12 @@ const decision = useAccessDecision("users.create");
           </div>
 
           {/* Explanation card */}
-          <div className="lg:col-span-2 card-base flex flex-col p-8 gap-6">
+          <div className="lg:col-span-2 rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 transition-all duration-250 flex flex-col p-8 gap-6">
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-dark mb-3">
                 Why this matters
               </div>
-              <h3 className="section-heading-sm">Transparent by design</h3>
+              <h3 className="text-[clamp(22px,3vw,38px)] font-bold -tracking-[0.025em] leading-[1.12] text-foreground">Transparent by design</h3>
             </div>
 
             <p className="text-sm text-muted leading-relaxed">

@@ -15,7 +15,7 @@ function FlowArrow({ active = true }: { active?: boolean }) {
           stroke={active ? "#6366f1" : "#3a3a42"}
           strokeWidth="1.5"
           strokeLinecap="round"
-          className={active ? "animated-arrow-pulse" : ""}
+          className={active ? "[stroke-dasharray:5_3] animate-[flow_1s_linear_infinite]" : ""}
         />
         <path
           d="M4 14 L8 20 L12 14"
@@ -36,14 +36,14 @@ export function BackendSection() {
   const [activeBackend, setActiveBackend] = useState(0);
 
   return (
-    <section className="section-py border-b border-border">
+    <section className="py-[100px] md:py-[140px] border-b border-border">
       <div className="w-full max-w-[1280px] mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Left: heading + description */}
           <div className="flex flex-col gap-6">
             <div>
-              <div className="section-label inline-flex">Integration</div>
-              <h2 className="section-heading mt-4">
+              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-bold tracking-[0.12em] uppercase text-accent bg-primary-light border border-primary/15 mb-5">Integration</div>
+              <h2 className="text-[clamp(30px,4.5vw,50px)] font-bold -tracking-[0.03em] leading-[1.08] text-foreground mt-4">
                 Your backend,
                 <br />
                 any shape
@@ -103,8 +103,8 @@ export function BackendSection() {
                 },
               ].map((panel, idx) => (
                 <div key={panel.title}>
-                  <div className="panel-dark overflow-hidden">
-                    <div className="panel-header">
+                  <div className="rounded-xl border border-border bg-[rgba(6,6,8,0.7)] backdrop-blur-md overflow-hidden">
+                    <div className="flex items-center justify-between px-4 py-2.5 min-h-[40px] border-b border-border bg-[rgba(12,12,15,0.8)]">
                       <span
                         className={`font-mono text-[10px] uppercase tracking-[0.05em] ${panel.accent}`}
                       >

@@ -129,14 +129,14 @@ export default function Showcases() {
       <div className="flex flex-col gap-16">
         {/* 1. Backend Response Playground */}
         <section className="py-16 md:py-24 border-b border-border first:pt-0 last:border-b-0">
-          <div className="section-label">01</div>
-          <h2 className="section-heading-sm mb-2">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-bold tracking-[0.12em] uppercase text-accent bg-primary-light border border-primary/15 mb-5">01</div>
+          <h2 className="text-[clamp(22px,3vw,38px)] font-bold -tracking-[0.025em] leading-[1.12] text-foreground mb-2">
             Backend Payload Normalizer
           </h2>
           <p className="text-sm text-muted mb-6 leading-relaxed max-w-3xl">
             Input custom JSON responses from your API server on the left and see how Accessly maps resources dynamically to a standard flat AccessModel schema.
           </p>
-          <div className="panel-dark overflow-hidden rounded-2xl">
+          <div className="rounded-2xl border border-border bg-[rgba(6,6,8,0.7)] backdrop-blur-md overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-border">
               <div className="bg-surface p-6">
                 <label className="block text-[10px] font-bold uppercase tracking-wider mb-2 text-muted-dark">
@@ -172,8 +172,8 @@ export default function Showcases() {
 
         {/* 2. Sidebar Filtering */}
         <section className="py-16 md:py-24 border-b border-border first:pt-0 last:border-b-0">
-          <div className="section-label">02</div>
-          <h2 className="section-heading-sm mb-2">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-bold tracking-[0.12em] uppercase text-accent bg-primary-light border border-primary/15 mb-5">02</div>
+          <h2 className="text-[clamp(22px,3vw,38px)] font-bold -tracking-[0.025em] leading-[1.12] text-foreground mb-2">
             Smart Navigation Sidebar Filter
           </h2>
           <p className="text-sm text-muted mb-6 leading-relaxed max-w-3xl">
@@ -263,14 +263,14 @@ export default function Showcases() {
 
         {/* 3. Route Protection */}
         <section className="py-16 md:py-24 border-b border-border first:pt-0 last:border-b-0">
-          <div className="section-label">03</div>
-          <h2 className="section-heading-sm mb-2">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-bold tracking-[0.12em] uppercase text-accent bg-primary-light border border-primary/15 mb-5">03</div>
+          <h2 className="text-[clamp(22px,3vw,38px)] font-bold -tracking-[0.025em] leading-[1.12] text-foreground mb-2">
             Route Protection Component
           </h2>
           <p className="text-sm text-muted mb-6 leading-relaxed max-w-3xl">
             Mount pages or show customizable error/unauthorized templates dynamically using the client-side <code className="text-xs font-mono">ProtectedRoute</code> wrapper.
           </p>
-          <div className="panel-dark overflow-hidden rounded-2xl p-6">
+          <div className="rounded-2xl border border-border bg-[rgba(6,6,8,0.7)] backdrop-blur-md overflow-hidden p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-[10px] font-bold uppercase tracking-wider mb-2 text-muted-dark">
@@ -317,8 +317,8 @@ export default function Showcases() {
 
         {/* 4. Explain Inspector */}
         <section className="py-16 md:py-24 border-b border-border first:pt-0 last:border-b-0">
-          <div className="section-label">04</div>
-          <h2 className="section-heading-sm mb-2">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-bold tracking-[0.12em] uppercase text-accent bg-primary-light border border-primary/15 mb-5">04</div>
+          <h2 className="text-[clamp(22px,3vw,38px)] font-bold -tracking-[0.025em] leading-[1.12] text-foreground mb-2">
             Diagnostic Explain Inspector
           </h2>
           <p className="text-sm text-muted mb-6 leading-relaxed max-w-3xl">

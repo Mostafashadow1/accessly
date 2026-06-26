@@ -40,7 +40,7 @@ const allRecipes: RecipeItem[] = [
     <CreateUserButton />
   </Can>
 </PermissionProvider>`,
-    categoryClass: "badge-info"
+    categoryClass: "text-info bg-info-bg border border-info/20"
   },
   {
     title: "Backend Integration with Adapter",
@@ -69,7 +69,7 @@ const adapter = createAdapter((apiResponse) => ({
 <PermissionProvider source={apiResponse} adapter={adapter}>
   <App />
 </PermissionProvider>`,
-    categoryClass: "badge-success"
+    categoryClass: "text-success bg-success-bg border border-success/20"
   },
   {
     title: "Loading State Pattern",
@@ -95,7 +95,7 @@ const adapter = createAdapter((apiResponse) => ({
 
 // Note: While loading, all Can gates block
 // and return false, showing the fallback UI.`,
-    categoryClass: "badge-warning"
+    categoryClass: "text-warning bg-warning-bg border border-warning/20"
   },
   {
     title: "Debug Console Logging",
@@ -117,7 +117,7 @@ console.log(formatDecision(decision));
 // Reason: allowed
 // Matched: users.create
 // Checked from: direct`,
-    categoryClass: "badge-danger"
+    categoryClass: "text-danger bg-danger-bg border border-danger/20"
   },
   {
     title: "Wildcard Permission Rules",
@@ -137,7 +137,7 @@ checkPermission(model, {
   permission: "users.create"
 });
 // Decision returns checkedFrom: "wildcard"`,
-    categoryClass: "badge-primary"
+    categoryClass: "text-accent bg-primary-light border border-primary/20"
   },
   {
     title: "Feature Flag Toggles",
@@ -186,7 +186,7 @@ const model = {
 
 // Result hides "Users" since no sub-items are allowed
 const filtered = filterNavigation(navItems, model);`,
-    categoryClass: "badge-secondary"
+    categoryClass: "text-muted bg-surface-elevated border border-border"
   },
 ];
 

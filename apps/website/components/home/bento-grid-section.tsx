@@ -4,14 +4,14 @@
  */
 export function BentoGridSection() {
   return (
-    <section className="section-py border-b border-border bg-[rgba(6,6,8,0.5)]">
+    <section className="py-[100px] md:py-[140px] border-b border-border bg-[rgba(6,6,8,0.5)]">
       <div className="w-full max-w-[1280px] mx-auto px-6 lg:px-12">
         <div className="flex flex-col items-center text-center mb-20">
-          <div className="section-label">Features</div>
-          <h2 className="section-heading max-w-[500px]">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-bold tracking-[0.12em] uppercase text-accent bg-primary-light border border-primary/15 mb-5">Features</div>
+          <h2 className="text-[clamp(30px,4.5vw,50px)] font-bold -tracking-[0.03em] leading-[1.08] text-foreground max-w-[500px]">
             Everything you need
           </h2>
-          <p className="section-body text-center mt-4">
+          <p className="text-[15px] leading-[1.75] text-muted max-w-[520px] text-center mt-4">
             Production-grade access control. Zero external dependencies.
           </p>
         </div>
@@ -19,7 +19,7 @@ export function BentoGridSection() {
         {/* Bento grid */}
         <div className="grid grid-cols-12 gap-3">
           {/* 1. Explain Engine — large, 7 cols */}
-          <div className="col-span-12 lg:col-span-7 card-base card-glow p-8 flex flex-col gap-5 min-h-[280px]">
+          <div className="col-span-12 lg:col-span-7 rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.1),0_8px_40px_rgba(99,102,241,0.08)] transition-all duration-250 p-8 flex flex-col gap-5 min-h-[280px]">
             <div className="flex items-start justify-between">
               <div>
                 <div className="flex items-center gap-2 mb-3">
@@ -54,7 +54,7 @@ export function BentoGridSection() {
           </div>
 
           {/* 2. Navigation Filtering — 5 cols */}
-          <div className="col-span-12 lg:col-span-5 card-base card-glow p-8 flex flex-col gap-5 min-h-[280px]">
+          <div className="col-span-12 lg:col-span-5 rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.1),0_8px_40px_rgba(99,102,241,0.08)] transition-all duration-250 p-8 flex flex-col gap-5 min-h-[280px]">
             <div className="flex items-center gap-2">
               <span className="text-[22px]">🌀</span>
               <span className="text-xs font-semibold uppercase tracking-[0.06em] text-muted">
@@ -79,7 +79,7 @@ export function BentoGridSection() {
           </div>
 
           {/* 3. RBAC — 4 cols */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-4 card-base card-glow p-7 flex flex-col gap-3.5">
+          <div className="col-span-12 sm:col-span-6 lg:col-span-4 rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.1),0_8px_40px_rgba(99,102,241,0.08)] transition-all duration-250 p-7 flex flex-col gap-3.5">
             <span className="text-[22px]">🛡️</span>
             <h3 className="text-[17px] font-bold text-foreground -tracking-[0.02em] leading-tight">
               RBAC + Role Expansion
@@ -94,7 +94,7 @@ export function BentoGridSection() {
           </div>
 
           {/* 4. Feature Flags — 4 cols */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-4 card-base card-glow p-7 flex flex-col gap-3.5">
+          <div className="col-span-12 sm:col-span-6 lg:col-span-4 rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.1),0_8px_40px_rgba(99,102,241,0.08)] transition-all duration-250 p-7 flex flex-col gap-3.5">
             <span className="text-[22px]">🚩</span>
             <h3 className="text-[17px] font-bold text-foreground -tracking-[0.02em] leading-tight">
               Feature Flags
@@ -110,7 +110,7 @@ export function BentoGridSection() {
           </div>
 
           {/* 5. SSR — 4 cols */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-4 card-base card-glow p-7 flex flex-col gap-3.5">
+          <div className="col-span-12 sm:col-span-6 lg:col-span-4 rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.1),0_8px_40px_rgba(99,102,241,0.08)] transition-all duration-250 p-7 flex flex-col gap-3.5">
             <span className="text-[22px]">⚛️</span>
             <h3 className="text-[17px] font-bold text-foreground -tracking-[0.02em] leading-tight">
               SSR + Next.js
@@ -125,7 +125,7 @@ export function BentoGridSection() {
           </div>
 
           {/* 6. TypeScript — 6 cols */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-6 card-base card-glow p-7 flex flex-col gap-3.5">
+          <div className="col-span-12 sm:col-span-6 lg:col-span-6 rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.1),0_8px_40px_rgba(99,102,241,0.08)] transition-all duration-250 p-7 flex flex-col gap-3.5">
             <span className="text-[22px]">⚡</span>
             <h3 className="text-[17px] font-bold text-foreground -tracking-[0.02em] leading-tight">
               TypeScript Native · ~5kB · Zero Deps
@@ -137,7 +137,7 @@ export function BentoGridSection() {
           </div>
 
           {/* 7. Debug Tools — 6 cols */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-6 card-base card-glow p-7 flex flex-col gap-3.5">
+          <div className="col-span-12 sm:col-span-6 lg:col-span-6 rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.1),0_8px_40px_rgba(99,102,241,0.08)] transition-all duration-250 p-7 flex flex-col gap-3.5">
             <span className="text-[22px]">🐞</span>
             <h3 className="text-[17px] font-bold text-foreground -tracking-[0.02em] leading-tight">
               Debug Tooling

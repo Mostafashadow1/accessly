@@ -13,11 +13,11 @@ export default function DocsOverview() {
   return (
     <div>
       <div className="mb-10">
-        <div className="section-label">Quick Start</div>
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-bold tracking-[0.12em] uppercase text-accent bg-primary-light border border-primary/15 mb-5">Quick Start</div>
         <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-3">
           Getting Started
         </h1>
-        <p className="section-body max-w-2xl">
+        <p className="text-[15px] leading-[1.75] text-muted max-w-2xl">
           Install Accessly and add explainable permission checks to your React application in under one minute.
         </p>
       </div>
@@ -133,7 +133,7 @@ function App() {
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <a href="/docs/core-concepts" className="card-base card-glow group block p-6 no-underline transition-all duration-200 hover:-translate-y-0.5" style={{ boxShadow: "none" }}>
+          <a href="/docs/core-concepts" className="rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.1),0_8px_40px_rgba(99,102,241,0.08)] transition-all duration-250 group block p-6 no-underline hover:-translate-y-0.5" style={{ boxShadow: "none" }}>
             <h4 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-1 flex items-center gap-1.5">
               Core Concepts
               <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">→</span>
@@ -142,7 +142,7 @@ function App() {
               Understand AccessModel shapes, dot-notation schemas, and evaluation details.
             </p>
           </a>
-          <a href="/docs/backend-adapters" className="card-base card-glow group block p-6 no-underline transition-all duration-200 hover:-translate-y-0.5" style={{ boxShadow: "none" }}>
+          <a href="/docs/backend-adapters" className="rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.1),0_8px_40px_rgba(99,102,241,0.08)] transition-all duration-250 group block p-6 no-underline hover:-translate-y-0.5" style={{ boxShadow: "none" }}>
             <h4 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-1 flex items-center gap-1.5">
               Backend Adapters
               <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">→</span>
@@ -151,7 +151,7 @@ function App() {
               Learn how to map responses from NestJS, Express, Rails, or Laravel automatically.
             </p>
           </a>
-          <a href="/showcases" className="card-base card-glow group block p-6 no-underline transition-all duration-200 hover:-translate-y-0.5" style={{ boxShadow: "none" }}>
+          <a href="/showcases" className="rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.1),0_8px_40px_rgba(99,102,241,0.08)] transition-all duration-250 group block p-6 no-underline hover:-translate-y-0.5" style={{ boxShadow: "none" }}>
             <h4 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-1 flex items-center gap-1.5">
               Interactive Showcases
               <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">→</span>
@@ -160,7 +160,7 @@ function App() {
               See list filtering, route guards, and live explanation output in action.
             </p>
           </a>
-          <a href="/lab" className="card-base card-glow group block p-6 no-underline transition-all duration-200 hover:-translate-y-0.5" style={{ boxShadow: "none" }}>
+          <a href="/lab" className="rounded-2xl border border-border bg-surface hover:border-primary/20 hover:bg-surface-2 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.1),0_8px_40px_rgba(99,102,241,0.08)] transition-all duration-250 group block p-6 no-underline hover:-translate-y-0.5" style={{ boxShadow: "none" }}>
             <h4 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-1 flex items-center gap-1.5">
               Accessly Lab Sandbox
               <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">→</span>

@@ -7,8 +7,8 @@ export function HeroPlayground() {
   return (
     <section className="w-full border-t border-border overflow-hidden bg-[rgba(6,6,8,0.3)]">
       <div className="flex flex-col items-center text-center pt-16 pb-10 px-6">
-        <div className="section-label">
-          <span className="w-1.5 h-1.5 rounded-full bg-success inline-block animate-pulse-live" />
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-bold tracking-[0.12em] uppercase text-accent bg-primary-light border border-primary/15 mb-5">
+          <span className="w-1.5 h-1.5 rounded-full bg-success inline-block animate-[pulse-live_2s_ease-in-out_infinite]" />
           Interactive Demo
         </div>
         <h2 className="text-[22px] md:text-[28px] font-bold text-foreground -tracking-[0.025em] leading-tight mt-1">

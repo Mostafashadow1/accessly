@@ -123,7 +123,7 @@ export default function LabPage() {
       {/* Top Header - Hero Section */}
       <div className="relative text-center max-w-3xl mx-auto mb-10 pt-20 pb-12">
         <div aria-hidden="true" className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[1400px] h-[700px] rounded-[50%] bg-[radial-gradient(ellipse_at_50%_0%,rgba(99,102,241,0.1)_0%,rgba(99,102,241,0.03)_45%,transparent_70%)] pointer-events-none blur-[1px]" />
-        <div className="absolute inset-0 bg-dot-grid pointer-events-none" />
+        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(rgba(255,255,255,0.018) 1px, transparent 1px)", backgroundSize: "22px 22px" }} />
         <div className="relative z-10">
           <FeaturePill label="Interactive Playground" />
           <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground mt-4 mb-4">
@@ -167,12 +167,12 @@ export default function LabPage() {
                   Raw Backend Payload
                 </span>
                 {jsonValidity === "valid" ? (
-                  <span className="badge-success">
-                    <span className="w-1.5 h-1.5 rounded-full bg-success animate-glow-pulse inline-block" />
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold font-mono text-success bg-success-bg border border-success/20">
+                    <span className="w-1.5 h-1.5 rounded-full bg-success animate-[glowPulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite] inline-block" />
                     Valid JSON
                   </span>
                 ) : (
-                  <span className="badge-danger">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold font-mono text-danger bg-danger-bg border border-danger/20">
                     <span className="w-1.5 h-1.5 rounded-full bg-danger inline-block" />
                     Invalid JSON
                   </span>
@@ -370,9 +370,9 @@ function ConsoleResult({ query, isFlag }: { query: string; isFlag: boolean }) {
       <div className="flex items-center gap-2">
         <span className="text-xs font-medium text-muted">Evaluation Result:</span>
         {decision.allowed ? (
-          <span className="badge-success">Access Granted</span>
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold font-mono text-success bg-success-bg border border-success/20">Access Granted</span>
         ) : (
-          <span className="badge-danger">Access Denied</span>
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold font-mono text-danger bg-danger-bg border border-danger/20">Access Denied</span>
         )}
       </div>
 

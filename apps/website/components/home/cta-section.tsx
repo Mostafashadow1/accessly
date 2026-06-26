@@ -17,25 +17,25 @@ export function CtaSection() {
   };
 
   return (
-    <section className="section-py !pb-[160px] relative overflow-hidden">
+    <section className="py-[100px] md:py-[140px] !pb-[160px] relative overflow-hidden">
       {/* Subtle radial */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,0.07)_0%,transparent_60%)] pointer-events-none" />
 
       <div className="relative w-full max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col items-center text-center gap-8">
         <div>
-          <h2 className="section-heading text-[clamp(36px,5vw,64px)] max-w-[640px] mx-auto mb-4">
+          <h2 className="text-[clamp(36px,5vw,64px)] font-bold -tracking-[0.03em] leading-[1.08] text-foreground max-w-[640px] mx-auto mb-4">
             Ready to simplify
             <br />
             access control?
           </h2>
-          <p className="section-body text-center mx-auto max-w-[440px]">
+          <p className="text-[15px] leading-[1.75] text-muted text-center mx-auto max-w-[440px]">
             No install required. Test against your backend in the interactive
             lab — then copy the generated code directly.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <Link href="/lab" className="btn-primary text-[15px] py-3.5 px-7">
+          <Link href="/lab" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-[15px] font-semibold text-white bg-gradient-to-br from-primary to-violet shadow-lg shadow-primary/25 no-underline transition-all duration-200 hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-0.5 active:scale-[0.97]">
             Open Accessly Lab
             <svg
               width="14"
@@ -52,7 +52,7 @@ export function CtaSection() {
           </Link>
           <button
             onClick={handleCopy}
-            className="btn-secondary font-mono text-sm py-3.5 px-7"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-medium text-foreground bg-transparent border border-border transition-all duration-200 hover:border-white/20 hover:bg-surface-hover active:scale-[0.97] font-mono"
           >
             <span className="text-primary font-bold">$</span>
             {ctaCopied ? "Copied!" : "pnpm add accessly"}

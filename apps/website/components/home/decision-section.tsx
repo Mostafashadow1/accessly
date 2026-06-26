@@ -5,12 +5,12 @@ import { diagItems } from "@/data/features";
  */
 export function DecisionSection() {
   return (
-    <section className="section-py border-b border-border bg-[rgba(6,6,8,0.5)]">
+    <section className="py-[100px] md:py-[140px] border-b border-border bg-[rgba(6,6,8,0.5)]">
       <div className="w-full max-w-[1280px] mx-auto px-6 lg:px-12">
         <div className="flex flex-col items-center text-center mb-20">
-          <div className="section-label">Inspection</div>
-          <h2 className="section-heading">Every decision explains itself</h2>
-          <p className="section-body text-center mt-4">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-bold tracking-[0.12em] uppercase text-accent bg-primary-light border border-primary/15 mb-5">Inspection</div>
+          <h2 className="text-[clamp(30px,4.5vw,50px)] font-bold -tracking-[0.03em] leading-[1.08] text-foreground">Every decision explains itself</h2>
+          <p className="text-[15px] leading-[1.75] text-muted max-w-[520px] text-center mt-4">
             No more guessing why access was denied. Get the full story every
             time.
           </p>
@@ -18,8 +18,8 @@ export function DecisionSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left: JSON */}
-          <div className="panel-dark overflow-hidden flex flex-col">
-            <div className="panel-header">
+          <div className="rounded-xl border border-border bg-[rgba(6,6,8,0.7)] backdrop-blur-md overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between px-4 py-2.5 min-h-[40px] border-b border-border bg-[rgba(12,12,15,0.8)]">
               <div className="flex items-center gap-2">
                 <div className="flex gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-danger/60" />

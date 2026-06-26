@@ -168,7 +168,7 @@ export function Playground() {
             </span>
             {/* Live indicator */}
             <span className="hidden sm:inline-flex items-center gap-1.5 text-[11px] text-success font-mono">
-              <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse-live" />
+              <span className="w-1.5 h-1.5 rounded-full bg-success animate-[pulse-live_2s_ease-in-out_infinite]" />
               live
             </span>
           </div>
@@ -309,7 +309,7 @@ export function Playground() {
             {/* Bottom status */}
             <div className="mt-auto pt-5 px-2.5">
               <div className="flex items-center gap-2 text-[10px] text-muted-dark font-mono border-t border-border pt-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-success/60 animate-pulse-live" />
+                <span className="w-1.5 h-1.5 rounded-full bg-success/60 animate-[pulse-live_2s_ease-in-out_infinite]" />
                 connected
               </div>
             </div>

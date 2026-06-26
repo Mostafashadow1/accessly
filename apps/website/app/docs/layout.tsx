@@ -27,7 +27,7 @@ export default function DocsLayout({
       {/* Desktop Sidebar */}
       <aside className="hidden lg:block w-[220px] shrink-0 border-r border-border bg-[#08080a]/40 backdrop-blur-xl sticky top-[80px] h-[calc(100vh-80px)] overflow-y-auto p-6">
         <div className="flex items-center gap-2 mb-5 px-3">
-          <div className="w-1.5 h-1.5 rounded-full bg-primary/60 animate-glow-pulse" />
+          <div className="w-1.5 h-1.5 rounded-full bg-primary/60 animate-[glowPulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite]" />
           <h2 className="text-sm font-bold uppercase tracking-widest text-muted">
             Documentation
           </h2>
