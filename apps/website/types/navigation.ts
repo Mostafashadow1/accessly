@@ -1,0 +1,17 @@
+/* ── Navigation Types ── */
+
+export interface NavItem {
+  href: string;
+  label: string;
+}
+
+export interface FooterLink {
+  href: string;
+  label: string;
+  external?: boolean;
+}
+
+export interface FooterGroup {
+  title: string;
+  links: FooterLink[];
+}

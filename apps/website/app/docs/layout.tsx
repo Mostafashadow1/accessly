@@ -28,7 +28,7 @@ export default function DocsLayout({
       <aside className="hidden lg:block w-[220px] shrink-0 border-r border-border bg-[#08080a]/40 backdrop-blur-xl sticky top-[80px] h-[calc(100vh-80px)] overflow-y-auto p-6">
         <div className="flex items-center gap-2 mb-5 px-3">
           <div className="w-1.5 h-1.5 rounded-full bg-primary/60 animate-glow-pulse" />
-          <h2 className="text-[10px] font-bold uppercase tracking-widest text-muted">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-muted">
             Documentation
           </h2>
         </div>
@@ -57,7 +57,10 @@ export default function DocsLayout({
 
       {/* Mobile sidebar — horizontal scrollable pills */}
       <div className="lg:hidden w-full overflow-x-auto px-6 pt-4 pb-2 sticky top-14 z-10 bg-canvas/90 backdrop-blur-xl border-b border-border">
-        <nav className="flex gap-2 min-w-max pb-1" aria-label="Documentation pages">
+        <nav
+          className="flex gap-2 min-w-max pb-1"
+          aria-label="Documentation pages"
+        >
           {sidebarLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -83,4 +86,3 @@ export default function DocsLayout({
     </div>
   );
 }
-

@@ -1,37 +1,12 @@
 "use client";
 
 import Link from "next/link";
-
-const productLinks = [
-  { href: "/lab", label: "Accessly Lab" },
-  { href: "/docs", label: "Documentation" },
-  { href: "/docs/api", label: "API Reference" },
-  { href: "/recipes", label: "Recipes" },
-  { href: "/showcases", label: "Examples" },
-];
-
-const resourceLinks = [
-  { href: "https://github.com/accessly/accessly", label: "GitHub", external: true },
-  { href: "https://www.npmjs.com/package/accessly", label: "npm", external: true },
-  { href: "https://github.com/accessly/accessly/releases", label: "Changelog", external: true },
-  { href: "https://github.com/accessly/accessly/releases", label: "Releases", external: true },
-];
-
-const communityLinks = [
-  { href: "https://github.com/accessly/accessly/discussions", label: "Discussions", external: true },
-  { href: "#", label: "Discord", external: true },
-  { href: "https://github.com/accessly/accessly/issues/new", label: "Report Issue", external: true },
-  { href: "https://github.com/accessly/accessly/discussions/new", label: "Request Feature", external: true },
-];
-
-const trustBadges = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "MIT",
-  "Tree-shakeable",
-  "SSR Ready",
-];
+import {
+  productLinks,
+  resourceLinks,
+  communityLinks,
+  trustBadges,
+} from "@/data/navigation";
 
 const currentYear = new Date().getFullYear();
 

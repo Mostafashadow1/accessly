@@ -44,8 +44,8 @@ export default function DocsOverview() {
         </p>
 
         {/* Shared container tying code block and sandbox together */}
-        <div className="mb-6" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--color-border)", borderRadius: "14px", overflow: "hidden" }}>
-          <div style={{ background: "var(--color-surface)" }}>
+        <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-px bg-border rounded-xl overflow-hidden">
+          <div className="bg-surface">
             <CodeBlock
               title="App.tsx"
               code={`import { PermissionProvider, Can } from "accessly";
@@ -67,7 +67,7 @@ function App() {
 }`}
             />
           </div>
-          <div style={{ background: "var(--color-surface)" }}>
+          <div className="bg-surface">
             <PermissionProvider access={exampleAccess}>
               <PlaygroundPanel header="Live Sandbox Demo">
                 <div className="mb-4 bg-surface-elevated/40 border border-border-light rounded-lg p-3">

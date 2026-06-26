@@ -29,9 +29,9 @@ export function CodeBlock({ code, language = "tsx", title }: CodeBlockProps) {
       <div className="flex items-center justify-between px-4 py-2.5 bg-surface/60 border-b border-border min-h-[40px]">
         <div className="flex items-center gap-3">
           <div className="flex gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#ff5f57", border: "1px solid rgba(0,0,0,0.3)" }} />
-            <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#febc2e", border: "1px solid rgba(0,0,0,0.3)" }} />
-            <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#28c840", border: "1px solid rgba(0,0,0,0.3)" }} />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57] border border-black/30" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e] border border-black/30" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#28c840] border border-black/30" />
           </div>
           <span className="text-xs font-mono text-muted ml-1">{title || language}</span>
         </div>

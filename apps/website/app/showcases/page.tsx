@@ -137,8 +137,8 @@ export default function Showcases() {
             Input custom JSON responses from your API server on the left and see how Accessly maps resources dynamically to a standard flat AccessModel schema.
           </p>
           <div className="panel-dark overflow-hidden rounded-2xl">
-            <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: "1px", background: "var(--color-border)" }}>
-              <div style={{ background: "var(--color-surface)" }} className="p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-border">
+              <div className="bg-surface p-6">
                 <label className="block text-[10px] font-bold uppercase tracking-wider mb-2 text-muted-dark">
                   Backend API Response (JSON)
                 </label>
@@ -149,7 +149,7 @@ export default function Showcases() {
                   className="w-full rounded-xl border border-border bg-[#060608] p-3 text-xs font-mono text-foreground focus:outline-none focus:border-primary/50 resize-y"
                 />
               </div>
-              <div style={{ background: "var(--color-surface)" }} className="p-6">
+              <div className="bg-surface p-6">
                 <label className="block text-[10px] font-bold uppercase tracking-wider mb-2 text-muted-dark">
                   Normalized AccessModel
                 </label>

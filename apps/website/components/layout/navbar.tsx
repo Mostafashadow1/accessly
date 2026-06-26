@@ -3,13 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-
-const navLinks = [
-  { href: "/docs", label: "Docs" },
-  { href: "/showcases", label: "Showcases" },
-  { href: "/lab", label: "Lab" },
-  { href: "/recipes", label: "Recipes" },
-];
+import { navLinks } from "@/data/navigation";
 
 export function Navbar() {
   const pathname = usePathname();

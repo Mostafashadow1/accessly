@@ -122,7 +122,7 @@ export default function LabPage() {
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24">
       {/* Top Header - Hero Section */}
       <div className="relative text-center max-w-3xl mx-auto mb-10 pt-20 pb-12">
-        <div className="hero-radial-top" />
+        <div aria-hidden="true" className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[1400px] h-[700px] rounded-[50%] bg-[radial-gradient(ellipse_at_50%_0%,rgba(99,102,241,0.1)_0%,rgba(99,102,241,0.03)_45%,transparent_70%)] pointer-events-none blur-[1px]" />
         <div className="absolute inset-0 bg-dot-grid pointer-events-none" />
         <div className="relative z-10">
           <FeaturePill label="Interactive Playground" />

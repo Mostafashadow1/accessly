@@ -157,30 +157,6 @@ code {
   background-size: 200% 100%;
 }
 
-/* ── Heading Scale ─────────────────────────── */
-h1 {
-  font-size: clamp(48px, 6vw, 72px);
-}
-h2 {
-  font-size: clamp(28px, 3.5vw, 42px);
-}
-h3 {
-  font-size: clamp(18px, 2vw, 24px);
-}
-
-/* ── Pill gap helper ───────────────────────── */
-.section-label + h1,
-.section-label + h2,
-.section-label + h3,
-.section-label + .section-heading,
-.section-label + .section-heading-sm {
-  margin-top: 8px;
-}
-
-/* ─────────────────────────────────────────────────────
-   HERO BACKGROUND SYSTEM
-   ───────────────────────────────────────────────────── */
-
 /* Fine dot grid */
 .bg-dot-grid {
   background-image: radial-gradient(
@@ -661,38 +637,7 @@ h3 {
   color: #71717a;
 }
 
-/* ─────────────────────────────────────────────────────
-   FEATURE BAR DIVIDER
-   ───────────────────────────────────────────────────── */
-.feature-bar-item + .feature-bar-item::before {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1px;
-  height: 20px;
-  background: var(--color-border);
-}
-
-/* ── Text wrap balance ──────────────────────── */
+/* ── Text wrap balance (Tailwind v4 utility) ── */
 .text-balance {
   text-wrap: balance;
-}
-
-/* ── Code panel left border accent ─────────── */
-.code-panel-accent {
-  position: relative;
-}
-.code-panel-accent::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--color-primary);
-  opacity: 0.3;
-  pointer-events: none;
 }

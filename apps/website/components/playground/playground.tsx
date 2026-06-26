@@ -1,237 +1,152 @@
 "use client";
 
-import { useState } from "react";
-
-/* ═══════════════════════════════════════════════════════════════
-   Types
-   ═══════════════════════════════════════════════════════════════ */
-
-interface BackendData {
-  id: string;
-  label: string;
-  response: string;
-  adapter: string;
-  model: string;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   Static data
-   ═══════════════════════════════════════════════════════════════ */
-
-const backends: BackendData[] = [
-  {
-    id: "laravel",
-    label: "Laravel",
-    response: `{
-  "id": 1,
-  "name": "Alex Admin",
-  "all_permissions": [
-    "posts.create",
-    "posts.delete",
-    "users.view"
-  ]
-}`,
-    adapter: `createAdapter((src) => ({
-  permissions: src.all_permissions,
-  user: { id: src.id, name: src.name }
-}))`,
-    model: `{
-  "permissions": [
-    "posts.create",
-    "posts.delete",
-    "users.view"
-  ],
-  "user": { "id": 1, "name": "Alex Admin" }
-}`,
-  },
-  {
-    id: "nestjs",
-    label: "NestJS",
-    response: `{
-  "user": {
-    "id": "usr_99",
-    "roles": ["editor"],
-    "abilities": [
-      "read:articles",
-      "write:articles"
-    ]
-  }
-}`,
-    adapter: `createAdapter((src) => ({
-  permissions: src.user.abilities,
-  roles: src.user.roles,
-  user: { id: src.user.id }
-}))`,
-    model: `{
-  "permissions": ["read:articles","write:articles"],
-  "roles": ["editor"],
-  "user": { "id": "usr_99" }
-}`,
-  },
-  {
-    id: "aspnet",
-    label: "ASP.NET",
-    response: `{
-  "nameid": "1002",
-  "role": ["Administrator"],
-  "claims": [
-    { "type": "permission", "value": "billing.read" },
-    { "type": "permission", "value": "billing.write" }
-  ]
-}`,
-    adapter: `createAdapter((src) => ({
-  permissions: src.claims
-    .filter(c => c.type === "permission")
-    .map(c => c.value),
-  roles: src.role,
-  user: { id: src.nameid }
-}))`,
-    model: `{
-  "permissions": ["billing.read","billing.write"],
-  "roles": ["Administrator"],
-  "user": { "id": "1002" }
-}`,
-  },
-  {
-    id: "express",
-    label: "Express",
-    response: `{
-  "sessionID": "sess_881",
-  "user": { "id": 42 },
-  "scopes": ["admin:dashboard","user:edit"]
-}`,
-    adapter: `createAdapter((src) => ({
-  permissions: src.scopes,
-  user: { id: src.user.id }
-}))`,
-    model: `{
-  "permissions": ["admin:dashboard","user:edit"],
-  "user": { "id": 42 }
-}`,
-  },
-  {
-    id: "custom",
-    label: "Custom",
-    response: `{
-  "meta": { "version": "v2" },
-  "body": {
-    "profile": { "uuid": "u-873" },
-    "grants": ["view_dashboard","edit_profile"]
-  }
-}`,
-    adapter: `createAdapter((src) => ({
-  permissions: src.body.grants
-    .map(g => g.replace(/_/, ".")),
-  user: { id: src.body.profile.uuid }
-}))`,
-    model: `{
-  "permissions": ["view.dashboard","edit.profile"],
-  "user": { "id": "u-873" }
-}`,
-  },
-];
-
-const sidebarItems = [
-  { label: "Playground", icon: "▶", active: true },
-  { label: "Adapters", icon: "◈", active: false },
-  { label: "AccessModel", icon: "◉", active: false },
-  { label: "Inspector", icon: "◎", active: false },
-  { label: "Permission Explorer", icon: "◐", active: false },
-  { label: "Logs", icon: "☰", active: false },
-] as const;
-
-const features = [
-  { label: "Any Backend", icon: "🔌" },
-  { label: "Explain Engine", icon: "🔍" },
-  { label: "Type Safe", icon: "🛡️" },
-  { label: "Tree-shakeable", icon: "⚡" },
-  { label: "SSR Ready", icon: "⚛️" },
-] as const;
-
-const decision = {
-  allowed: true,
-  permission: "posts.create",
-  reason: "matched",
-  matchedBy: "direct permission",
-  checkedFrom: "direct",
-  timestamp: "2026-06-26T11:39:00.000Z",
-};
-
-/* ═══════════════════════════════════════════════════════════════
-   PipelineArrow — subtle chevron between pipeline panels
-   ═══════════════════════════════════════════════════════════════ */
-
-function PipelineArrow() {
-  return (
-    <div className="hidden md:flex items-center justify-center shrink-0 text-muted-dark/60">
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M9 6l6 6-6 6" />
-      </svg>
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   PipelinePanel — individual step in the pipeline flow
-   ═══════════════════════════════════════════════════════════════ */
-
-function PipelinePanel({
-  num,
-  title,
-  accentBorder,
-  children,
-}: {
-  num: string;
-  title: string;
-  accentBorder: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex-1 min-w-0 rounded-xl border border-border bg-surface/60 overflow-hidden flex flex-col shadow-sm">
-      {/* Colored accent line */}
-      <div className={`h-0.5 ${accentBorder}`} />
-      {/* Header */}
-      <div className="flex items-center gap-2.5 px-3 py-2.5 border-b border-border/50 bg-[rgba(8,8,10,0.3)]">
-        <span className="text-[9px] font-mono text-muted-dark font-semibold tracking-wider bg-surface/40 px-1.5 py-0.5 rounded">
-          {num}
-        </span>
-        <span className="text-[11px] font-semibold text-foreground truncate">
-          {title}
-        </span>
-      </div>
-      {/* Content */}
-      <div className="p-3 flex-1 flex flex-col">{children}</div>
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   Playground — interactive live pipeline embedded in the hero
-   ═══════════════════════════════════════════════════════════════ */
+import { useState, useRef, useCallback, useEffect } from "react";
+import type { Scenario, PanelStatus, LogEntry } from "@/types/playground";
+import { backends } from "@/data/backend-examples";
+import { sidebarItems } from "@/data/navigation";
+import { features } from "@/data/features";
+import { getDecision } from "@/lib/playground";
+import { PIPELINE_STEPS } from "./types";
+import { PipelineArrow } from "./pipeline-arrow";
+import { PipelinePanel } from "./pipeline-panel";
+import { StepProgress } from "./step-progress";
+import { LogsSection } from "./logs-section";
+import { ScenarioToggle } from "./scenario-toggle";
 
 export function Playground() {
+  /* ── State ── */
   const [backendIdx, setBackendIdx] = useState(0);
   const [sending, setSending] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [scenario, setScenario] = useState<Scenario>("allowed");
+  const [activeStep, setActiveStep] = useState(-1);
+  const [logs, setLogs] = useState<LogEntry[]>([]);
+  const [logsOpen, setLogsOpen] = useState(false);
+  const [hasRun, setHasRun] = useState(false);
+
+  const logCounter = useRef(0);
+  const timeoutIds = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const backend = backends[backendIdx];
+  const decision = getDecision(scenario, backend);
 
-  const handleSend = () => {
+  /* ── Cleanup on unmount ── */
+  useEffect(() => {
+    return () => {
+      timeoutIds.current.forEach(clearTimeout);
+    };
+  }, []);
+
+  /* ── Helper: add a log entry ── */
+  const addLog = useCallback((emoji: string, message: string) => {
+    logCounter.current += 1;
+    const id = logCounter.current;
+    setLogs((prev) => [...prev, { id, message, emoji }]);
+  }, []);
+
+  /* ── Helper: clear all pending timeouts ── */
+  const clearPendingTimeouts = useCallback(() => {
+    timeoutIds.current.forEach(clearTimeout);
+    timeoutIds.current = [];
+  }, []);
+
+  /* ── Handle Send Request ── */
+  const handleSend = useCallback(() => {
+    /* Cancel any in-flight animation */
+    clearPendingTimeouts();
     setSending(true);
-    setTimeout(() => setSending(false), 700);
-  };
+    setActiveStep(-1);
+    setHasRun(true);
+    setLogs([]);
+    logCounter.current = 0;
+
+    const backendName = backend.label;
+
+    /* Helper to schedule a step */
+    const schedule = (ms: number, fn: () => void) => {
+      const id = setTimeout(fn, ms);
+      timeoutIds.current.push(id);
+    };
+
+    /* Step 0 — request sent (immediate) */
+    addLog("🚀", `Request sent to ${backendName} backend`);
+
+    /* Step 1 — Backend Response (400ms) */
+    schedule(400, () => {
+      setActiveStep(0);
+      addLog("📦", "Response received from API");
+    });
+
+    /* Step 2 — Adapter (800ms) */
+    schedule(800, () => {
+      setActiveStep(1);
+      addLog("🔧", "Adapter normalized the response");
+    });
+
+    /* Step 3 — AccessModel (1200ms) */
+    schedule(1200, () => {
+      setActiveStep(2);
+      addLog("📋", "AccessModel generated from adapter output");
+    });
+
+    /* Step 4 — Decision (1600ms) */
+    schedule(1600, () => {
+      setActiveStep(3);
+      const checkedPermission = "posts.create";
+      addLog("🔍", `Permission checked: ${checkedPermission}`);
+      if (decision.allowed) {
+        addLog("✅", "Decision: allowed");
+      } else {
+        addLog("❌", "Decision: denied (missing_permission)");
+      }
+    });
+
+    /* Step 5 — UI Preview (2000ms) */
+    schedule(2000, () => {
+      setActiveStep(4);
+      addLog("🎨", "UI updated based on decision");
+    });
+
+    /* Done (2400ms) */
+    schedule(2400, () => {
+      setActiveStep(-1);
+      setSending(false);
+      addLog("🏁", "Request lifecycle complete");
+    });
+  }, [backend.label, decision.allowed, addLog, clearPendingTimeouts]);
+
+  /* ── Handle backend change ── */
+  const handleBackendChange = useCallback(
+    (idx: number) => {
+      clearPendingTimeouts();
+      setBackendIdx(idx);
+      setSending(false);
+      setActiveStep(-1);
+      setHasRun(false);
+      setLogs([]);
+      logCounter.current = 0;
+    },
+    [clearPendingTimeouts],
+  );
+
+  /* ── Helper: get panel status ── */
+  function getPanelStatus(stepIdx: number): PanelStatus {
+    if (activeStep === -1) {
+      return hasRun ? "settled" : "idle";
+    }
+    if (stepIdx === activeStep) return "loading";
+    if (stepIdx < activeStep) return "settled";
+    return "pending";
+  }
+
+  /* ── Determine if the arrow before this step should be highlighted ── */
+  function isArrowHighlighted(stepIdx: number): boolean {
+    if (activeStep === -1) return false;
+    return stepIdx <= activeStep;
+  }
 
   return (
-    <div className="relative max-w-[1160px] mx-auto">
+    <div className="relative w-full">
       {/* Soft purple edge glow */}
       <div className="absolute -inset-x-8 -inset-y-6 rounded-3xl bg-[radial-gradient(ellipse_at_50%_0%,rgba(99,102,241,0.07)_0%,transparent_60%)] pointer-events-none" />
 
@@ -262,13 +177,15 @@ export function Playground() {
           <div className="flex items-center gap-2.5">
             {/* Backend selector */}
             <div className="relative">
+              <label htmlFor="backend-select" className="sr-only">
+                Select backend
+              </label>
               <select
+                id="backend-select"
                 value={backendIdx}
-                onChange={(e) => {
-                  setBackendIdx(Number(e.target.value));
-                  setSending(false);
-                }}
-                className="appearance-none bg-surface border border-border rounded-lg px-3 py-1.5 pr-7 text-[11px] font-mono font-medium text-foreground cursor-pointer outline-none focus:border-primary/40 transition-colors"
+                onChange={(e) => handleBackendChange(Number(e.target.value))}
+                disabled={sending}
+                className="appearance-none bg-surface border border-border rounded-lg px-3 py-1.5 pr-7 text-[11px] font-mono font-medium text-foreground cursor-pointer outline-none focus:border-primary/40 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {backends.map((b, i) => (
                   <option key={b.id} value={i}>
@@ -281,15 +198,26 @@ export function Playground() {
               </span>
             </div>
 
+            {/* Scenario toggle */}
+            <div className="hidden sm:block">
+              <ScenarioToggle
+                value={scenario}
+                onChange={setScenario}
+                disabled={sending}
+              />
+            </div>
+
             {/* Send Request button */}
             <button
               onClick={handleSend}
-              className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-[11px] font-semibold text-white bg-gradient-to-br from-primary to-violet shadow-sm shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+              disabled={sending}
+              className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-[11px] font-semibold text-white bg-gradient-to-br from-primary to-violet shadow-sm shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-primary/20"
+              aria-busy={sending}
             >
               {sending ? (
                 <>
                   <span className="w-3 h-3 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                  Sending
+                  <span>Sending</span>
                 </>
               ) : (
                 <>
@@ -302,10 +230,11 @@ export function Playground() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    aria-hidden="true"
                   >
                     <path d="M15 1L9 15l-3-7L1 7z" />
                   </svg>
-                  Send Request
+                  <span>Send Request</span>
                 </>
               )}
             </button>
@@ -315,6 +244,7 @@ export function Playground() {
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="md:hidden inline-flex items-center justify-center w-7 h-7 rounded-lg text-muted hover:text-foreground hover:bg-surface-hover transition-colors"
               aria-label="Toggle sidebar"
+              aria-expanded={sidebarOpen}
             >
               <svg
                 width="14"
@@ -324,6 +254,7 @@ export function Playground() {
                 stroke="currentColor"
                 strokeWidth="2"
                 strokeLinecap="round"
+                aria-hidden="true"
               >
                 <path d="M2 4h12M2 8h12M2 12h12" />
               </svg>
@@ -386,13 +317,18 @@ export function Playground() {
 
           {/* ─── Pipeline content ─── */}
           <div className="flex-1 p-4 md:p-5 lg:p-6 overflow-hidden">
-            {/* Pipeline panels row — flex on desktop, wraps on small screens */}
+            {/* Step progress bar */}
+            <StepProgress steps={PIPELINE_STEPS} activeIdx={activeStep} />
+
+            {/* Pipeline panels row */}
             <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-4">
-              {/* 1. Backend Response */}
+              {/* ── 1. Backend Response ── */}
               <PipelinePanel
                 num="01"
                 title="Backend Response"
-                accentBorder="bg-muted-dark"
+                status={getPanelStatus(0)}
+                accentIdle="bg-muted-dark"
+                accentActive="bg-primary"
               >
                 <div className="text-[9px] font-mono text-muted-dark uppercase tracking-wider mb-2">
                   Raw API output
@@ -402,13 +338,15 @@ export function Playground() {
                 </pre>
               </PipelinePanel>
 
-              <PipelineArrow />
+              <PipelineArrow highlighted={isArrowHighlighted(0)} />
 
-              {/* 2. Adapter */}
+              {/* ── 2. Adapter ── */}
               <PipelinePanel
                 num="02"
                 title="Adapter"
-                accentBorder="bg-accent-foreground/50"
+                status={getPanelStatus(1)}
+                accentIdle="bg-accent-foreground/50"
+                accentActive="bg-accent-foreground"
               >
                 <div className="text-[9px] font-mono text-muted-dark uppercase tracking-wider mb-2">
                   normalize
@@ -418,13 +356,15 @@ export function Playground() {
                 </pre>
               </PipelinePanel>
 
-              <PipelineArrow />
+              <PipelineArrow highlighted={isArrowHighlighted(1)} />
 
-              {/* 3. AccessModel */}
+              {/* ── 3. AccessModel ── */}
               <PipelinePanel
                 num="03"
                 title="AccessModel"
-                accentBorder="bg-success/50"
+                status={getPanelStatus(2)}
+                accentIdle="bg-success/50"
+                accentActive="bg-success"
               >
                 <div className="text-[9px] font-mono text-muted-dark uppercase tracking-wider mb-2">
                   unified schema
@@ -434,15 +374,17 @@ export function Playground() {
                 </pre>
               </PipelinePanel>
 
-              <PipelineArrow />
+              <PipelineArrow highlighted={isArrowHighlighted(2)} />
 
-              {/* 4. Decision */}
+              {/* ── 4. Decision ── */}
               <PipelinePanel
                 num="04"
                 title="Decision"
-                accentBorder={
+                status={getPanelStatus(3)}
+                accentIdle={
                   decision.allowed ? "bg-success/50" : "bg-danger/50"
                 }
+                accentActive={decision.allowed ? "bg-success" : "bg-danger"}
               >
                 {/* Status badge */}
                 <div className="flex items-center gap-2 mb-2.5">
@@ -476,13 +418,25 @@ export function Playground() {
                 <div className="flex flex-col gap-1.5 text-[10px]">
                   <div className="flex items-center justify-between">
                     <span className="text-muted-dark font-mono">reason</span>
-                    <span className="text-success font-mono font-medium">
+                    <span
+                      className={`font-mono font-medium ${
+                        decision.allowed ? "text-success" : "text-danger"
+                      }`}
+                    >
                       {decision.reason}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-muted-dark font-mono">matched by</span>
-                    <span className="text-foreground font-mono">
+                    <span className="text-muted-dark font-mono">
+                      matched by
+                    </span>
+                    <span
+                      className={`font-mono ${
+                        decision.allowed
+                          ? "text-foreground"
+                          : "text-muted-dark"
+                      }`}
+                    >
                       {decision.matchedBy}
                     </span>
                   </div>
@@ -492,22 +446,18 @@ export function Playground() {
                       {decision.checkedFrom}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-dark font-mono">time</span>
-                    <span className="text-foreground/40 font-mono text-[9px]">
-                      {decision.timestamp}
-                    </span>
-                  </div>
                 </div>
               </PipelinePanel>
 
-              <PipelineArrow />
+              <PipelineArrow highlighted={isArrowHighlighted(3)} />
 
-              {/* 5. UI Preview */}
+              {/* ── 5. UI Preview ── */}
               <PipelinePanel
                 num="05"
                 title="UI Preview"
-                accentBorder="bg-primary/50"
+                status={getPanelStatus(4)}
+                accentIdle="bg-primary/50"
+                accentActive="bg-primary"
               >
                 <div className="text-[9px] font-mono text-muted-dark uppercase tracking-wider mb-2.5">
                   rendered UI
@@ -517,10 +467,22 @@ export function Playground() {
                   {/* Card header */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-primary/20 to-violet/20 flex items-center justify-center text-[9px] font-bold text-accent border border-primary/10">
+                      <div
+                        className={`w-6 h-6 rounded-lg flex items-center justify-center text-[9px] font-bold border ${
+                          decision.allowed
+                            ? "bg-gradient-to-br from-primary/20 to-violet/20 text-accent border-primary/10"
+                            : "bg-white/[0.03] text-muted-dark border-border"
+                        }`}
+                      >
                         +
                       </div>
-                      <span className="text-[11px] font-semibold text-foreground">
+                      <span
+                        className={`text-[11px] font-semibold ${
+                          decision.allowed
+                            ? "text-foreground"
+                            : "text-muted-dark"
+                        }`}
+                      >
                         Create Post
                       </span>
                     </div>
@@ -536,13 +498,20 @@ export function Playground() {
                   </div>
 
                   {/* Simulated form field */}
-                  <div className="h-6 rounded-md bg-white/[0.04] border border-border-light" />
+                  <div
+                    className={`h-6 rounded-md border ${
+                      decision.allowed
+                        ? "bg-white/[0.04] border-border-light"
+                        : "bg-white/[0.02] border-border/50"
+                    }`}
+                  />
 
                   {/* Action button */}
                   <button
+                    disabled={!decision.allowed}
                     className={`w-full py-1.5 rounded-lg text-[10px] font-semibold transition-all ${
                       decision.allowed
-                        ? "bg-gradient-to-r from-primary to-violet text-white shadow-sm shadow-primary/20"
+                        ? "bg-gradient-to-r from-primary to-violet text-white shadow-sm shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0"
                         : "bg-surface-2 text-muted-dark cursor-not-allowed border border-border"
                     }`}
                   >
@@ -559,8 +528,24 @@ export function Playground() {
               </PipelinePanel>
             </div>
 
+            {/* Logs */}
+            <LogsSection
+              logs={logs}
+              open={logsOpen}
+              onToggle={() => setLogsOpen(!logsOpen)}
+            />
+
+            {/* Scenario toggle (mobile) */}
+            <div className="sm:hidden mt-3 flex items-center justify-center">
+              <ScenarioToggle
+                value={scenario}
+                onChange={setScenario}
+                disabled={sending}
+              />
+            </div>
+
             {/* ─── Bottom feature strip ─── */}
-            <div className="flex flex-wrap items-center gap-2.5 mt-6 pt-5 border-t border-border">
+            <div className="flex flex-wrap items-center gap-2.5 mt-5 pt-4 border-t border-border">
               {features.map((f) => (
                 <span
                   key={f.label}
