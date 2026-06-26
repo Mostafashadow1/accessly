@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { HeroSection } from "@/components/hero/hero-section";
 
-/* 
+/*
    Data
     */
 
@@ -263,14 +264,7 @@ const diagItems = [
   },
 ] as const;
 
-const stats = [
-  { val: "~5kB", label: "gzip bundle" },
-  { val: "0", label: "dependencies" },
-  { val: "100%", label: "TypeScript" },
-  { val: "MIT", label: "open source" },
-] as const;
-
-/* 
+/*
    Arrow Component
     */
 function FlowArrow({
@@ -324,11 +318,10 @@ function FlowArrow({
   );
 }
 
-/* 
+/*
    Main Page
     */
 export default function HomePage() {
-  const [activePlayTab, setActivePlayTab] = useState(1);
   const [activeBackend, setActiveBackend] = useState(0);
   const [ctaCopied, setCtaCopied] = useState(false);
 
@@ -338,329 +331,9 @@ export default function HomePage() {
     setTimeout(() => setCtaCopied(false), 1800);
   };
 
-  const playData = (() => {
-    switch (activePlayTab) {
-      case 0:
-        return {
-          label: "Dashboard",
-          check: "public route",
-          allowed: true,
-          decision: `{ "allowed": true, "reason": "public_route" }`,
-          desc: "Route public · rendering allowed",
-        };
-      case 2:
-        return {
-          label: "System Settings",
-          check: `engine.check("settings.manage")`,
-          allowed: false,
-          decision: `{
-  "allowed": false,
-  "reason": "missing_permissions",
-  "requested": ["settings.manage"],
-  "missing":  ["settings.manage"],
-  "checkedFrom": "direct"
-}`,
-          desc: "Missing: settings.manage",
-        };
-      default:
-        return {
-          label: "Create User",
-          check: `engine.check("users.create")`,
-          allowed: true,
-          decision: `{
-  "allowed": true,
-  "reason": "matched",
-  "requested": ["users.create"],
-  "matched":   ["users.create"],
-  "checkedFrom": "direct"
-}`,
-          desc: "Matched: users.create",
-        };
-    }
-  })();
-
   return (
     <div className="bg-canvas min-h-screen">
-      {/* 
-          HERO
-           */}
-      <section className="relative min-h-[92vh] flex flex-col justify-center pt-20 pb-0 overflow-hidden">
-        {/* Layered backgrounds */}
-        <div className="hero-radial-top" />
-        <div className="hero-arc-ring" />
-        <div className="absolute inset-0 bg-dot-grid-lg pointer-events-none" />
-        <div className="hero-grid-lines" />
-        <div className="hero-bottom-fade" />
-
-        <div className="relative z-10 w-full max-w-[1280px] mx-auto px-6 lg:px-12">
-          {/* ── Text block ── */}
-          <div className="flex flex-col items-center text-center max-w-[860px] mx-auto pt-8 pb-16">
-            {/* Badge */}
-            <div className="section-label">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block" />
-              v0.1.0 · Open Source · MIT Licensed
-            </div>
-
-            {/* Headline — huge, two-line, Vercel-style */}
-            <h1 className="font-bold tracking-tight select-none leading-[1.05] mb-8 text-[clamp(52px,8.5vw,96px)] -tracking-[0.04em]">
-              <span className="block title-white">Permission checks that</span>
-              <span className="block title-brand mt-[0.08em]">
-                explain themselves
-              </span>
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-[17px] text-muted leading-relaxed text-center max-w-[540px] mx-auto mb-12">
-              Every library returns <code>true</code> or{" "}
-              <code className="text-danger bg-danger-bg border-danger/20">
-                false
-              </code>
-              . Accessly returns{" "}
-              <strong className="text-foreground font-semibold">why</strong> —
-              matched rules, missing permissions, and the exact source of every
-              decision.
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Link href="/lab" className="btn-primary">
-                Try Accessly Lab
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 3l5 5-5 5" />
-                </svg>
-              </Link>
-              <Link href="/docs" className="btn-secondary">
-                Read the Docs
-              </Link>
-              <button
-                onClick={handleCopy}
-                className="btn-secondary font-mono text-[13px]"
-              >
-                <span className="text-primary font-bold">$</span>
-                {ctaCopied ? "Copied!" : "pnpm add accessly"}
-              </button>
-            </div>
-
-            {/* Stats row */}
-            <div className="flex flex-wrap items-center justify-center gap-8 mt-14 pt-7 border-t border-border">
-              {stats.map((s) => (
-                <div key={s.label} className="flex flex-col items-center gap-1">
-                  <span className="font-bold text-[22px] text-foreground -tracking-[0.03em]">
-                    {s.val}
-                  </span>
-                  <span className="text-[11px] text-muted uppercase tracking-[0.06em] font-medium">
-                    {s.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* ── Live Pipeline Playground ── */}
-          <div className="relative -mb-0.5">
-            {/* Glow behind playground */}
-            <div className="absolute inset-[40px_-40px_-40px] bg-[radial-gradient(ellipse_at_50%_80%,rgba(99,102,241,0.08)_0%,transparent_65%)] pointer-events-none" />
-
-            <div className="panel-dark relative overflow-hidden rounded-[18px]">
-              {/* Window chrome */}
-              <div className="panel-header !rounded-t-[18px]">
-                <div className="flex items-center gap-3">
-                  <div className="flex gap-1.5">
-                    <span className="w-3 h-3 rounded-full bg-danger/70" />
-                    <span className="w-3 h-3 rounded-full bg-warning/70" />
-                    <span className="w-3 h-3 rounded-full bg-success/70" />
-                  </div>
-                  <span className="font-mono text-[11px] text-muted ml-2">
-                    accessly — live execution pipeline
-                  </span>
-                </div>
-                <span className="font-mono hidden sm:block text-[10px] text-muted-dark">
-                  Click a route to trace the decision →
-                </span>
-              </div>
-
-              {/* Playground body: responsive grid */}
-              <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_1fr_1fr] min-h-[360px]">
-                {/* Col 1 — Sidebar */}
-                <div className="flex flex-col border-b md:border-b-0 md:border-r border-border bg-[rgba(8,8,10,0.6)] p-4 md:p-5">
-                  {/* App header */}
-                  <div className="flex items-center gap-2 mb-5 px-1.5">
-                    <div className="w-5 h-5 rounded-[6px] bg-gradient-to-br from-primary to-violet flex items-center justify-center text-[9px] font-extrabold text-white shrink-0">
-                      A
-                    </div>
-                    <span className="text-xs font-semibold text-foreground">
-                      MyApp
-                    </span>
-                  </div>
-
-                  {/* Nav items */}
-                  <div className="flex flex-col gap-0.5 flex-1">
-                    {[
-                      { label: "Dashboard", id: 0, icon: "◻" },
-                      {
-                        label: "Create User",
-                        id: 1,
-                        icon: "◻",
-                        badge: "users.create",
-                      },
-                      {
-                        label: "System Settings",
-                        id: 2,
-                        icon: "◻",
-                        badge: "settings.manage",
-                        danger: true,
-                      },
-                    ].map((item) => {
-                      const isActive = activePlayTab === item.id;
-                      return (
-                        <button
-                          key={item.id}
-                          onClick={() => setActivePlayTab(item.id)}
-                          className={`flex items-center justify-between px-2.5 py-2 rounded-lg text-xs w-full text-left cursor-pointer transition-all duration-150 ${
-                            isActive
-                              ? "bg-primary/8 border border-primary/15 text-foreground font-semibold"
-                              : "border border-transparent text-muted font-normal hover:text-foreground"
-                          }`}
-                        >
-                          <span>{item.label}</span>
-                          {item.badge && (
-                            <span
-                              className={`text-[9px] font-mono px-1 py-[1px] rounded border ${item.danger ? "text-danger border-danger/20 bg-danger/5" : "text-accent-foreground border-primary/20 bg-primary/5"}`}
-                            >
-                              {item.danger ? "denied" : "gated"}
-                            </span>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* User chip */}
-                  <div className="flex items-center gap-2 px-2.5 py-2 rounded-lg border border-border-light bg-white/[0.02] mt-3">
-                    <div className="w-[26px] h-[26px] rounded-full bg-primary/20 flex items-center justify-center text-[11px] font-bold text-accent-foreground shrink-0">
-                      S
-                    </div>
-                    <div>
-                      <div className="text-[11px] font-semibold text-foreground leading-tight">
-                        Sarah
-                      </div>
-                      <div className="text-[9px] text-muted font-mono">
-                        role: editor
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Col 2 — Unified Model */}
-                <div className="flex flex-col gap-3 p-4 md:p-5 border-b md:border-b-0 md:border-r border-border">
-                  <div className="text-[10px] font-mono text-muted uppercase tracking-widest">
-                    01 / AccessModel
-                  </div>
-                  <pre className="m-0 flex-1 text-[11px] font-mono leading-relaxed text-foreground/65 bg-black/30 rounded-lg p-3 md:p-3.5 border border-border-light overflow-auto">{`{
-  "user": {
-    "name": "Sarah",
-    "id": "usr_99"
-  },
-  "permissions": [
-    "users.create",
-    "users.view"
-  ],
-  "roles": ["editor"]
-}`}</pre>
-                </div>
-
-                {/* Col 3 — Engine Check */}
-                <div className="flex flex-col gap-3 p-4 md:p-5 border-b md:border-b-0 md:border-r border-border">
-                  <div className="text-[10px] font-mono text-accent-foreground uppercase tracking-widest">
-                    02 / Engine
-                  </div>
-                  <div className="flex-1 bg-black/30 rounded-lg p-3 md:p-3.5 border border-border-light flex flex-col gap-2">
-                    <div className="text-[10px] font-mono text-muted">
-                      checking:
-                    </div>
-                    <code className="block text-[11px] px-2.5 py-1.5 bg-primary/7 rounded-md border border-primary/15 text-accent font-mono">
-                      {playData.check}
-                    </code>
-                    <div className="mt-1 text-[10px] font-mono text-muted">
-                      strategy:{" "}
-                      <span className="text-accent-foreground">
-                        direct + role_expansion
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Col 4 — Decision Output */}
-                <div className="flex flex-col gap-3 p-4 md:p-5">
-                  <div
-                    className="text-[10px] font-mono uppercase tracking-widest"
-                    style={{ color: playData.allowed ? "#10b981" : "#ef4444" }}
-                  >
-                    03 / Decision {playData.allowed ? "✓" : "✕"}
-                  </div>
-                  <pre
-                    className="m-0 flex-1 text-[11px] font-mono leading-relaxed rounded-lg p-3 md:p-3.5 border overflow-auto"
-                    style={{
-                      color: playData.allowed
-                        ? "rgba(16,185,129,0.85)"
-                        : "rgba(239,68,68,0.85)",
-                      background: playData.allowed
-                        ? "rgba(16,185,129,0.04)"
-                        : "rgba(239,68,68,0.04)",
-                      borderColor: playData.allowed
-                        ? "rgba(16,185,129,0.15)"
-                        : "rgba(239,68,68,0.15)",
-                    }}
-                  >
-                    {playData.decision}
-                  </pre>
-
-                  <div
-                    className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl border"
-                    style={{
-                      borderColor: playData.allowed
-                        ? "rgba(16,185,129,0.2)"
-                        : "rgba(239,68,68,0.2)",
-                      background: playData.allowed
-                        ? "rgba(16,185,129,0.05)"
-                        : "rgba(239,68,68,0.05)",
-                    }}
-                  >
-                    <span
-                      className="w-[26px] h-[26px] rounded-full flex items-center justify-center text-xs font-bold shrink-0"
-                      style={{
-                        background: playData.allowed
-                          ? "rgba(16,185,129,0.12)"
-                          : "rgba(239,68,68,0.12)",
-                        color: playData.allowed ? "#10b981" : "#ef4444",
-                      }}
-                    >
-                      {playData.allowed ? "✓" : "✕"}
-                    </span>
-                    <div>
-                      <div className="text-xs font-semibold text-foreground leading-tight">
-                        {playData.label}
-                      </div>
-                      <div className="text-[10px] text-muted font-mono">
-                        {playData.desc}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection />
 
       {/* 
           FEATURE BAR

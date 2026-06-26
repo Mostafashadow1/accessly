@@ -126,6 +126,21 @@ code {
   font-family: var(--font-mono);
 }
 
+/* ── Gradient animation for hero headline ──── */
+@keyframes gradient-slow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+.animate-gradient-slow {
+  animation: gradient-slow 8s ease infinite;
+  background-size: 200% 100%;
+}
+
 /* ── Heading Scale ─────────────────────────── */
 h1 {
   font-size: clamp(48px, 6vw, 72px);
