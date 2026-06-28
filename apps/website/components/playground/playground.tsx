@@ -333,7 +333,7 @@ export function Playground() {
                 <div className="text-[9px] font-mono text-muted-dark uppercase tracking-wider mb-2">
                   Raw API output
                 </div>
-                <pre className="m-0 flex-1 text-[11px] font-mono leading-relaxed text-foreground/65 bg-black/30 rounded-lg p-2.5 border border-border-light overflow-auto whitespace-pre">
+                <pre className="m-0 flex-1 text-[11px] font-mono leading-relaxed text-foreground/65 bg-black/30 rounded-lg p-2.5 border border-border-subtle overflow-auto whitespace-pre">
                   {backend.response}
                 </pre>
               </PipelinePanel>
@@ -351,7 +351,7 @@ export function Playground() {
                 <div className="text-[9px] font-mono text-muted-dark uppercase tracking-wider mb-2">
                   normalize
                 </div>
-                <pre className="m-0 flex-1 text-[11px] font-mono leading-relaxed text-foreground/65 bg-black/30 rounded-lg p-2.5 border border-border-light overflow-auto whitespace-pre">
+                <pre className="m-0 flex-1 text-[11px] font-mono leading-relaxed text-foreground/65 bg-black/30 rounded-lg p-2.5 border border-border-subtle overflow-auto whitespace-pre">
                   {backend.adapter}
                 </pre>
               </PipelinePanel>
@@ -369,7 +369,7 @@ export function Playground() {
                 <div className="text-[9px] font-mono text-muted-dark uppercase tracking-wider mb-2">
                   unified schema
                 </div>
-                <pre className="m-0 flex-1 text-[11px] font-mono leading-relaxed text-foreground/65 bg-black/30 rounded-lg p-2.5 border border-border-light overflow-auto whitespace-pre">
+                <pre className="m-0 flex-1 text-[11px] font-mono leading-relaxed text-foreground/65 bg-black/30 rounded-lg p-2.5 border border-border-subtle overflow-auto whitespace-pre">
                   {backend.model}
                 </pre>
               </PipelinePanel>
@@ -463,7 +463,7 @@ export function Playground() {
                   rendered UI
                 </div>
 
-                <div className="flex-1 bg-black/30 rounded-xl border border-border-light p-3 flex flex-col gap-2.5">
+                <div className="flex-1 bg-black/30 rounded-xl border border-border-subtle p-3 flex flex-col gap-2.5">
                   {/* Card header */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -501,7 +501,7 @@ export function Playground() {
                   <div
                     className={`h-6 rounded-md border ${
                       decision.allowed
-                        ? "bg-white/[0.04] border-border-light"
+                        ? "bg-white/[0.04] border-border-subtle"
                         : "bg-white/[0.02] border-border/50"
                     }`}
                   />

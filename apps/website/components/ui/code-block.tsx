@@ -26,7 +26,7 @@ export function CodeBlock({ code, language = "tsx", title }: CodeBlockProps) {
   };
 
   return (
-    <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden transition-all duration-200 hover:border-[var(--color-border-strong)]">
+    <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden transition-all duration-200 hover:border-[var(--color-border-hover)]">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2.5 bg-[var(--color-surface-elevated)] border-b border-[var(--color-border)] min-h-[40px]">
         <div className="flex items-center gap-3">

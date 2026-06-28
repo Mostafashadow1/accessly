@@ -73,7 +73,7 @@ function App() {
           <div className="bg-surface">
             <PermissionProvider access={exampleAccess}>
               <PlaygroundPanel header="Live Sandbox Demo">
-                <div className="mb-4 bg-surface-2 border border-border-light rounded-lg p-3">
+                <div className="mb-4 bg-surface-2 border border-border-subtle rounded-lg p-3">
                   <span className="block text-[10px] font-bold uppercase tracking-wider text-muted-dark mb-1">
                     Active Permissions
                   </span>

@@ -9,7 +9,7 @@ interface CardProps {
 export function Card({ children, className = "", header }: CardProps) {
   return (
     <div
-      className={`rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all duration-200 hover:border-[var(--color-border-strong)] hover:shadow-lg ${className}`}
+      className={`rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all duration-200 hover:border-[var(--color-border-hover)] hover:shadow-lg ${className}`}
     >
       {header && (
         <div className="flex items-center gap-2 px-6 py-3 border-b border-[var(--color-border-subtle)] bg-[var(--color-surface-subtle)] text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider">

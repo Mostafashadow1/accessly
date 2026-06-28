@@ -42,7 +42,7 @@ export function HeroCTA() {
         </Link>
         <Link
           href="/docs"
-          className="inline-flex items-center gap-2 px-7 py-3 rounded-xl text-[14px] font-medium text-foreground border border-border no-underline transition-all duration-200 hover:border-white/20 hover:bg-surface-hover active:scale-[0.97]"
+          className="inline-flex items-center gap-2 px-7 py-3 rounded-xl text-[14px] font-medium text-foreground border border-border no-underline transition-all duration-200 hover:border-border-hover hover:bg-surface-hover active:scale-[0.97]"
         >
           Read the Docs
         </Link>

@@ -20,7 +20,7 @@ export default function ApiReference() {
 
       <div className="flex flex-col">
         {/* PermissionProvider */}
-        <section className="border-b border-border-light pb-12 mb-12 last:border-b-0 last:mb-0">
+        <section className="border-b border-border-subtle pb-12 mb-12 last:border-b-0 last:mb-0">
           <div className="flex items-center gap-3 mb-4">
             <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
               1
@@ -80,7 +80,7 @@ export default function ApiReference() {
         </section>
 
         {/* Can */}
-        <section className="border-b border-border-light pb-12 mb-12 last:border-b-0 last:mb-0">
+        <section className="border-b border-border-subtle pb-12 mb-12 last:border-b-0 last:mb-0">
           <div className="flex items-center gap-3 mb-4">
             <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
               2
@@ -108,7 +108,7 @@ export default function ApiReference() {
         </section>
 
         {/* Cannot */}
-        <section className="border-b border-border-light pb-12 mb-12 last:border-b-0 last:mb-0">
+        <section className="border-b border-border-subtle pb-12 mb-12 last:border-b-0 last:mb-0">
           <div className="flex items-center gap-3 mb-4">
             <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
               3
@@ -129,7 +129,7 @@ export default function ApiReference() {
         </section>
 
         {/* ProtectedRoute */}
-        <section className="border-b border-border-light pb-12 mb-12 last:border-b-0 last:mb-0">
+        <section className="border-b border-border-subtle pb-12 mb-12 last:border-b-0 last:mb-0">
           <div className="flex items-center gap-3 mb-4">
             <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
               4
@@ -153,7 +153,7 @@ export default function ApiReference() {
         </section>
 
         {/* React Hooks */}
-        <section className="border-b border-border-light pb-12 mb-12 last:border-b-0 last:mb-0">
+        <section className="border-b border-border-subtle pb-12 mb-12 last:border-b-0 last:mb-0">
           <div className="flex items-center gap-3 mb-4">
             <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
               5

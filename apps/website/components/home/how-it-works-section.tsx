@@ -52,7 +52,7 @@ export function HowItWorksSection() {
                   </div>
                 </div>
 
-                <pre className="m-0 text-[10px] font-mono text-foreground/50 bg-black/35 rounded-lg p-3 border border-border-light overflow-auto whitespace-pre-wrap">
+                <pre className="m-0 text-[10px] font-mono text-foreground/50 bg-black/35 rounded-lg p-3 border border-border-subtle overflow-auto whitespace-pre-wrap">
                   <code>{step.code}</code>
                 </pre>
               </div>

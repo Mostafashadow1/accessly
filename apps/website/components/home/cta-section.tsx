@@ -74,7 +74,7 @@ export function CtaSection() {
           </Link>
           <button
             onClick={handleCopy}
-            className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl text-sm font-mono font-medium text-foreground border border-border transition-all duration-200 hover:border-white/20 hover:bg-surface-hover active:scale-[0.97] cursor-pointer"
+            className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl text-sm font-mono font-medium text-foreground border border-border transition-all duration-200 hover:border-border-hover hover:bg-surface-hover active:scale-[0.97] cursor-pointer"
             aria-label="Copy install command: pnpm add accessly"
           >
             <span className="text-primary font-bold">$</span>

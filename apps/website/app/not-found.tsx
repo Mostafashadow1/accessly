@@ -95,7 +95,7 @@ export default function NotFound() {
           </Link>
           <Link
             href="/docs"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium text-foreground bg-transparent border border-border no-underline transition-all duration-200 hover:border-white/20 hover:bg-surface-hover active:scale-[0.97]"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium text-foreground bg-transparent border border-border no-underline transition-all duration-200 hover:border-border-hover hover:bg-surface-hover active:scale-[0.97]"
           >
             View Docs
           </Link>

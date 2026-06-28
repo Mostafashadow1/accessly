@@ -20,7 +20,7 @@ export function TerminalBlock({
   };
 
   return (
-    <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] overflow-hidden font-mono text-sm transition-all duration-200 hover:border-[var(--color-border-strong)]">
+    <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] overflow-hidden font-mono text-sm transition-all duration-200 hover:border-[var(--color-border-hover)]">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 py-2.5 bg-[var(--color-surface)]/80 border-b border-[var(--color-border)] min-h-[40px]">
         <div className="flex gap-1.5" aria-hidden="true">

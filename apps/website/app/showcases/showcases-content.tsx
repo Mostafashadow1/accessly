@@ -302,7 +302,7 @@ export function ShowcasesContent() {
                         "px-2.5 py-1 rounded-lg text-[9px] font-semibold border transition-all duration-150 cursor-pointer",
                         role === r
                           ? "bg-primary text-white border-transparent shadow-sm shadow-primary/20"
-                          : "bg-surface-2 text-muted border-border hover:text-foreground hover:border-white/20"
+                          : "bg-surface-2 text-muted border-border hover:text-foreground hover:border-border-hover"
                       )}>{r}</button>
                   ))}
                 </div>
@@ -321,7 +321,7 @@ export function ShowcasesContent() {
                         "px-1.5 py-0.5 rounded text-[8px] font-mono border transition-all duration-150 cursor-pointer",
                         perms.has(p)
                           ? "bg-success-bg text-success border-success/30"
-                          : "bg-surface-2 text-muted-dark border-border/40 hover:text-foreground hover:border-white/20"
+                          : "bg-surface-2 text-muted-dark border-border/40 hover:text-foreground hover:border-border-hover"
                       )}>{perms.has(p) ? "✓ " : "○ "}{p}</button>
                   ))}
                 </div>
@@ -340,7 +340,7 @@ export function ShowcasesContent() {
                         "px-1.5 py-0.5 rounded text-[8px] font-mono border transition-all duration-150 cursor-pointer",
                         flags.has(f)
                           ? "bg-accent/10 text-accent border-accent/30"
-                          : "bg-surface-2 text-muted-dark border-border/40 hover:text-foreground hover:border-white/20"
+                          : "bg-surface-2 text-muted-dark border-border/40 hover:text-foreground hover:border-border-hover"
                       )}>{flags.has(f) ? "✦ " : "○ "}{f}</button>
                   ))}
                 </div>
@@ -407,7 +407,7 @@ export function ShowcasesContent() {
                   <div className="flex min-h-[180px]">
                     <div className="w-[100px] bg-[#09090c] border-r border-border p-2 flex flex-col gap-1 shrink-0">
                       <span className="text-[6px] font-bold text-muted-dark uppercase tracking-widest mb-1 px-1">Nav</span>
-                      <div className="px-2 py-1 rounded text-[8px] font-medium text-foreground bg-surface-hover border border-border-light">Dashboard</div>
+                      <div className="px-2 py-1 rounded text-[8px] font-medium text-foreground bg-surface-hover border border-border-subtle">Dashboard</div>
                       {filteredNav.filter((n) => n.label !== "Dashboard").map((n) => (
                         <div key={n.label} className="px-2 py-1 rounded text-[8px] font-medium text-muted cursor-default flex items-center justify-between">
                           <span>{n.label}</span>
@@ -853,7 +853,7 @@ function SidebarPanel({
             <div className="space-y-1">
               {filteredNav.map((item) => (
                 <div key={item.label}>
-                  <div className="px-2 py-1 bg-surface border border-border-light rounded-lg text-[10px] text-foreground font-medium flex items-center justify-between">
+                  <div className="px-2 py-1 bg-surface border border-border-subtle rounded-lg text-[10px] text-foreground font-medium flex items-center justify-between">
                     <span>{item.label}</span>
                     {item.permission && (
                       <span className="text-[7px] font-mono text-muted-dark bg-surface-2 px-1 rounded">{item.permission}</span>
@@ -862,7 +862,7 @@ function SidebarPanel({
                   {item.children && item.children.length > 0 && (
                     <div className="pl-3 mt-0.5 space-y-0.5 border-l-2 border-primary/20 ml-2">
                       {item.children.map((child) => (
-                        <div key={child.label} className="px-2 py-0.5 bg-surface/40 border border-border-light rounded text-[9px] text-muted font-mono flex items-center justify-between">
+                        <div key={child.label} className="px-2 py-0.5 bg-surface/40 border border-border-subtle rounded text-[9px] text-muted font-mono flex items-center justify-between">
                           <span>{child.label}</span>
                           <span className="text-[7px] text-muted-dark">{child.permission}</span>
                         </div>
@@ -1589,13 +1589,13 @@ function AdapterBuilder({
         </div>
         <div className="flex items-center gap-1.5">
           <button onClick={handleReset}
-            className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[9px] font-medium text-muted hover:text-foreground border border-border hover:border-white/20 transition-all duration-150 cursor-pointer bg-transparent">
+            className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[9px] font-medium text-muted hover:text-foreground border border-border hover:border-border-hover transition-all duration-150 cursor-pointer bg-transparent">
             <span>↺</span> Reset
           </button>
           <button onClick={handleCopy}
             className={cn(
               "inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[9px] font-medium border transition-all duration-150 cursor-pointer bg-transparent",
-              copied ? "border-success/30 text-success" : "border-border text-muted hover:text-foreground hover:border-white/20"
+              copied ? "border-success/30 text-success" : "border-border text-muted hover:text-foreground hover:border-border-hover"
             )}>
             {copied ? "✓ Copied" : "📋 Copy Output"}
           </button>
@@ -1772,7 +1772,7 @@ function PermissionPlayground({ baseModel }: { baseModel: AccessModel }) {
                     "px-2.5 py-1 rounded-lg text-[10px] font-semibold border transition-all duration-150 cursor-pointer",
                     selRole === role
                       ? "bg-primary text-white border-transparent shadow-sm shadow-primary/20"
-                      : "bg-surface-2 text-muted border-border hover:text-foreground hover:border-white/20"
+                      : "bg-surface-2 text-muted border-border hover:text-foreground hover:border-border-hover"
                   )}>{role}</button>
               ))}
             </div>
@@ -1792,7 +1792,7 @@ function PermissionPlayground({ baseModel }: { baseModel: AccessModel }) {
                     className={cn(
                       "px-2 py-1 rounded-lg text-[9px] font-mono border transition-all duration-150 cursor-pointer",
                       on ? "bg-success-bg text-success border-success/30 shadow-sm"
-                         : "bg-surface-2 text-muted-dark border-border hover:text-foreground hover:border-white/20"
+                         : "bg-surface-2 text-muted-dark border-border hover:text-foreground hover:border-border-hover"
                     )}>{on ? "✓ " : ""}{perm}</button>
                 );
               })}
@@ -1813,7 +1813,7 @@ function PermissionPlayground({ baseModel }: { baseModel: AccessModel }) {
                     className={cn(
                       "px-2 py-1 rounded-lg text-[9px] font-mono border transition-all duration-150 cursor-pointer",
                       on ? "bg-accent/10 text-accent border-accent/30 shadow-sm"
-                         : "bg-surface-2 text-muted-dark border-border hover:text-foreground hover:border-white/20"
+                         : "bg-surface-2 text-muted-dark border-border hover:text-foreground hover:border-border-hover"
                     )}>{on ? "✦ " : ""}{flag}</button>
                 );
               })}
@@ -1917,7 +1917,7 @@ function PermissionPlayground({ baseModel }: { baseModel: AccessModel }) {
             <div className="flex min-h-[180px]">
               <div className="w-[120px] bg-[#09090c] border-r border-border p-2 flex flex-col gap-1 shrink-0">
                 <span className="text-[6px] font-bold text-muted-dark uppercase tracking-widest mb-1 px-1">Nav</span>
-                <div className="px-2 py-1 rounded text-[9px] font-medium text-foreground bg-surface-hover border border-border-light cursor-default">Dashboard</div>
+                <div className="px-2 py-1 rounded text-[9px] font-medium text-foreground bg-surface-hover border border-border-subtle cursor-default">Dashboard</div>
                 {filteredNav.map((item) => (
                   <div key={item.label} className="px-2 py-1 rounded text-[9px] font-medium text-muted cursor-default flex items-center justify-between">
                     <span>{item.label}</span>

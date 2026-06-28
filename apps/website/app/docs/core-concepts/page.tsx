@@ -119,7 +119,7 @@ export default function CoreConcepts() {
           />
           <PermissionProvider access={{ permissions: [], flags: ["features.beta"] }}>
             <PlaygroundPanel header="Live Sandbox">
-              <div className="flex flex-col items-center justify-center p-8 bg-surface-hover/20 border border-border-light rounded-lg">
+              <div className="flex flex-col items-center justify-center p-8 bg-surface-hover/20 border border-border-subtle rounded-lg">
                 <Can permission={{ flag: "features.beta" }}>
                   <div className="flex items-center gap-2 text-success font-medium text-sm">
                     <span className="w-2 h-2 rounded-full bg-success animate-ping" />
@@ -167,7 +167,7 @@ export default function CoreConcepts() {
           <PermissionProvider access={{ permissions: ["users.create"] }}>
             <PlaygroundPanel header="Live Sandbox">
               <div className="flex flex-col gap-4">
-                <div className="bg-surface-elevated/40 border border-border-light rounded-lg p-3">
+                <div className="bg-surface-elevated/40 border border-border-subtle rounded-lg p-3">
                   <span className="block text-[10px] font-bold uppercase tracking-wider text-muted-dark mb-1">
                     User Access
                   </span>
@@ -176,7 +176,7 @@ export default function CoreConcepts() {
                   </div>
                 </div>
 
-                <div className="p-3 border border-border-light rounded-lg bg-surface">
+                <div className="p-3 border border-border-subtle rounded-lg bg-surface">
                   <span className="block text-[10px] font-semibold text-muted mb-2">Check: Any of [users.create, users.delete]</span>
                   <Can permission={{ any: ["users.create", "users.delete"] }}
                     fallback={<span className="text-sm text-danger font-medium">✗ Access Denied</span>}>
@@ -184,7 +184,7 @@ export default function CoreConcepts() {
                   </Can>
                 </div>
 
-                <div className="p-3 border border-border-light rounded-lg bg-surface">
+                <div className="p-3 border border-border-subtle rounded-lg bg-surface">
                   <span className="block text-[10px] font-semibold text-muted mb-2">Check: All of [users.create, users.delete]</span>
                   <Can permission={{ all: ["users.create", "users.delete"] }}
                     fallback={<span className="text-sm text-danger font-medium">✗ Access Denied (missing users.delete)</span>}>

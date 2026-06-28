@@ -60,7 +60,7 @@ export function BentoGridSection() {
               </p>
             </div>
             {/* Code preview */}
-            <div className="bg-black/50 rounded-xl p-4 border border-border-light flex-1">
+            <div className="bg-black/50 rounded-xl p-4 border border-border-subtle flex-1">
               <pre className="m-0 text-[11px] font-mono leading-relaxed text-foreground/55">
                 {`const decision = useAccessDecision("users.create");\n\n// {\n//   allowed:     true,\n//   reason:      "matched",\n//   matched:     ["users.create"],\n//   checkedFrom: "direct",\n//   timestamp:   "${new Date().toISOString().split("T")[0]}T..."\n// }`}
               </pre>
@@ -82,7 +82,7 @@ export function BentoGridSection() {
               Pass your navigation config. Get back only what the user can see.
               Recursive, nested, zero boilerplate.
             </p>
-            <div className="bg-black/50 rounded-xl p-3.5 border border-border-light">
+            <div className="bg-black/50 rounded-xl p-3.5 border border-border-subtle">
               <pre className="m-0 text-[11px] font-mono text-foreground/50 leading-relaxed">
                 {`const nav = filterNavigation(\n  allRoutes,\n  engine\n);`}
               </pre>

@@ -45,7 +45,7 @@ export default function BackendAdapters() {
 
       <div className="flex flex-col">
         {/* Section 1: createActionsAdapter */}
-        <section className="pb-12 mb-12 border-b border-border-light last:border-b-0 last:mb-0">
+        <section className="pb-12 mb-12 border-b border-border-subtle last:border-b-0 last:mb-0">
           <div className="flex items-center gap-3 mb-4">
             <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
               1
@@ -73,14 +73,14 @@ const access = createActionsAdapter({
             <PermissionProvider access={actionsModel}>
               <PlaygroundPanel header="Live Normalization">
                 <div className="flex flex-col gap-3">
-                  <div className="p-3 bg-surface-hover/30 border border-border-light rounded-lg">
+                  <div className="p-3 bg-surface-hover/30 border border-border-subtle rounded-lg">
                     <span className="block text-[10px] font-semibold text-muted mb-2">Check: Can users.create?</span>
                     <Can permission="users.create"
                       fallback={<span className="text-sm text-danger font-medium">✗ Access Denied</span>}>
                       <span className="text-sm text-success font-medium">✓ Access Granted (mapped from users: [create])</span>
                     </Can>
                   </div>
-                  <div className="p-3 bg-surface-hover/30 border border-border-light rounded-lg">
+                  <div className="p-3 bg-surface-hover/30 border border-border-subtle rounded-lg">
                     <span className="block text-[10px] font-semibold text-muted mb-2">Check: Can reports.view?</span>
                     <Can permission="reports.view"
                       fallback={<span className="text-sm text-danger font-medium">✗ Access Denied</span>}>
@@ -94,7 +94,7 @@ const access = createActionsAdapter({
         </section>
 
         {/* Section 2: pagesOnlyAdapter */}
-        <section className="pb-12 mb-12 border-b border-border-light last:border-b-0 last:mb-0">
+        <section className="pb-12 mb-12 border-b border-border-subtle last:border-b-0 last:mb-0">
           <div className="flex items-center gap-3 mb-4">
             <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
               2
@@ -120,7 +120,7 @@ const access = pagesOnlyAdapter({
             />
             <PermissionProvider access={pagesModel}>
               <PlaygroundPanel header="Live Normalization">
-                <div className="p-3 bg-surface-hover/30 border border-border-light rounded-lg">
+                <div className="p-3 bg-surface-hover/30 border border-border-subtle rounded-lg">
                   <span className="block text-[10px] font-semibold text-muted mb-2">Check: Can pages.dashboard?</span>
                   <Can permission="pages.dashboard"
                     fallback={<span className="text-sm text-danger font-medium">✗ Access Denied</span>}>
@@ -133,7 +133,7 @@ const access = pagesOnlyAdapter({
         </section>
 
         {/* Section 3: nestedModulesAdapter */}
-        <section className="pb-12 mb-12 border-b border-border-light last:border-b-0 last:mb-0">
+        <section className="pb-12 mb-12 border-b border-border-subtle last:border-b-0 last:mb-0">
           <div className="flex items-center gap-3 mb-4">
             <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
               3
@@ -160,14 +160,14 @@ const access = nestedModulesAdapter({
             <PermissionProvider access={nestedModel}>
               <PlaygroundPanel header="Live Normalization">
                 <div className="flex flex-col gap-3">
-                  <div className="p-3 bg-surface-hover/30 border border-border-light rounded-lg">
+                  <div className="p-3 bg-surface-hover/30 border border-border-subtle rounded-lg">
                     <span className="block text-[10px] font-semibold text-muted mb-2">Check: Can users.create?</span>
                     <Can permission="users.create"
                       fallback={<span className="text-sm text-danger font-medium">✗ Access Denied</span>}>
                       <span className="text-sm text-success font-medium">✓ Access Granted (users.create is true)</span>
                     </Can>
                   </div>
-                  <div className="p-3 bg-surface-hover/30 border border-border-light rounded-lg">
+                  <div className="p-3 bg-surface-hover/30 border border-border-subtle rounded-lg">
                     <span className="block text-[10px] font-semibold text-muted mb-2">Check: Can users.delete?</span>
                     <Can permission="users.delete"
                       fallback={<span className="text-sm text-danger font-medium">✗ Access Denied (users.delete is false)</span>}>
@@ -181,7 +181,7 @@ const access = nestedModulesAdapter({
         </section>
 
         {/* Section 4: featureFlagsAdapter */}
-        <section className="pb-12 mb-12 border-b border-border-light last:border-b-0 last:mb-0">
+        <section className="pb-12 mb-12 border-b border-border-subtle last:border-b-0 last:mb-0">
           <div className="flex items-center gap-3 mb-4">
             <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
               4
@@ -208,14 +208,14 @@ const access = featureFlagsAdapter({
             <PermissionProvider access={featuresModel}>
               <PlaygroundPanel header="Live Normalization">
                 <div className="flex flex-col gap-3">
-                  <div className="p-3 bg-surface-hover/30 border border-border-light rounded-lg">
+                  <div className="p-3 bg-surface-hover/30 border border-border-subtle rounded-lg">
                     <span className="block text-[10px] font-semibold text-muted mb-2">Check Flag: features.new-dashboard</span>
                     <Can permission={{ flag: "features.new-dashboard" }}
                       fallback={<span className="text-sm text-danger font-medium">✗ Feature Disabled</span>}>
                       <span className="text-sm text-success font-medium">✓ Feature Enabled</span>
                     </Can>
                   </div>
-                  <div className="p-3 bg-surface-hover/30 border border-border-light rounded-lg">
+                  <div className="p-3 bg-surface-hover/30 border border-border-subtle rounded-lg">
                     <span className="block text-[10px] font-semibold text-muted mb-2">Check Flag: features.beta-reports</span>
                     <Can permission={{ flag: "features.beta-reports" }}
                       fallback={<span className="text-sm text-danger font-medium">✗ Feature Disabled (beta-reports is false)</span>}>
@@ -229,7 +229,7 @@ const access = featureFlagsAdapter({
         </section>
 
         {/* Section 5: Custom Adaption */}
-        <section className="pb-12 mb-12 border-b border-border-light last:border-b-0 last:mb-0">
+        <section className="pb-12 mb-12 border-b border-border-subtle last:border-b-0 last:mb-0">
           <div className="flex items-center gap-3 mb-4">
             <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/20 to-violet/10 border border-primary/30 text-accent font-bold font-mono text-sm">
               5

@@ -53,7 +53,7 @@ export default function Error({
         </button>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-foreground border border-border no-underline transition-all duration-200 hover:border-white/20 hover:bg-surface-hover active:scale-[0.97]"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-foreground border border-border no-underline transition-all duration-200 hover:border-border-hover hover:bg-surface-hover active:scale-[0.97]"
         >
           Go Home
         </Link>

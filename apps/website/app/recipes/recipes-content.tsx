@@ -242,7 +242,7 @@ export function RecipesContent() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filteredRecipes.map((recipe) => (
             <Card key={recipe.title} className="hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
-              <div className="flex items-center justify-between pb-4 border-b border-border-light mb-4">
+              <div className="flex items-center justify-between pb-4 border-b border-border-subtle mb-4">
                 <span className="text-[16px] font-bold text-foreground tracking-tight">{recipe.title}</span>
                 <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold font-mono uppercase tracking-[0.05em] ${recipe.categoryClass}`}>
                   {recipe.category}
