@@ -2,8 +2,7 @@ import type { NavItem, FooterLink } from "@/types/navigation";
 
 export const navLinks: NavItem[] = [
   { href: "/docs", label: "Docs" },
-  { href: "/showcases", label: "Showcases" },
-  { href: "/lab", label: "Lab" },
+  { href: "/showcases", label: "Accessly Lab" },
   { href: "/recipes", label: "Recipes" },
 ];
 
@@ -17,11 +16,10 @@ export const sidebarItems = [
 ] as const;
 
 export const productLinks: FooterLink[] = [
-  { href: "/lab", label: "Accessly Lab" },
+  { href: "/showcases", label: "Accessly Lab" },
   { href: "/docs", label: "Documentation" },
   { href: "/docs/api", label: "API Reference" },
   { href: "/recipes", label: "Recipes" },
-  { href: "/showcases", label: "Examples" },
 ];
 
 export const resourceLinks: FooterLink[] = [

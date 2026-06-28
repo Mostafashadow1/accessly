@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LabContent } from "./lab-content";
+import { ShowcasesContent } from "../showcases/showcases-content";
 
 export const metadata: Metadata = {
   title: "Accessly Lab",
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function LabPage() {
-  return <LabContent />;
+  return <ShowcasesContent />;
 }

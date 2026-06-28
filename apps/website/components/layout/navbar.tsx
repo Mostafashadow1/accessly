@@ -22,7 +22,7 @@ export function Navbar() {
   }, [pathname]);
 
   const isActive = (href: string) => {
-    if (href === "/lab") return pathname === "/lab";
+    if (href === "/showcases") return pathname === "/showcases";
     return pathname.startsWith(href);
   };
 
@@ -112,7 +112,7 @@ export function Navbar() {
 
           {/* Desktop CTA */}
           <Link
-            href="/lab"
+            href="/showcases"
             className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-gradient-to-br from-primary to-violet shadow-lg shadow-primary/25 no-underline transition-all duration-200 hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-0.5"
           >
             Try Lab
@@ -164,7 +164,7 @@ export function Navbar() {
                 </svg>
               </a>
               <Link
-                href="/lab"
+                href="/showcases"
                 className="ml-auto inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white bg-gradient-to-br from-primary to-violet shadow-lg shadow-primary/25 no-underline transition-all duration-200 hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-0.5 active:scale-[0.97]"
               >
                 Try Lab

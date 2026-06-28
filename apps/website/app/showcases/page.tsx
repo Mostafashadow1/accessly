@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { ShowcasesContent } from "./showcases-content";
 
 export const metadata: Metadata = {
-  title: "Showcases",
+  title: "Accessly Lab — Interactive Auth Playground",
   description:
-    "See Accessly in action: route guards, nav filtering, and list gating.",
+    "Paste backend responses, inspect permission decisions, simulate loading, and copy-paste integration code. Accessly's interactive auth laboratory.",
 };
 
 export default function ShowcasesPage() {
