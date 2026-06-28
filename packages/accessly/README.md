@@ -1,5 +1,10 @@
 <p align="center">
-  <img src="./assets/accessly-readme.webp" alt="Accessly — Explainable access control for React" width="100%" />
+  <img
+    src="https://raw.githubusercontent.com/Mostafashadow1/accessly/main/packages/accessly/assets/accessly-readme.webp"
+    alt="Accessly — Explainable access control for React"
+    width="100%"
+    height={200}
+     />
 </p>
 
 # Accessly
@@ -165,7 +170,11 @@ export function SettingsLink() {
 ## Navigation Filtering
 
 ```tsx
-import { filterNavigation, type AccessModel, type NavigationItem } from "accessly";
+import {
+  filterNavigation,
+  type AccessModel,
+  type NavigationItem,
+} from "accessly";
 
 const items: NavigationItem[] = [
   { label: "Dashboard", href: "/dashboard", permission: "dashboard.view" },
