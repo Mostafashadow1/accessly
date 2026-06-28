@@ -18,7 +18,7 @@ const TOKEN = {
   number:  "#fbbf24",  /* amber-400 */
   boolean: "#60a5fa",  /* blue-400 */
   null:    "#6b7280",  /* gray-500 */
-  bracket: "#8c8c99",  /* muted */
+  bracket: "#7E8597",  /* muted */
 } as const;
 
 /* ── Recursive renderer ── */
@@ -132,9 +132,9 @@ function JsonNode({
 
 export function JsonPanel({ data, label }: JsonPanelProps) {
   return (
-    <div className="rounded-xl border border-border bg-surface overflow-hidden">
+    <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden">
       {label && (
-        <div className="px-4 py-2.5 bg-surface-hover border-b border-border text-[11px] font-semibold text-muted uppercase tracking-[0.08em]">
+        <div className="px-4 py-2.5 bg-[var(--color-surface-hover)] border-b border-[var(--color-border)] text-[11px] font-semibold text-[var(--color-text-muted)] uppercase tracking-[0.08em]">
           {label}
         </div>
       )}

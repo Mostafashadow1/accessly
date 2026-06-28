@@ -2,7 +2,7 @@ import type { NavItem, FooterLink } from "@/types/navigation";
 
 export const navLinks: NavItem[] = [
   { href: "/docs", label: "Docs" },
-  { href: "/showcases", label: "Accessly Lab" },
+  { href: "/lab", label: "Accessly Lab" },
   { href: "/recipes", label: "Recipes" },
 ];
 

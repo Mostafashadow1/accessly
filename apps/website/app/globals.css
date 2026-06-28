@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════════
-   ACCESSLY — DESIGN TOKENS
+   ACCESSLY — PREMIUM DESIGN TOKENS
    Only: Tailwind import, @theme tokens, base HTML/body, global utilities
    NO component styles belong here.
 ═══════════════════════════════════════════════════════════════════════ */
@@ -11,50 +11,113 @@
   --font-sans: var(--font-sans, "Inter", system-ui, -apple-system, sans-serif);
   --font-mono: var(--font-mono, "JetBrains Mono", "Fira Code", monospace);
 
-  /* ── Core backgrounds ──────────────────────────────────────────── */
-  --color-canvas:           #08080a;
-  --color-surface:          #101013;
-  --color-surface-2:        #141418;
-  --color-surface-hover:    rgba(255, 255, 255, 0.025);
-  --color-surface-elevated: rgba(255, 255, 255, 0.04);
+  /* ── Spacing Scale (8pt) ───────────────────────────────────────── */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-7: 1.75rem;
+  --spacing-8: 2rem;
+  --spacing-9: 2.25rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-14: 3.5rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  --spacing-32: 8rem;
+  --spacing-40: 10rem;
+  --spacing-48: 12rem;
+  --spacing-56: 14rem;
+  --spacing-64: 16rem;
 
-  /* ── Brand ─────────────────────────────────────────────────────── */
-  --color-primary:           #6366f1;
-  --color-primary-dark:      #4f46e5;
-  --color-primary-light:     rgba(99, 102, 241, 0.07);
-  --color-primary-mid:       rgba(99, 102, 241, 0.12);
-  --color-primary-glow:      rgba(99, 102, 241, 0.15);
-  --color-violet:            #8b5cf6;
-  --color-accent:            #a5b4fc;
-  --color-accent-foreground: #818cf8;
+  /* ── Radius Scale ──────────────────────────────────────────────── */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-3xl: 3rem;
+  --radius-full: 9999px;
 
-  /* ── Text ──────────────────────────────────────────────────────── */
-  --color-foreground: #ededef;
-  --color-muted:      #8c8c99;
-  --color-muted-dark: #3a3a42;
+  /* ── Backgrounds & Surfaces ────────────────────────────────────── */
+  --color-background: #07070A;
+  --color-surface: #101116;
+  --color-surface-elevated: #181A22;
+  --color-surface-subtle: rgba(255, 255, 255, 0.02);
+  --color-surface-hover: rgba(255, 255, 255, 0.03);
+  --color-surface-active: rgba(255, 255, 255, 0.05);
+
+  /* ── Brand Colors ──────────────────────────────────────────────── */
+  --color-primary: #7C5CFF;
+  --color-primary-hover: #9278FF;
+  --color-primary-active: #6B4AEE;
+  --color-primary-foreground: #FFFFFF;
+  --color-primary-subtle: rgba(124, 92, 255, 0.10);
+  --color-primary-mid: rgba(124, 92, 255, 0.18);
+  --color-primary-glow: rgba(124, 92, 255, 0.22);
+
+  /* ── Text Hierarchy ────────────────────────────────────────────── */
+  --color-text-primary: #F5F7FA;
+  --color-text-secondary: #B1B6C6;
+  --color-text-muted: #7E8597;
+  --color-text-muted-foreground: #5C6376;
 
   /* ── Borders ───────────────────────────────────────────────────── */
-  --color-border:       rgba(255, 255, 255, 0.07);
-  --color-border-light: rgba(255, 255, 255, 0.04);
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-subtle: rgba(255, 255, 255, 0.03);
+  --color-border-strong: rgba(255, 255, 255, 0.10);
 
-  /* ── Semantic ──────────────────────────────────────────────────── */
-  --color-success:    #10b981;
-  --color-success-bg: rgba(16, 185, 129, 0.05);
-  --color-danger:     #ef4444;
-  --color-danger-bg:  rgba(239, 68, 68, 0.05);
-  --color-warning:    #f59e0b;
-  --color-warning-bg: rgba(245, 158, 11, 0.05);
-  --color-info:       #3b82f6;
-  --color-info-bg:    rgba(59, 130, 246, 0.05);
+  /* ── Semantic Colors ───────────────────────────────────────────── */
+  --color-success: #22C55E;
+  --color-success-subtle: rgba(34, 197, 94, 0.10);
+  --color-danger: #EF4444;
+  --color-danger-subtle: rgba(239, 68, 68, 0.10);
+  --color-warning: #F59E0B;
+  --color-warning-subtle: rgba(245, 158, 11, 0.10);
+  --color-info: #3B82F6;
+  --color-info-subtle: rgba(59, 130, 246, 0.10);
 
-  /* ── Named animations ──────────────────────────────────────────── */
-  --animate-pulse-live:     pulse-live 2s ease-in-out infinite;
-  --animate-gradient-slow:  gradient-slow 10s cubic-bezier(0.45, 0.05, 0.15, 1) infinite;
-  --animate-shimmer:        shimmer 2s linear infinite;
-  --animate-fade-up:        fadeUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  --animate-scale-in:       scaleIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  --animate-glow-pulse:     glowPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-flow:           flow 1s linear infinite;
+  /* ── Shadows & Elevation ───────────────────────────────────────── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.40);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.50);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.60);
+  --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.70);
+  --shadow-glow: 0 0 40px rgba(124, 92, 255, 0.15);
+
+  /* ── Typography Hierarchy ──────────────────────────────────────── */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-size-6xl: 3.75rem;
+  --font-size-7xl: 4.5rem;
+
+  --line-height-tight: 1.1;
+  --line-height-snug: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.6;
+  --line-height-loose: 1.75;
+
+  /* ── Transitions & Animations ──────────────────────────────────── */
+  --transition-fast: 150ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow: 300ms ease;
+
+  --animate-pulse-live: pulse-live 2s ease-in-out infinite;
+  --animate-gradient-slow: gradient-slow 10s cubic-bezier(0.45, 0.05, 0.15, 1) infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-fade-up: fadeUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  --animate-scale-in: scaleIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  --animate-glow-pulse: glowPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-flow: flow 1s linear infinite;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -69,8 +132,8 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background: var(--color-canvas);
-  color: var(--color-foreground);
+  background: var(--color-background);
+  color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
@@ -78,7 +141,7 @@ body {
   flex-direction: column;
   overflow-x: hidden;
   font-size: 15px;
-  line-height: 1.75;
+  line-height: var(--line-height-relaxed);
 }
 
 main {
@@ -93,11 +156,11 @@ main {
 code:not(pre code) {
   font-family: var(--font-mono);
   font-size: 0.82em;
-  background: rgba(99, 102, 241, 0.08);
+  background: var(--color-primary-subtle);
   padding: 2px 6px;
-  border-radius: 4px;
-  color: var(--color-accent);
-  border: 1px solid rgba(99, 102, 241, 0.15);
+  border-radius: var(--radius-sm);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary-mid);
 }
 
 pre,
@@ -116,25 +179,25 @@ section[id] {
 
 /* Text selection */
 ::selection {
-  background: rgba(99, 102, 241, 0.25);
+  background: var(--color-primary-glow);
   color: inherit;
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-muted-dark);
-  border-radius: 100px;
-  transition: background 0.2s;
+  background: var(--color-text-muted-foreground);
+  border-radius: var(--radius-full);
+  transition: background var(--transition-normal);
 }
-::-webkit-scrollbar-thumb:hover { background: var(--color-muted); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
 
 /* Focus ring — all interactive elements */
 :focus-visible {
-  outline: 1.5px solid var(--color-primary);
-  outline-offset: 3px;
-  border-radius: 4px;
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: var(--radius-md);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -185,6 +248,6 @@ section[id] {
 }
 
 @keyframes borderGlow {
-  0%, 100% { border-color: rgba(99, 102, 241, 0.2); }
-  50%       { border-color: rgba(99, 102, 241, 0.5); }
+  0%, 100% { border-color: var(--color-primary-mid); }
+  50%       { border-color: var(--color-primary-glow); }
 }

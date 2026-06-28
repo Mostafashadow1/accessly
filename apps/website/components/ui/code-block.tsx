@@ -26,12 +26,12 @@ export function CodeBlock({ code, language = "tsx", title }: CodeBlockProps) {
   };
 
   return (
-    <div className="rounded-xl border border-border bg-surface overflow-hidden transition-all duration-200 hover:border-border/80">
+    <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden transition-all duration-200 hover:border-[var(--color-border-strong)]">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-[rgba(12,12,15,0.8)] border-b border-border min-h-[40px]">
+      <div className="flex items-center justify-between px-4 py-2.5 bg-[var(--color-surface-elevated)] border-b border-[var(--color-border)] min-h-[40px]">
         <div className="flex items-center gap-3">
           <TrafficLights />
-          <span className="text-[11px] font-mono text-muted ml-1">
+          <span className="text-[11px] font-mono text-[var(--color-text-muted)] ml-1">
             {title || language}
           </span>
         </div>
@@ -40,8 +40,8 @@ export function CodeBlock({ code, language = "tsx", title }: CodeBlockProps) {
           tabIndex={0}
           className={`text-[11px] font-medium px-2.5 py-1 rounded-lg transition-all duration-150 border ${
             copied
-              ? "text-success bg-success-bg border-success/20"
-              : "text-muted hover:text-foreground hover:bg-surface-hover border-transparent hover:border-border"
+              ? "text-[var(--color-success)] bg-[var(--color-success-subtle)] border-[var(--color-success)]/20"
+              : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-hover)] border-transparent hover:border-[var(--color-border)]"
           }`}
           aria-label={copied ? "Copied" : "Copy code"}
         >
@@ -51,7 +51,7 @@ export function CodeBlock({ code, language = "tsx", title }: CodeBlockProps) {
 
       {/* Body */}
       <div className="overflow-x-auto">
-        <pre className="m-0 p-5 font-mono text-[13px] leading-relaxed text-foreground/80 whitespace-pre-wrap">
+        <pre className="m-0 p-5 font-mono text-[13px] leading-relaxed text-[var(--color-text-primary)]/80 whitespace-pre-wrap">
           {code}
         </pre>
       </div>

@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
-import { ShowcasesContent } from "../showcases/showcases-content";
+import { LabShell } from "@/components/lab/lab-shell";
 
 export const metadata: Metadata = {
-  title: "Accessly Lab",
+  title: "Accessly Lab — Permission Debugging Playground",
   description:
-    "Interactive playground — test permissions against any backend JSON.",
+    "Paste a backend response, choose a permission, and watch Accessly explain exactly why it's allowed or denied. A guided developer tool for understanding permission decisions.",
 };
 
 export default function LabPage() {
-  return <ShowcasesContent />;
+  return (
+    <div className="min-h-screen w-full px-4 py-8 md:px-6 md:py-12">
+      <LabShell />
+    </div>
+  );
 }

@@ -7,9 +7,9 @@ interface PlaygroundPanelProps {
 
 export function PlaygroundPanel({ header, children }: PlaygroundPanelProps) {
   return (
-    <div className="rounded-xl border border-border bg-surface overflow-hidden transition-all duration-200 hover:border-border/80">
+    <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden transition-all duration-200 hover:border-[var(--color-border-strong)]">
       {header && (
-        <div className="flex items-center gap-2 px-5 py-3 bg-surface-hover border-b border-border text-xs font-semibold text-muted uppercase tracking-wider">
+        <div className="flex items-center gap-2 px-5 py-3 bg-[var(--color-surface-hover)] border-b border-[var(--color-border)] text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider">
           {header}
         </div>
       )}

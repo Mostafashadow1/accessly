@@ -11,11 +11,11 @@ interface DecisionCardProps {
 }
 
 const statusToClass: Record<DecisionStatus, string> = {
-  allowed: "bg-success-bg border-success/20",
-  denied: "bg-danger-bg border-danger/20",
-  loading: "bg-info-bg border-info/20",
-  warning: "bg-warning-bg border-warning/20",
-  neutral: "bg-surface border-border",
+  allowed: "bg-[var(--color-success-subtle)] border-[var(--color-success)]/20",
+  denied: "bg-[var(--color-danger-subtle)] border-[var(--color-danger)]/20",
+  loading: "bg-[var(--color-info-subtle)] border-[var(--color-info)]/20",
+  warning: "bg-[var(--color-warning-subtle)] border-[var(--color-warning)]/20",
+  neutral: "bg-[var(--color-surface)] border-[var(--color-border)]",
 };
 
 const statusToBadge: Record<DecisionStatus, "allowed" | "denied" | "info" | "warning" | "neutral"> = {
@@ -30,7 +30,7 @@ export function DecisionCard({ status, title, children, badge }: DecisionCardPro
   return (
     <div className={`rounded-lg p-4 border ${statusToClass[status]}`}>
       <div className="flex items-center justify-between mb-3">
-        <h4 className="text-sm font-semibold m-0 text-foreground">{title}</h4>
+        <h4 className="text-sm font-semibold m-0 text-[var(--color-text-primary)]">{title}</h4>
         {badge && <Badge variant={statusToBadge[status]}>{badge}</Badge>}
       </div>
       {children}

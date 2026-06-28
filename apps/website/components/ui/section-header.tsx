@@ -20,11 +20,11 @@ export function SectionHeader({
       }`}
     >
       {badge && <div className="mb-1">{badge}</div>}
-      <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight leading-tight">
+      <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] tracking-tight leading-tight">
         {title}
       </h2>
       {description && (
-        <p className="text-base md:text-lg text-muted leading-relaxed max-w-xl">
+        <p className="text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed max-w-xl">
           {description}
         </p>
       )}

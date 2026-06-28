@@ -19,7 +19,7 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <h4 className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted mb-5">
+      <h4 className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--color-text-muted)] mb-5">
         {title}
       </h4>
       <ul className="flex flex-col gap-2.5 list-none p-0 m-0">
@@ -30,14 +30,14 @@ function FooterColumn({
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-muted no-underline hover:text-foreground transition-colors duration-150"
+                className="text-sm text-[var(--color-text-muted)] no-underline hover:text-[var(--color-text-primary)] transition-colors duration-150"
               >
                 {link.label}
               </a>
             ) : (
               <Link
                 href={link.href}
-                className="text-sm text-muted no-underline hover:text-foreground transition-colors duration-150"
+                className="text-sm text-[var(--color-text-muted)] no-underline hover:text-[var(--color-text-primary)] transition-colors duration-150"
               >
                 {link.label}
               </Link>
@@ -51,7 +51,7 @@ function FooterColumn({
 
 export function Footer() {
   return (
-    <footer role="contentinfo" className="border-t border-border bg-[#09090b]">
+    <footer role="contentinfo" className="border-t border-[var(--color-border)] bg-[var(--color-background)]">
       {/* Top: brand + columns */}
       <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-16 md:py-24">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-12">
@@ -60,14 +60,14 @@ export function Footer() {
             <div>
               <Link
                 href="/"
-                className="inline-flex items-center gap-2.5 text-sm font-semibold tracking-tight text-foreground no-underline"
+                className="inline-flex items-center gap-2.5 text-sm font-semibold tracking-tight text-[var(--color-text-primary)] no-underline"
               >
-                <span className="inline-flex items-center justify-center w-7 h-7 rounded-[8px] bg-gradient-to-br from-primary to-violet text-[11px] font-extrabold text-white shadow-md shadow-primary/25">
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-[8px] bg-[var(--color-primary)] text-[11px] font-extrabold text-[var(--color-primary-foreground)] shadow-md shadow-[var(--color-primary-glow)]">
                   A
                 </span>
                 <span className="font-semibold tracking-tight">Accessly</span>
               </Link>
-              <p className="text-[13px] text-muted leading-relaxed max-w-[280px] mt-3">
+              <p className="text-[13px] text-[var(--color-text-muted)] leading-relaxed max-w-[280px] mt-3">
                 Permission checks that explain themselves. Open-source,
                 developer-first authorization for React.
               </p>
@@ -79,7 +79,7 @@ export function Footer() {
                 href="https://github.com/accessly/accessly"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-muted hover:text-foreground hover:bg-surface-hover border border-transparent hover:border-border transition-all duration-150"
+                className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-hover)] border border-transparent hover:border-[var(--color-border)] transition-all duration-150"
                 aria-label="GitHub"
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
@@ -90,7 +90,7 @@ export function Footer() {
                 href="https://www.npmjs.com/package/accessly"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-muted hover:text-foreground hover:bg-surface-hover border border-transparent hover:border-border transition-all duration-150"
+                className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-hover)] border border-transparent hover:border-[var(--color-border)] transition-all duration-150"
                 aria-label="npm"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -110,14 +110,14 @@ export function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-border">
+      <div className="border-t border-[var(--color-border)]">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-5 md:py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Trust badges */}
           <div className="flex flex-wrap items-center gap-1.5">
             {trustBadges.map((badge) => (
               <span
                 key={badge}
-                className="inline-flex px-2.5 py-0.5 rounded text-[10px] font-semibold bg-surface text-muted border border-border-light"
+                className="inline-flex px-2.5 py-0.5 rounded text-[10px] font-semibold bg-[var(--color-surface)] text-[var(--color-text-muted)] border border-[var(--color-border-subtle)]"
               >
                 {badge}
               </span>
@@ -125,21 +125,21 @@ export function Footer() {
           </div>
 
           {/* Credits */}
-          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-[12px] text-muted">
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-[12px] text-[var(--color-text-muted)]">
             <span>&copy; {currentYear} Accessly</span>
-            <span className="hidden sm:inline text-muted-dark" aria-hidden="true">|</span>
+            <span className="hidden sm:inline text-[var(--color-text-muted-foreground)]" aria-hidden="true">|</span>
             <span>
               Built by{" "}
               <a
                 href="https://shadowcoding.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-foreground hover:text-primary transition-colors no-underline font-semibold"
+                className="text-[var(--color-text-primary)] hover:text-[var(--color-primary)] transition-colors no-underline font-semibold"
               >
                 Shadow Coding
               </a>
             </span>
-            <span className="hidden sm:inline text-muted-dark" aria-hidden="true">|</span>
+            <span className="hidden sm:inline text-[var(--color-text-muted-foreground)]" aria-hidden="true">|</span>
             <span>MIT License</span>
           </div>
         </div>
