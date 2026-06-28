@@ -9,7 +9,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "accessly": "workspace:*",
+    "accessly": "^0.1.1",
     "next": "^15.0.0",
     "postcss": "^8.5.15",
     "react": "^18.3.0",
