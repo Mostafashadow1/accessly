@@ -3,6 +3,8 @@ import { docsSidebarGroups } from "@/data/docs-architecture";
 
 export const navLinks: NavItem[] = [
   { href: "/docs", label: "Docs" },
+  { href: "/docs/use-cases", label: "Use Cases" },
+  { href: "/docs/ai", label: "AI Prompts" },
   { href: "/lab", label: "Lab" },
 ];
 

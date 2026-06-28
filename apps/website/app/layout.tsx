@@ -5,8 +5,6 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 
-/* ── Font Loading ───────────────────────────────────────────────────── */
-
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -20,8 +18,6 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
   weight: ["400", "500", "600", "700"],
 });
-
-/* ── Metadata ───────────────────────────────────────────────────────── */
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://accessly.dev"),
@@ -44,9 +40,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Accessly" }],
   creator: "Accessly",
   icons: {
-    icon: "/brand/accessly-icon.png",
-    shortcut: "/brand/accessly-icon.png",
-    apple: "/brand/accessly-icon.png",
+    icon: "/brand/accesly-logo.webp",
+    shortcut: "/brand/accesly-logo.webp",
+    apple: "/brand/accesly-logo.webp",
   },
   openGraph: {
     type: "website",
@@ -84,7 +80,7 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-/* ── Layout ─────────────────────────────────────────────────────────── */
+/* ── Layout ── */
 
 export default function RootLayout({
   children,

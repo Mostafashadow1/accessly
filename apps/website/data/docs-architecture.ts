@@ -28,8 +28,16 @@ export const docsSidebarGroups: NavGroup[] = [
       { href: "/docs#cannot", label: "Cannot", badge: "component" },
       { href: "/docs#protected-route", label: "ProtectedRoute" },
       { href: "/docs#use-permission", label: "usePermission", badge: "hook" },
-      { href: "/docs#use-access-decision", label: "useAccessDecision", badge: "hook" },
-      { href: "/docs#use-access-model", label: "useAccessModel", badge: "hook" },
+      {
+        href: "/docs#use-access-decision",
+        label: "useAccessDecision",
+        badge: "hook",
+      },
+      {
+        href: "/docs#use-access-model",
+        label: "useAccessModel",
+        badge: "hook",
+      },
     ],
   },
   {
@@ -50,6 +58,13 @@ export const docsSidebarGroups: NavGroup[] = [
       { href: "/docs#decision-explanations", label: "Decision explanations" },
       { href: "/docs#format-decision", label: "formatDecision" },
       { href: "/docs#inspect-access", label: "inspectAccess" },
+    ],
+  },
+  {
+    title: "Validation",
+    links: [
+      { href: "/docs/use-cases", label: "Use Cases" },
+      { href: "/docs/ai", label: "AI Prompts" },
     ],
   },
   {
@@ -87,6 +102,8 @@ export const plannedDocUrls = [
   ["/docs/debugging/decision-explanations", "Decision explanations"],
   ["/docs/debugging/format-decision", "formatDecision"],
   ["/docs/debugging/inspect-access", "inspectAccess"],
+  ["/docs/use-cases", "Use Cases"],
+  ["/docs/ai", "AI Prompts"],
   ["/docs/api-reference", "API Reference"],
   ["/docs/faq", "FAQ"],
   ["/docs/known-limitations", "Known Limitations"],

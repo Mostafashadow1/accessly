@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="/packages/accessly/assets/accessly-readme.webp" alt="Accessly logo" width="120" height="120" />
+  <img src="/packages/accessly/assets/accessly-readme.webp" alt="Accessly logo" />
 </p>
 
 <h1 align="center">Accessly</h1>
