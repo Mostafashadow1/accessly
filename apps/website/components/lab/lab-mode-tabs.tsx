@@ -18,11 +18,6 @@ const MODES: { id: LabMode; label: string; description: string }[] = [
     label: "Inspector",
     description: "Debug decisions",
   },
-  {
-    id: "recipes",
-    label: "Recipes",
-    description: "Real patterns",
-  },
 ];
 
 export function LabModeTabs({ active, onChange }: LabModeTabsProps) {

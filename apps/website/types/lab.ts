@@ -1,6 +1,6 @@
 /* ── Accessly Lab Types ── */
 
-export type LabMode = "playground" | "inspector" | "recipes";
+export type LabMode = "playground" | "inspector";
 
 export type BackendId =
   | "laravel"
@@ -41,17 +41,6 @@ export interface LabDecision {
   wildcardMatch: boolean;
   wildcards: string[];
   timing: number;
-}
-
-export interface Recipe {
-  id: string;
-  title: string;
-  problem: string;
-  icon: string;
-  color: string;
-  backendId: BackendId;
-  permission: string;
-  explanation: string;
 }
 
 export interface JsonValidationResult {

@@ -13,7 +13,6 @@ import { DecisionReplay } from "./decision-replay";
 import { ResultSummary } from "./result-summary";
 import { ReactUiPreview } from "./react-ui-preview";
 import { InspectorTabs } from "./inspector-tabs";
-import { RecipeGallery } from "./recipe-gallery";
 
 export function LabShell() {
   /* ── Mode ── */
@@ -174,31 +173,29 @@ export function LabShell() {
   const canRun = permissionQuery.trim().length > 0 && !jsonError && !pipelineDone;
 
   return (
-    <div className="w-full max-w-5xl mx-auto">
+    <div className="w-full max-w-6xl mx-auto">
       {/* Header */}
-      <div className="mb-6">
-        <div className="flex items-center gap-3 mb-2">
-          <h1 className="text-xl font-bold text-foreground tracking-tight">
+      <div className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+        <div>
+          <div className="mb-3 inline-flex rounded-full border border-primary/20 bg-primary-light px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-accent">
+            Developer tool
+          </div>
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
             Accessly Lab
           </h1>
-          <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
-            v{typeof window !== "undefined" ? "0.1.0" : "0.1.0"}
-          </span>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
+            Paste a backend response, choose a permission, and replay the
+            decision path from payload to UI result.
+          </p>
         </div>
-        <p className="text-xs text-muted-dark/70 leading-relaxed max-w-xl">
-          Paste a backend response, choose a permission, and watch Accessly
-          explain exactly why it&apos;s allowed or denied.
-        </p>
-      </div>
-
-      {/* Mode Tabs */}
-      <div className="mb-6">
-        <LabModeTabs active={mode} onChange={setMode} />
+        <div className="w-full md:w-[360px]">
+          <LabModeTabs active={mode} onChange={setMode} />
+        </div>
       </div>
 
       {/* ── PLAYGROUND MODE ── */}
       {mode === "playground" && (
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
           {/* Left Column — Input */}
           <div className="lg:col-span-3 space-y-5">
             {/* Step 1: Backend */}
@@ -268,7 +265,6 @@ export function LabShell() {
                   }
                 `}
               >
-                <span>▶</span>
                 <span>Explain Decision</span>
                 {canRun && (
                   <span className="text-[9px] text-white/50 ml-auto">
@@ -381,20 +377,19 @@ export function LabShell() {
 
       {/* ── INSPECTOR MODE ── */}
       {mode === "inspector" && (
-        <div className="max-w-3xl">
-          <div className="mb-4">
-            <div className="text-sm font-semibold text-foreground mb-1">
+        <div className="max-w-4xl">
+          <div className="mb-5">
+            <div className="text-base font-semibold text-foreground mb-1">
               Inspector
             </div>
-            <p className="text-xs text-muted-dark/70 leading-relaxed">
-              Advanced debug information for the last decision. Run a check in
-              Playground first, then inspect the details here.
+            <p className="text-sm text-muted leading-relaxed">
+              Inspect the last decision result, normalized AccessModel, trace,
+              and logs.
             </p>
           </div>
 
           {!hasRun || !decision ? (
-            <div className="rounded-xl border border-border/10 bg-surface/10 px-6 py-8 text-center">
-              <div className="text-2xl mb-2">🔍</div>
+            <div className="rounded-2xl border border-border bg-surface/45 px-6 py-10 text-center">
               <div className="text-sm text-muted-dark mb-1">
                 No decision to inspect
               </div>
@@ -413,16 +408,6 @@ export function LabShell() {
             />
           )}
         </div>
-      )}
-
-      {/* ── RECIPES MODE ── */}
-      {mode === "recipes" && (
-        <RecipeGallery
-          isVisible={true}
-          onSelectBackend={(id) => setSelectedBackend(id as BackendId)}
-          onSelectPermission={setPermissionQuery}
-          onSwitchMode={() => setMode("playground")}
-        />
       )}
     </div>
   );
@@ -446,12 +431,12 @@ function SectionCard({
   return (
     <div
       className={`
-        rounded-xl border transition-all duration-200
-        ${isActive ? "border-border/20 bg-surface/10" : "border-border/5 bg-surface/5 opacity-50"}
+        rounded-2xl border transition-all duration-200
+        ${isActive ? "border-border bg-surface/45" : "border-border/40 bg-surface/20 opacity-70"}
       `}
     >
       {/* Header */}
-      <div className="flex items-center gap-2 px-4 pt-3 pb-2">
+      <div className="flex items-center gap-2 px-5 pt-4 pb-3">
         {!hideNumber && (
           <span
             className={`
@@ -462,13 +447,13 @@ function SectionCard({
             {step}
           </span>
         )}
-        <span className="text-[11px] font-semibold text-foreground">
+        <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-muted">
           {title}
         </span>
       </div>
 
       {/* Content */}
-      <div className="px-4 pb-4">{children}</div>
+      <div className="px-5 pb-5">{children}</div>
     </div>
   );
 }
@@ -489,7 +474,7 @@ function CopyButton({ label, value }: { label: string; value: string }) {
     <button
       type="button"
       onClick={handleCopy}
-      className="text-[10px] px-2.5 py-1.5 rounded-lg bg-surface/30 border border-border/15 text-muted-dark hover:text-foreground hover:border-border/30 transition-all"
+      className="text-[10px] px-2.5 py-1.5 rounded-lg bg-surface/50 border border-border text-muted hover:text-foreground hover:border-border-hover transition-all"
     >
       {copied ? "✓ Copied!" : label}
     </button>

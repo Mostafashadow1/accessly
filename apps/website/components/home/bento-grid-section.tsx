@@ -46,7 +46,7 @@ export function BentoGridSection() {
           <div className={`col-span-12 lg:col-span-7 ${CARD} p-8 flex flex-col gap-5 min-h-[300px]`}>
             <div>
               <div className="flex items-center gap-2.5 mb-3">
-                <span className="text-[22px]">🔍</span>
+                <span className="rounded-md border border-primary/20 bg-primary/10 px-2 py-1 font-mono text-[10px] text-accent">01</span>
                 <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-muted">
                   Explain Engine
                 </span>
@@ -70,7 +70,7 @@ export function BentoGridSection() {
           {/* ② Nav Filtering — 5 cols */}
           <div className={`col-span-12 lg:col-span-5 ${CARD} p-8 flex flex-col gap-4 min-h-[300px]`}>
             <div className="flex items-center gap-2.5">
-              <span className="text-[22px]">🌀</span>
+              <span className="rounded-md border border-primary/20 bg-primary/10 px-2 py-1 font-mono text-[10px] text-accent">02</span>
               <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-muted">
                 Nav Filtering
               </span>
@@ -91,7 +91,7 @@ export function BentoGridSection() {
 
           {/* ③ RBAC — 4 cols */}
           <div className={`col-span-12 sm:col-span-6 lg:col-span-4 ${CARD} p-7 flex flex-col gap-3`}>
-            <span className="text-[22px]">🛡️</span>
+            <span className="w-fit rounded-md border border-border bg-surface-2 px-2 py-1 font-mono text-[10px] text-muted">RBAC</span>
             <h3 className="text-[17px] font-bold text-foreground -tracking-[0.02em] leading-tight">
               RBAC + Role Expansion
             </h3>
@@ -107,7 +107,7 @@ export function BentoGridSection() {
 
           {/* ④ Feature Flags — 4 cols */}
           <div className={`col-span-12 sm:col-span-6 lg:col-span-4 ${CARD} p-7 flex flex-col gap-3`}>
-            <span className="text-[22px]">🚩</span>
+            <span className="w-fit rounded-md border border-border bg-surface-2 px-2 py-1 font-mono text-[10px] text-muted">FLAG</span>
             <h3 className="text-[17px] font-bold text-foreground -tracking-[0.02em] leading-tight">
               Feature Flags
             </h3>
@@ -123,7 +123,7 @@ export function BentoGridSection() {
 
           {/* ⑤ SSR — 4 cols */}
           <div className={`col-span-12 sm:col-span-6 lg:col-span-4 ${CARD} p-7 flex flex-col gap-3`}>
-            <span className="text-[22px]">⚛️</span>
+            <span className="w-fit rounded-md border border-border bg-surface-2 px-2 py-1 font-mono text-[10px] text-muted">SSR</span>
             <h3 className="text-[17px] font-bold text-foreground -tracking-[0.02em] leading-tight">
               SSR + Next.js Ready
             </h3>
@@ -138,7 +138,7 @@ export function BentoGridSection() {
 
           {/* ⑥ TypeScript — 6 cols */}
           <div className={`col-span-12 sm:col-span-6 ${CARD} p-7 flex flex-col gap-3`}>
-            <span className="text-[22px]">⚡</span>
+            <span className="w-fit rounded-md border border-border bg-surface-2 px-2 py-1 font-mono text-[10px] text-muted">TS</span>
             <h3 className="text-[17px] font-bold text-foreground -tracking-[0.02em] leading-tight">
               TypeScript Native · ~5kB · Zero Deps
             </h3>
@@ -150,7 +150,7 @@ export function BentoGridSection() {
 
           {/* ⑦ Debug Tools — 6 cols */}
           <div className={`col-span-12 sm:col-span-6 ${CARD} p-7 flex flex-col gap-3`}>
-            <span className="text-[22px]">🐞</span>
+            <span className="w-fit rounded-md border border-border bg-surface-2 px-2 py-1 font-mono text-[10px] text-muted">DEBUG</span>
             <h3 className="text-[17px] font-bold text-foreground -tracking-[0.02em] leading-tight">
               Debug Tooling
             </h3>

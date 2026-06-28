@@ -1,11 +1,27 @@
+<p align="center">
+  <img src="./assets/accessly-readme.webp" alt="Accessly — Explainable access control for React" width="100%" />
+</p>
+
 # Accessly
 
-**Explainable access control for React and Next.js.**
+Explainable access control for React.
 
-Accessly helps teams replace scattered permission checks like `user.role === "admin"` with a clean, centralized API — and every decision comes with a full explanation of why it was allowed or denied.
+Accessly provides permission components, hooks, backend adapters, navigation filtering, and inspectable allow/deny decisions for React applications.
+
+## Installation
+
+Default:
+
+```bash
+npm install accessly
+```
+
+Other package managers:
 
 ```bash
 pnpm add accessly
+yarn add accessly
+bun add accessly
 ```
 
 ## Quick Start
@@ -13,92 +29,200 @@ pnpm add accessly
 ```tsx
 import { PermissionProvider, Can } from "accessly";
 
-function App() {
+export function App() {
   return (
-    <PermissionProvider access={{ permissions: ["users.create"] }}>
+    <PermissionProvider
+      access={{
+        permissions: ["users.create"],
+      }}
+    >
       <Can permission="users.create">
-        <button>Create User</button>
+        <button>Create user</button>
       </Can>
     </PermissionProvider>
   );
 }
 ```
 
-## Features
+## Access Model
 
-- **PermissionProvider** — Context provider for access state
-- **Can / Cannot** — Declarative component guards
-- **ProtectedRoute** — Route protection without router dependency
-- **usePermission / useAccessDecision / useAccessModel** — Hooks for granular control
-- **Explain Engine** — Every decision includes reason, matched, missing fields
-- **Backend Adapters** — Normalize any backend shape into AccessModel
-- **RBAC** — Role-based permission expansion
-- **Wildcards** — `users.*` matches `users.create`, `users.delete`
-- **Feature Flags** — Built-in flag support
-- **Sidebar Filtering** — Filter navigation items by permissions
-- **Debug Helpers** — `formatDecision`, `inspectAccess`, unknown permission warnings
-
-## Documentation
-
-Full docs and interactive showcases are available at the [docs site](https://accessly.dev).
-
----
-
-## Known V1 Limitations
-
-Accessly is designed to be simple, explainable, and composable. The following limitations are intentional in V1 to keep the API small and the bundle lightweight.
-
-### 1. Wildcards are single-level prefix patterns only
-
-Wildcards expand one segment at a time:
-
-| Pattern  | Matches                        | Does Not Match          |
-|----------|--------------------------------|-------------------------|
-| `*`      | `anything`, `a.b`, `x.y.z`    | — (matches everything)  |
-| `users.*` | `users.create`, `users.delete` | `users.profile.edit`   |
-| `*.create` | `users.create`, `posts.create` | `users.profile.create` |
-
-> **Globstar (`**`) is not supported in V1.** Patterns like `users.**` or `a.**.b` will not match deeper nesting. If you need deep wildcard matching, flatten your permission model or add explicit permissions for each nesting level.
-
-### 2. Feature flags are exact-match only
-
-Flag checks compare the exact string:
+Accessly reads a normalized access model:
 
 ```ts
-checkPermission(model, { flag: "features.beta-dashboard" });
-```
-
-This returns `allowed: true` only if `model.flags` contains `"features.beta-dashboard"`.
-
-> **Prefix matching (`features.*`) is not supported for flag checks in V1.** Flags are identifiers, not hierarchical paths. If you need flag namespacing, use a naming convention like `features.beta.dashboard` and match the full string.
-
-### 3. Navigation items accept one permission string
-
-```ts
-type NavigationItem = {
-  label: string;
-  href?: string;
-  permission?: string;  // single string only in V1
-  children?: NavigationItem[];
+type AccessModel = {
+  user?: {
+    id?: string;
+    roles?: string[];
+    attributes?: Record<string, unknown>;
+  };
+  permissions?: string[];
+  flags?: string[];
+  navigation?: NavigationItem[];
+  isLoading?: boolean;
 };
 ```
 
-> **Object-form checks (`any` / `all` / `flag`) are not supported on navigation items in V1.** If you need complex navigation rules (e.g., "show this item when any of these permissions match"), call `checkPermission` manually in your sidebar component. Expanded navigation rules are planned for V2.
+## PermissionProvider
 
-### 4. Adapter output is trusted
+```tsx
+import { PermissionProvider } from "accessly";
 
-```ts
-const adapter = createAdapter((source) => ({
-  permissions: source.perms,
-  flags: source.featureFlags,
-}));
+<PermissionProvider
+  access={{
+    user: { id: "user_1", roles: ["admin"] },
+    permissions: ["users.create", "reports.view"],
+    flags: ["beta.dashboard"],
+  }}
+>
+  <App />
+</PermissionProvider>;
 ```
 
-Accessly treats the `AccessModel` returned by your adapter as authoritative.
+## Backend Adapters
 
-> **No runtime validation is performed on adapter output in V1.** If an adapter returns an ill‑formed model (e.g., `permissions: null`), Accessly falls back to `?? []` internally, but structural errors like missing required fields are not reported. This keeps bundle size small. Production adapters should validate their own source data before returning.
+Use `createAdapter` to normalize your backend response into an Accessly access model.
 
----
+```tsx
+import { PermissionProvider, createAdapter } from "accessly";
+
+type BackendUser = {
+  id: string;
+  roles: string[];
+  perms: string[];
+  flags: string[];
+};
+
+const adapter = createAdapter((source: BackendUser) => ({
+  user: {
+    id: source.id,
+    roles: source.roles,
+  },
+  permissions: source.perms,
+  flags: source.flags,
+}));
+
+export function App({ user }: { user: BackendUser }) {
+  return (
+    <PermissionProvider source={user} adapter={adapter}>
+      <Product />
+    </PermissionProvider>
+  );
+}
+```
+
+## Can / Cannot
+
+```tsx
+import { Can, Cannot } from "accessly";
+
+export function Toolbar() {
+  return (
+    <>
+      <Can permission="documents.create" fallback={<span>Read only</span>}>
+        <button>New document</button>
+      </Can>
+
+      <Cannot permission="billing.manage">
+        <p>Billing settings are restricted.</p>
+      </Cannot>
+    </>
+  );
+}
+```
+
+`permission` can be a string or a permission check object:
+
+```tsx
+<Can permission={{ any: ["users.create", "users.invite"] }}>
+  <button>Add teammate</button>
+</Can>
+
+<Can permission={{ flag: "beta.dashboard" }}>
+  <BetaDashboard />
+</Can>
+```
+
+## Hooks
+
+```tsx
+import { usePermission, useAccessDecision, useAccessModel } from "accessly";
+
+export function SettingsLink() {
+  const canOpenSettings = usePermission("settings.view");
+  const decision = useAccessDecision("settings.manage");
+  const model = useAccessModel();
+
+  if (!canOpenSettings) return null;
+
+  return (
+    <a href="/settings" title={decision.reason}>
+      Settings for {model?.user?.id ?? "current user"}
+    </a>
+  );
+}
+```
+
+## Navigation Filtering
+
+```tsx
+import { filterNavigation, type AccessModel, type NavigationItem } from "accessly";
+
+const items: NavigationItem[] = [
+  { label: "Dashboard", href: "/dashboard", permission: "dashboard.view" },
+  { label: "Users", href: "/users", permission: "users.view" },
+  { label: "Billing", href: "/billing", permission: "billing.view" },
+];
+
+export function visibleNavigation(access: AccessModel) {
+  return filterNavigation(items, access);
+}
+```
+
+## Explainable Decisions
+
+```tsx
+import { useAccessDecision } from "accessly";
+
+export function ExportButton() {
+  const decision = useAccessDecision("reports.export");
+
+  if (!decision.allowed) {
+    return <span>Missing: {decision.missing?.join(", ")}</span>;
+  }
+
+  return <button>Export report</button>;
+}
+```
+
+Decision objects include:
+
+```ts
+type AccessDecision = {
+  allowed: boolean;
+  reason:
+    | "allowed"
+    | "missing_permission"
+    | "missing_flag"
+    | "unknown_permission"
+    | "not_ready"
+    | "invalid_request";
+  requested?: string[];
+  missing?: string[];
+  matched?: string[];
+  checkedFrom?: "direct" | "role" | "wildcard" | "flag" | "none";
+};
+```
+
+## Known V1 Limitations
+
+- Wildcard permission matching is prefix-oriented and does not support deep globstar patterns like `users.**`.
+- Feature flag checks are exact-match only.
+- Navigation items support a single `permission` string.
+- Adapter output is trusted. Validate backend data before returning an `AccessModel` in production.
+
+## Security Note
+
+Accessly controls frontend rendering. It complements backend authorization; it does not replace it. Sensitive actions and data access must still be authorized on the server.
 
 ## License
 

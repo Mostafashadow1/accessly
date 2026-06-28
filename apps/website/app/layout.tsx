@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | Accessly",
   },
   description:
-    "Permission checks that explain themselves. Normalize any backend, gate any UI. Open-source, TypeScript, tree-shakeable.",
+    "React-first access control with backend adapters, permission components, hooks, navigation filtering, and explainable allow/deny decisions.",
   keywords: [
     "react",
     "access control",
@@ -43,16 +43,21 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Accessly" }],
   creator: "Accessly",
+  icons: {
+    icon: "/brand/accessly-icon.png",
+    shortcut: "/brand/accessly-icon.png",
+    apple: "/brand/accessly-icon.png",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
     siteName: "Accessly",
     title: "Accessly — Explainable access control for React",
     description:
-      "Permission checks that explain themselves. Normalize any backend, gate any UI. Open-source, TypeScript, tree-shakeable.",
+      "React-first access control with backend adapters, permission components, hooks, navigation filtering, and explainable allow/deny decisions.",
     images: [
       {
-        url: "/og.png",
+        url: "/og/accessly-og.webp",
         width: 1200,
         height: 630,
         alt: "Accessly — Explainable access control for React",
@@ -63,18 +68,13 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Accessly — Explainable access control for React",
     description:
-      "Permission checks that explain themselves. Normalize any backend, gate any UI.",
-    images: ["/og.png"],
+      "React-first access control with backend adapters, permission components, hooks, navigation filtering, and explainable allow/deny decisions.",
+    images: ["/og/accessly-og.webp"],
   },
   robots: {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true },
-  },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
   },
 };
 

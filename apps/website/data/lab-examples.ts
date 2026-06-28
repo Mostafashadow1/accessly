@@ -1,4 +1,4 @@
-import type { BackendPreset, ReplayStep, Recipe } from "@/types/lab";
+import type { BackendPreset, ReplayStep } from "@/types/lab";
 
 /* ── Backend Presets ── */
 
@@ -208,99 +208,6 @@ export const REPLAY_STEPS: ReplayStep[] = [
     description: "Can component re-renders based on decision",
     icon: "🖥️",
     timing: "10ms",
-  },
-];
-
-/* ── Recipes ── */
-
-export const RECIPES: Recipe[] = [
-  {
-    id: "normalize-laravel",
-    title: "Normalize Laravel Payload",
-    problem: "Your Laravel backend returns all_permissions, but Accessly needs a flat permissions array.",
-    icon: "🐘",
-    color: "#ef4444",
-    backendId: "laravel",
-    permission: "repositories.write",
-    explanation:
-      "The Laravel adapter maps `src.all_permissions` to `permissions`, preserving the user context. No complex transformation needed — just point to the right key.",
-  },
-  {
-    id: "normalize-nestjs",
-    title: "Normalize NestJS Payload",
-    problem: "NestJS returns abilities inside the user object. You need to extract them.",
-    icon: "🟢",
-    color: "#10b981",
-    backendId: "nestjs",
-    permission: "posts.create",
-    explanation:
-      "The NestJS adapter reaches into `src.user.abilities` for permissions and `src.user.roles` for roles. The adapter pattern keeps your components clean.",
-  },
-  {
-    id: "sidebar-filter",
-    title: "Filter Sidebar Navigation",
-    problem: "Show or hide sidebar links based on user permissions.",
-    icon: "📂",
-    color: "#3b82f6",
-    backendId: "express",
-    permission: "repositories.write",
-    explanation:
-      "Use `Can permission=\"repositories.write\"` to conditionally render nav items. When the permission is missing, the element simply doesn't render.",
-  },
-  {
-    id: "protect-route",
-    title: "Protect a Route",
-    problem: "Redirect users who lack a required permission.",
-    icon: "🛡️",
-    color: "#8b5cf6",
-    backendId: "aspnet",
-    permission: "repositories.write",
-    explanation:
-      "Use `useAccessDecision` to check permissions before rendering a route. If denied, show an unauthorized state or redirect.",
-  },
-  {
-    id: "feature-flag",
-    title: "Feature Flag UI",
-    problem: "Gate beta features behind permissions.",
-    icon: "🚩",
-    color: "#f59e0b",
-    backendId: "supabase",
-    permission: "billing.view",
-    explanation:
-      "Treat permissions as feature flags. `Can permission=\"billing.view\"` conditionally renders billing UI. No separate flags system needed.",
-  },
-  {
-    id: "debug-denied",
-    title: "Debug a Denied Action",
-    problem: "A permission check returned denied and you don't know why.",
-    icon: "🔍",
-    color: "#ef4444",
-    backendId: "laravel",
-    permission: "users.delete",
-    explanation:
-      "Accessly's decision replay shows exactly what was checked. If denied, inspect the AccessModel to see which permissions are actually available.",
-  },
-  {
-    id: "role-expansion",
-    title: "RBAC Role Expansion",
-    problem: "Map backend roles (like 'admin') into a set of permissions.",
-    icon: "🔄",
-    color: "#22c55e",
-    backendId: "springboot",
-    permission: "repositories.write",
-    explanation:
-      "Spring Boot uses ROLE_ prefix. The adapter strips the prefix and lowercases roles, so your React code can check roles directly.",
-  },
-  {
-    id: "explain-decision",
-    title: "Explain a Decision to Users",
-    problem: "Show users why an action was denied in plain language.",
-    icon: "💬",
-    color: "#10b981",
-    backendId: "nestjs",
-    permission: "posts.delete",
-    explanation:
-      "Accessly returns a structured decision object. Use it to render user-facing messages: 'You need the posts.delete permission to delete this post.'",
   },
 ];
 

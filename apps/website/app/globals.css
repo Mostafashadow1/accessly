@@ -44,7 +44,9 @@
 
   /* ── Backgrounds & Surfaces ────────────────────────────────────── */
   --color-background: #07070A;
+  --color-canvas: #07070A;
   --color-surface: #101116;
+  --color-surface-2: #151720;
   --color-surface-elevated: #181A22;
   --color-surface-subtle: rgba(255, 255, 255, 0.02);
   --color-surface-hover: rgba(255, 255, 255, 0.03);
@@ -56,14 +58,21 @@
   --color-primary-active: #6B4AEE;
   --color-primary-foreground: #FFFFFF;
   --color-primary-subtle: rgba(124, 92, 255, 0.10);
+  --color-primary-light: rgba(124, 92, 255, 0.08);
   --color-primary-mid: rgba(124, 92, 255, 0.18);
   --color-primary-glow: rgba(124, 92, 255, 0.22);
+  --color-violet: #A78BFA;
+  --color-accent: #B9A7FF;
+  --color-accent-foreground: #D8D0FF;
 
   /* ── Text Hierarchy ────────────────────────────────────────────── */
   --color-text-primary: #F5F7FA;
   --color-text-secondary: #B1B6C6;
   --color-text-muted: #7E8597;
   --color-text-muted-foreground: #5C6376;
+  --color-foreground: #F5F7FA;
+  --color-muted: #9BA2B4;
+  --color-muted-dark: #6D7486;
 
   /* ── Borders ───────────────────────────────────────────────────── */
   --color-border-subtle: rgba(255, 255, 255, 0.05);
@@ -74,8 +83,10 @@
   /* ── Semantic Colors ───────────────────────────────────────────── */
   --color-success: #22C55E;
   --color-success-subtle: rgba(34, 197, 94, 0.10);
+  --color-success-bg: rgba(34, 197, 94, 0.06);
   --color-danger: #EF4444;
   --color-danger-subtle: rgba(239, 68, 68, 0.10);
+  --color-danger-bg: rgba(239, 68, 68, 0.06);
   --color-warning: #F59E0B;
   --color-warning-subtle: rgba(245, 158, 11, 0.10);
   --color-info: #3B82F6;

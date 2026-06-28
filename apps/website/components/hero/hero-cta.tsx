@@ -2,27 +2,17 @@
 
 import { useState, useCallback } from "react";
 import Link from "next/link";
-
-type PackageManager = "pnpm" | "npm" | "bun" | "yarn";
-
-const pmConfig: Record<PackageManager, string> = {
-  pnpm: "pnpm add accessly",
-  npm:  "npm install accessly",
-  bun:  "bun add accessly",
-  yarn: "yarn add accessly",
-};
-
-const pmList: PackageManager[] = ["pnpm", "npm", "bun", "yarn"];
+import { pmConfig, pmList, type PackageManager } from "@/data/install-commands";
 
 /**
  * HeroCTA — primary/secondary CTAs + interactive install command card.
  */
 export function HeroCTA() {
-  const [pm, setPm] = useState<PackageManager>("pnpm");
+  const [pm, setPm] = useState<PackageManager>("npm");
   const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(async () => {
-    await navigator.clipboard.writeText(pmConfig[pm]);
+    await navigator.clipboard.writeText(pmConfig[pm].command);
     setCopied(true);
     setTimeout(() => setCopied(false), 1800);
   }, [pm]);
@@ -75,7 +65,7 @@ export function HeroCTA() {
                   Copied to clipboard
                 </span>
               ) : (
-                pmConfig[pm]
+                pmConfig[pm].command
               )}
             </span>
             {/* Copy icon */}
@@ -105,7 +95,7 @@ export function HeroCTA() {
                     : "text-muted hover:text-foreground border border-transparent hover:bg-surface-elevated"
                 }`}
               >
-                {id}
+                {pmConfig[id].label}
               </button>
             ))}
           </div>

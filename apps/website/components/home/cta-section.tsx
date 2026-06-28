@@ -14,7 +14,7 @@ export function CtaSection() {
   const [ctaCopied, setCtaCopied] = useState(false);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText("pnpm add accessly");
+    await navigator.clipboard.writeText("npm install accessly");
     setCtaCopied(true);
     setTimeout(() => setCtaCopied(false), 1800);
   };
@@ -75,13 +75,13 @@ export function CtaSection() {
           <button
             onClick={handleCopy}
             className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl text-sm font-mono font-medium text-foreground border border-border transition-all duration-200 hover:border-border-hover hover:bg-surface-hover active:scale-[0.97] cursor-pointer"
-            aria-label="Copy install command: pnpm add accessly"
+            aria-label="Copy install command: npm install accessly"
           >
             <span className="text-primary font-bold">$</span>
             {ctaCopied ? (
               <span className="text-success">Copied!</span>
             ) : (
-              "pnpm add accessly"
+              "npm install accessly"
             )}
           </button>
         </div>

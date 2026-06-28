@@ -1,4 +1,4 @@
-export type PackageManager = "pnpm" | "npm" | "bun" | "yarn";
+export type PackageManager = "npm" | "pnpm" | "yarn" | "bun";
 
 export interface InstallCommandData {
   id: string;
@@ -7,10 +7,10 @@ export interface InstallCommandData {
 }
 
 export const pmConfig: Record<PackageManager, InstallCommandData> = {
-  pnpm: { id: "pnpm", command: "pnpm add accessly", label: "pnpm" },
   npm: { id: "npm", command: "npm install accessly", label: "npm" },
-  bun: { id: "bun", command: "bun add accessly", label: "bun" },
+  pnpm: { id: "pnpm", command: "pnpm add accessly", label: "pnpm" },
   yarn: { id: "yarn", command: "yarn add accessly", label: "yarn" },
+  bun: { id: "bun", command: "bun add accessly", label: "bun" },
 };
 
-export const pmList: PackageManager[] = ["pnpm", "npm", "bun", "yarn"];
+export const pmList: PackageManager[] = ["npm", "pnpm", "yarn", "bun"];
