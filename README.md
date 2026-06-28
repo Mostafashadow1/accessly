@@ -240,8 +240,8 @@ pnpm --filter website build
 
 ## Links
 
-- Docs: [https://accessly.dev/docs](https://accessly.dev/docs)
-- Lab: [https://accessly.dev/lab](https://accessly.dev/lab)
+- Docs: [https://accessly-website-hahi8901e-mostafashadows-projects.vercel.app/docs](https://accessly-website-hahi8901e-mostafashadows-projects.vercel.app/docs)
+- Lab: [https://accessly-website-hahi8901e-mostafashadows-projects.vercel.app/lab](https://accessly-website-hahi8901e-mostafashadows-projects.vercel.app/lab)
 - npm: [https://www.npmjs.com/package/accessly](https://www.npmjs.com/package/accessly)
 - GitHub: [https://github.com/Mostafashadow1/accessly](https://github.com/Mostafashadow1/accessly)
 

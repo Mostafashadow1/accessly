@@ -20,7 +20,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://accessly.dev"),
+  metadataBase: new URL("https://accessly-website-hahi8901e-mostafashadows-projects.vercel.app"),
   title: {
     default: "Accessly — Explainable access control for React",
     template: "%s | Accessly",
