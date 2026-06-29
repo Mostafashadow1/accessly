@@ -5,3 +5,10 @@ export type { NavigationItem } from "./navigation-item";
 export type { RolePermissions } from "./role-permissions";
 export type { AccessAdapter } from "./adapter";
 export type { PermissionProviderProps } from "./provider";
+export {
+  isAccessAdapter,
+  isAccessDecision,
+  isAccessModel,
+  isNavigationItem,
+  isPermissionCheckInput,
+} from "./guards";

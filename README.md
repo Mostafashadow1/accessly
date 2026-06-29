@@ -146,6 +146,136 @@ Example decision:
 }
 ```
 
+## Debugging Access Decisions
+
+Use `useAccessDecision` when a React component needs to explain hidden UI.
+
+```tsx
+import { formatDecision, useAccessDecision } from "accessly";
+
+export function ExportDebugPanel() {
+  const decision = useAccessDecision("reports.export");
+
+  return <pre>{formatDecision(decision)}</pre>;
+}
+```
+
+Use `checkPermission` outside React when you already have an access model.
+
+```ts
+import { checkPermission, formatDecision, inspectAccess } from "accessly";
+
+const access = {
+  permissions: ["reports.*"],
+  flags: ["features.beta"],
+};
+
+const allowed = checkPermission(access, { permission: "reports.export" });
+const denied = checkPermission(access, { permission: "billing.manage" });
+
+console.log(formatDecision(allowed));
+console.log(formatDecision(denied));
+console.log(inspectAccess(access));
+```
+
+Allowed decisions show `allowed`, `requested`, `matched`, and `checkedFrom`.
+Denied decisions show `reason`, `requested`, `missing`, and `checkedFrom`.
+Loading decisions use `reason: "not_ready"`.
+
+For local development, you can copy this small debug component into your app:
+
+```tsx
+import { formatDecision, useAccessDecision } from "accessly";
+import type { PermissionCheckInput } from "accessly";
+
+export function AccessDecisionDebug({
+  permission,
+  label = "Access decision",
+}: {
+  permission: string | PermissionCheckInput;
+  label?: string;
+}) {
+  const decision = useAccessDecision(permission);
+
+  return (
+    <section aria-label={label}>
+      <strong>{label}</strong>
+      <pre>{formatDecision(decision)}</pre>
+    </section>
+  );
+}
+```
+
+Accessly does not export this component so production UI stays yours to design.
+
+## TypeScript DX
+
+All public APIs and types are imported from the root package.
+
+```ts
+import {
+  Can,
+  PermissionProvider,
+  checkPermission,
+  createAccessChecker,
+  isAccessModel,
+} from "accessly";
+import type { AccessDecision, AccessModel, PermissionCheckInput } from "accessly";
+```
+
+Invalid permission inputs are caught by TypeScript:
+
+```ts
+const access: AccessModel = { permissions: ["users.create"] };
+
+checkPermission(access, { permission: "users.create" });
+checkPermission(access, { any: ["users.create", "users.invite"] });
+checkPermission(access, { all: ["reports.view", "reports.export"] });
+checkPermission(access, { flag: "features.beta" });
+
+// TypeScript error: use `permission`, not `permissions`.
+checkPermission(access, { permissions: "users.create" });
+```
+
+Lightweight type guards help when receiving unknown JSON. They are practical
+shape checks, not a full validation framework.
+
+```tsx
+import { PermissionProvider, isAccessModel } from "accessly";
+
+const data: unknown = await response.json();
+
+if (!isAccessModel(data)) {
+  throw new Error("Invalid access model");
+}
+
+<PermissionProvider access={data}>
+  <App />
+</PermissionProvider>;
+```
+
+## Outside React Usage
+
+`checkPermission` is pure. It requires an access model every time because it
+does not read React Context or any global store.
+
+```ts
+import { checkPermission, createAccessChecker } from "accessly";
+
+const access = { permissions: ["users.create"] };
+
+checkPermission(access, { permission: "users.create" });
+
+const checker = createAccessChecker(access);
+
+checker.can("users.create");
+checker.decision({ flag: "features.beta" });
+```
+
+If your app has its own auth/session store, wrap `checkPermission` or
+`createAccessChecker` at the edge of that store and keep backend authorization
+separate.
+
 ## Backend Adapter Example
 
 Use `createAdapter` when your backend returns a shape that is not already an Accessly `AccessModel`.

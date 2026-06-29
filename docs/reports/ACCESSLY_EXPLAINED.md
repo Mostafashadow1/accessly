@@ -499,6 +499,52 @@ function explain(permission: string) {
 
 The wrapper owns the state lookup. Accessly remains pure.
 
+### `createAccessChecker`
+
+`createAccessChecker(accessModel, options?)` is a small convenience wrapper around `checkPermission`.
+
+It does not replace `checkPermission`. It simply captures the access model and optional engine options once, then exposes two methods:
+
+- `can(input)`: returns a boolean.
+- `decision(input)`: returns the full `AccessDecision`.
+
+Example:
+
+```ts
+import { createAccessChecker } from "accessly";
+
+const checker = createAccessChecker(
+  {
+    user: { roles: ["admin"] },
+    permissions: ["dashboard.view"],
+    flags: ["features.beta"],
+  },
+  {
+    rolePermissions: {
+      admin: ["users.*"],
+    },
+  },
+);
+
+checker.can("users.create");
+checker.decision("users.create");
+checker.can({ any: ["users.create", "users.invite"] });
+checker.decision({ flag: "features.beta" });
+```
+
+Why it exists:
+
+- It avoids repeating `checkPermission(accessModel, input, options)` in non-React code.
+- It is useful for store selectors, service helpers, CLI scripts, tests, and shared utility modules.
+- It keeps the engine stateless because the checker object owns the captured model.
+- It supports the exact same `PermissionCheckInput` shapes as `checkPermission`.
+
+Important behavior:
+
+- If the captured model is `null`, `undefined`, or loading, decisions still return `not_ready`.
+- Role expansion, registry checks, and `unknownPermission` behavior are passed through unchanged.
+- It is not a new policy layer. It is only a typed wrapper around the existing engine.
+
 ## 5. React Components
 
 All three components accept a `permission` prop. It can be either a string or a full `PermissionCheckInput`:
@@ -1315,6 +1361,46 @@ Useful for:
 
 The debug module also has a `checkPermission` wrapper that can warn once per unknown permission when `unknownPermission` is `"warn"`. The public package root exports the engine `checkPermission`, while `formatDecision` and `inspectAccess` are exported from debug.
 
+### Local `AccessDecisionDebug` Example
+
+Accessly does not currently export a debug UI component. That is intentional: debug panels often need app-specific styling, routing context, privacy rules, and environment gating.
+
+Instead, users can copy a small local helper during development:
+
+```tsx
+import { formatDecision, useAccessDecision } from "accessly";
+import type { PermissionCheckInput } from "accessly";
+
+export function AccessDecisionDebug({
+  permission,
+  label = "Access decision",
+  className,
+}: {
+  permission: string | PermissionCheckInput;
+  label?: string;
+  className?: string;
+}) {
+  const decision = useAccessDecision(permission);
+
+  return (
+    <section aria-label={label} className={className}>
+      <strong>{label}</strong>
+      <pre>{formatDecision(decision)}</pre>
+    </section>
+  );
+}
+```
+
+This answers the common debugging questions:
+
+- Is access allowed?
+- What was the reason?
+- What permission or flag was requested?
+- What matched?
+- What is missing?
+- Was the match direct, role-based, wildcard-based, flag-based, or none?
+- Is access still loading?
+
 ## 12. TypeScript DX
 
 Important exported types:
@@ -1368,6 +1454,84 @@ Why it matters: it lets apps normalize any backend response while preserving Typ
 The provider prop contract.
 
 Why it matters: it documents the bridge between React Context, normalized access data, adapters, role expansion, registry validation, and loading.
+
+### Runtime Type Guards
+
+Accessly now exports lightweight runtime guards for common public concepts:
+
+- `isAccessModel(value): value is AccessModel`
+- `isAccessDecision(value): value is AccessDecision`
+- `isPermissionCheckInput(value): value is PermissionCheckInput`
+- `isNavigationItem(value): value is NavigationItem`
+- `isAccessAdapter(value): value is AccessAdapter`
+
+These guards are practical shape checks. They are not a full validation library, and they intentionally do not validate business-specific permission names, role names, tenant rules, or feature rollout policy.
+
+Example:
+
+```tsx
+import { PermissionProvider, isAccessModel } from "accessly";
+
+const data: unknown = await response.json();
+
+if (!isAccessModel(data)) {
+  throw new Error("Invalid access model");
+}
+
+<PermissionProvider access={data}>
+  <App />
+</PermissionProvider>;
+```
+
+Why they exist:
+
+- API responses often start as `unknown`.
+- Type guards help narrow unknown JSON before passing it to `PermissionProvider`.
+- They improve TypeScript autocomplete after a runtime shape check.
+- They give apps a safer edge without turning Accessly into a schema validation package.
+
+### Public Type Smoke Tests
+
+The package now includes public TypeScript smoke coverage that imports from the root package name:
+
+```ts
+import {
+  PermissionProvider,
+  Can,
+  Cannot,
+  ProtectedRoute,
+  usePermission,
+  useAccessDecision,
+  useAccessModel,
+  checkPermission,
+  matchPermission,
+  createAdapter,
+  createAccessChecker,
+  filterNavigation,
+  formatDecision,
+  inspectAccess,
+} from "accessly";
+
+import type {
+  AccessModel,
+  AccessDecision,
+  PermissionCheckInput,
+  NavigationItem,
+  AccessAdapter,
+  PermissionProviderProps,
+  RolePermissions,
+} from "accessly";
+```
+
+The smoke test verifies:
+
+- Root import autocomplete works.
+- Public types are exported.
+- Valid `PermissionCheckInput` shapes compile.
+- Invalid inputs such as `{ permissions: "users.create" }`, `{ flag: 123 }`, and `{ any: "users.create" }` fail TypeScript with `@ts-expect-error`.
+- Component props accept string and object permission inputs.
+- Adapter and navigation typing remain usable.
+- `AccessDecision` fields remain discoverable.
 
 ## 13. Real-World Use Cases
 
@@ -1507,6 +1671,15 @@ const canExport = checkPermission(accessModel, {
 }).allowed;
 ```
 
+If many selectors share the same model and options, use `createAccessChecker`:
+
+```ts
+const checker = createAccessChecker(accessModel);
+
+const canExport = checker.can("reports.export");
+const exportDecision = checker.decision("reports.export");
+```
+
 ### Can I Use Accessly Without React?
 
 Yes. Use the core engine:
@@ -1517,7 +1690,23 @@ import { checkPermission } from "accessly";
 const decision = checkPermission(model, { permission: "users.create" });
 ```
 
-The provider, hooks, and components are React-specific. The engine and adapters are not tied to rendering.
+The provider, hooks, and components are React-specific. The engine, adapters, type guards, and `createAccessChecker` are not tied to rendering.
+
+### How Do I Safely Use Unknown JSON?
+
+Use the lightweight type guards before passing unknown data into Accessly APIs:
+
+```ts
+const data: unknown = await response.json();
+
+if (!isAccessModel(data)) {
+  throw new Error("Invalid access model");
+}
+
+const decision = checkPermission(data, { permission: "users.create" });
+```
+
+These guards check practical runtime shape only. They do not replace app-specific backend validation.
 
 ### Should Permissions Come From Backend or Frontend?
 
@@ -1598,13 +1787,13 @@ Accessly helps React apps avoid scattered permission checks. You pass the curren
 
 Accessly solves a common frontend problem: permission logic gets scattered across buttons, routes, menus, and feature gates. Instead of hard-coding role checks everywhere, Accessly gives the app one normalized `AccessModel` for the current user. That model can include permissions, feature flags, roles, and user context.
 
-React apps can wrap their UI in `PermissionProvider` and then use `Can`, `Cannot`, `ProtectedRoute`, `usePermission`, or `useAccessDecision`. Non-React code can call `checkPermission` directly. Backends can return different shapes because adapters normalize flat permissions, grouped actions, nested modules, page lists, or feature booleans.
+React apps can wrap their UI in `PermissionProvider` and then use `Can`, `Cannot`, `ProtectedRoute`, `usePermission`, or `useAccessDecision`. Non-React code can call `checkPermission` directly or reuse a model with `createAccessChecker`. Backends can return different shapes because adapters normalize flat permissions, grouped actions, nested modules, page lists, or feature booleans.
 
 The important differentiator is explainability. Accessly can tell you not only whether access is allowed, but also whether the app was loading, a permission was missing, a flag was missing, a wildcard matched, or a role expanded into the permission. It makes frontend access checks consistent and debuggable, while leaving real security enforcement where it belongs: the backend.
 
 ### Technical Explanation for Senior Engineers
 
-Accessly is a stateless TypeScript permission engine plus a thin React Context layer. The core function, `checkPermission`, accepts an `AccessModel`, a discriminated `PermissionCheckInput`, and optional role/registry strategy. It returns a structured `AccessDecision`. React APIs are small wrappers around that engine. Adapters normalize backend-specific response shapes into the model, and navigation helpers apply the same checks to menu trees. It is not a policy server or backend authorization layer; it is a frontend consistency and explainability layer.
+Accessly is a stateless TypeScript permission engine plus a thin React Context layer. The core function, `checkPermission`, accepts an `AccessModel`, a discriminated `PermissionCheckInput`, and optional role/registry strategy. It returns a structured `AccessDecision`. `createAccessChecker` is a typed convenience wrapper around the same engine for non-React code. React APIs are small wrappers around that engine. Adapters normalize backend-specific response shapes into the model, navigation helpers apply the same checks to menu trees, and lightweight type guards help narrow unknown JSON at app boundaries. It is not a policy server or backend authorization layer; it is a frontend consistency and explainability layer.
 
 ### Simple Explanation for Junior Developers
 
@@ -1679,7 +1868,9 @@ Trust it for what it claims to do: normalize access data, evaluate frontend perm
 ### Technical Reviewers
 
 - The core engine is pure and receives access data explicitly.
+- `createAccessChecker` wraps the core engine without adding policy behavior.
 - React APIs are wrappers around `checkPermission`.
+- Type guards are lightweight runtime shape checks, not a validation framework.
 - Unknown permission handling is registry-based and configurable.
 - Wildcard matching is segment-based, with no recursive globstar behavior.
 - The package improves frontend UX and diagnostics but does not claim backend enforcement.
@@ -1693,6 +1884,7 @@ Trust it for what it claims to do: normalize access data, evaluate frontend perm
 - `ProtectedRoute` does not integrate with or redirect through a router automatically.
 - Adapters are simple normalizers, not policy evaluators.
 - The provider prefers `access` over `source + adapter`; it does not merge both.
+- Type guards check object shape only; they do not validate product policy or permission naming conventions.
 
 ## API Areas That Need Better Docs
 
@@ -1703,9 +1895,11 @@ Trust it for what it claims to do: normalize access data, evaluate frontend perm
 - More router-specific examples for `ProtectedRoute`.
 - More explicit docs about loading fallback precedence.
 - More advanced examples for combining permissions and feature flags.
+- More examples of `createAccessChecker` with app-level stores.
+- More examples of type guards at API/session boundaries.
 
 ## Maintainer Summary
 
 When explaining Accessly, lead with this:
 
-Accessly is a frontend access-control toolkit for React apps. It uses the current user's normalized access model to render UI, filter navigation, check permissions and feature flags, and explain every decision. It makes frontend access logic consistent and debuggable, while backend authorization remains mandatory.
+Accessly is a frontend access-control toolkit for React apps. It uses the current user's normalized access model to render UI, filter navigation, check permissions and feature flags, and explain every decision. It also provides small TypeScript DX helpers such as `createAccessChecker` and lightweight type guards for app boundaries. It makes frontend access logic consistent and debuggable, while backend authorization remains mandatory.

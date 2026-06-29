@@ -48,6 +48,8 @@ Accessly is frontend access control. It controls what React renders for the curr
 - **Built-in adapters**: flat permissions, grouped actions, pages-only access, nested modules, and feature flags.
 - **Navigation filtering**: remove inaccessible links and nested menu items from your app navigation.
 - **Debug utilities**: format decisions and inspect the active access model.
+- **Outside React checks**: reuse an access model with `createAccessChecker`.
+- **Type guards**: narrow unknown JSON with lightweight runtime shape checks.
 - **TypeScript-first**: ships generated `.d.ts` and `.d.cts` declarations.
 - **Zero runtime dependencies**: Accessly has no regular runtime dependencies. React is a peer dependency.
 - **Tree-shaking friendly**: ships ESM, CJS, package exports, and `"sideEffects": false`.
@@ -401,6 +403,107 @@ type AccessDecision = {
 };
 ```
 
+## Debugging Access Decisions
+
+When a button, link, or route is hidden, ask Accessly for the decision before
+guessing. The decision tells you what was requested, what matched, what is
+missing, where the match came from, and whether access is still loading.
+
+### React debugging with useAccessDecision
+
+```tsx
+import { formatDecision, useAccessDecision } from "accessly";
+
+export function RefundButtonDebug() {
+  const decision = useAccessDecision("payments.refund");
+
+  if (!decision.allowed) {
+    return <pre>{formatDecision(decision)}</pre>;
+  }
+
+  return <button>Refund payment</button>;
+}
+```
+
+### Pure debugging with checkPermission
+
+```ts
+import { checkPermission, formatDecision, inspectAccess } from "accessly";
+
+const access = {
+  permissions: ["reports.*"],
+  flags: ["features.beta"],
+};
+
+const allowed = checkPermission(access, { permission: "reports.export" });
+const denied = checkPermission(access, { permission: "billing.manage" });
+
+console.log(formatDecision(allowed));
+console.log(formatDecision(denied));
+console.log(inspectAccess(access));
+```
+
+Allowed decision:
+
+```json
+{
+  "allowed": true,
+  "reason": "allowed",
+  "requested": ["reports.export"],
+  "matched": ["reports.*"],
+  "checkedFrom": "wildcard"
+}
+```
+
+Denied decision:
+
+```json
+{
+  "allowed": false,
+  "reason": "missing_permission",
+  "requested": ["billing.manage"],
+  "missing": ["billing.manage"],
+  "checkedFrom": "none"
+}
+```
+
+Loading/not-ready decision:
+
+```json
+{
+  "allowed": false,
+  "reason": "not_ready"
+}
+```
+
+For local development, you can copy this small debug component into your app.
+Accessly does not export it because production debug UI should stay under your
+control.
+
+```tsx
+import { formatDecision, useAccessDecision } from "accessly";
+import type { PermissionCheckInput } from "accessly";
+
+export function AccessDecisionDebug({
+  permission,
+  label = "Access decision",
+  className,
+}: {
+  permission: string | PermissionCheckInput;
+  label?: string;
+  className?: string;
+}) {
+  const decision = useAccessDecision(permission);
+
+  return (
+    <section aria-label={label} className={className}>
+      <strong>{label}</strong>
+      <pre>{formatDecision(decision)}</pre>
+    </section>
+  );
+}
+```
+
 ## RBAC
 
 Accessly can expand user roles into permissions with `rolePermissions`.
@@ -702,6 +805,101 @@ if (decision.allowed) {
 }
 ```
 
+`checkPermission` is intentionally stateless. It requires the access model
+manually because it does not read React Context or any global store.
+
+### createAccessChecker
+
+Use `createAccessChecker` when you want to reuse the same model and options
+outside React without repeatedly passing them to `checkPermission`.
+
+```ts
+import { createAccessChecker } from "accessly";
+
+const checker = createAccessChecker(
+  {
+    user: { roles: ["admin"] },
+    permissions: ["dashboard.view"],
+  },
+  {
+    rolePermissions: {
+      admin: ["users.*"],
+    },
+  },
+);
+
+checker.can("users.create");
+checker.decision("users.create");
+checker.can({ any: ["users.create", "users.invite"] });
+checker.decision({ flag: "features.beta" });
+```
+
+If your app has its own auth/session store, create the checker at that store
+boundary and keep backend authorization separate.
+
+## TypeScript DX
+
+Accessly exports its public types from the root package for autocomplete.
+
+```ts
+import {
+  Can,
+  PermissionProvider,
+  checkPermission,
+  createAccessChecker,
+  isAccessModel,
+} from "accessly";
+import type {
+  AccessDecision,
+  AccessModel,
+  NavigationItem,
+  PermissionCheckInput,
+} from "accessly";
+```
+
+Valid check inputs are typed:
+
+```ts
+const access: AccessModel = { permissions: ["users.create"] };
+
+checkPermission(access, { permission: "users.create" });
+checkPermission(access, { any: ["users.create", "users.invite"] });
+checkPermission(access, { all: ["reports.view", "reports.export"] });
+checkPermission(access, { flag: "features.beta" });
+```
+
+Invalid check inputs are caught by TypeScript:
+
+```ts
+// TypeScript error: use `permission`, not `permissions`.
+checkPermission(access, { permissions: "users.create" });
+
+// TypeScript error: flag must be a string.
+checkPermission(access, { flag: 123 });
+
+// TypeScript error: any must be a string array.
+checkPermission(access, { any: "users.create" });
+```
+
+### Lightweight type guards
+
+Accessly includes small runtime guards for unknown JSON. They are practical
+shape checks, not a full validation library.
+
+```tsx
+import { PermissionProvider, isAccessModel } from "accessly";
+
+const data: unknown = await response.json();
+
+if (!isAccessModel(data)) {
+  throw new Error("Invalid access model");
+}
+
+<PermissionProvider access={data}>
+  <App />
+</PermissionProvider>;
+```
+
 ## Package Design
 
 Accessly is built to stay small and predictable.
@@ -733,7 +931,16 @@ export type {
 } from "accessly";
 
 // Engine
-export { checkPermission, matchPermission } from "accessly";
+export { checkPermission, createAccessChecker, matchPermission } from "accessly";
+
+// Type guards
+export {
+  isAccessAdapter,
+  isAccessDecision,
+  isAccessModel,
+  isNavigationItem,
+  isPermissionCheckInput,
+} from "accessly";
 
 // Adapters
 export {

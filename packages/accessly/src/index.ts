@@ -9,9 +9,16 @@ export type {
   PermissionCheckInput,
   AccessAdapter,
 } from "./types";
+export {
+  isAccessAdapter,
+  isAccessDecision,
+  isAccessModel,
+  isNavigationItem,
+  isPermissionCheckInput,
+} from "./types";
 
 // Engine
-export { checkPermission, matchPermission } from "./engine";
+export { checkPermission, createAccessChecker, matchPermission } from "./engine";
 
 // Adapters
 export {
