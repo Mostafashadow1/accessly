@@ -1,4 +1,4 @@
-import type { BackendPreset, ReplayStep } from "@/types/lab";
+import type { BackendPreset, ReplayStep } from "../types/lab";
 
 /* ── Backend Presets ── */
 

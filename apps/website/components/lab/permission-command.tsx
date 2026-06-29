@@ -1,12 +1,15 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
+import type { LabDecision } from "@/types/lab";
+import { getPermissionSourceBadge } from "@/lib/lab-decision";
 
 interface PermissionCommandProps {
   value: string;
   onChange: (value: string) => void;
   availablePermissions: string[];
   commonPermissions: string[];
+  effectivePermissions: LabDecision["effectivePermissions"];
 }
 
 export function PermissionCommand({
@@ -14,6 +17,7 @@ export function PermissionCommand({
   onChange,
   availablePermissions,
   commonPermissions,
+  effectivePermissions,
 }: PermissionCommandProps) {
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -26,7 +30,12 @@ export function PermissionCommand({
     if (!query && !isFocused) return [];
 
     const all = [
-      ...new Set([...availablePermissions, ...commonPermissions]),
+      ...new Set([
+        ...effectivePermissions.final,
+        ...effectivePermissions.flags,
+        ...availablePermissions,
+        ...commonPermissions,
+      ]),
     ];
 
     if (!query) return all.slice(0, 8);
@@ -34,7 +43,7 @@ export function PermissionCommand({
     return all
       .filter((p) => p.toLowerCase().includes(query))
       .slice(0, 8);
-  }, [value, availablePermissions, commonPermissions, isFocused]);
+  }, [value, availablePermissions, commonPermissions, effectivePermissions, isFocused]);
 
   const handleSelect = useCallback(
     (permission: string) => {
@@ -81,8 +90,8 @@ export function PermissionCommand({
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const permissionExists = value
-    ? availablePermissions.includes(value)
+  const permissionBadge = value
+    ? getPermissionSourceBadge(value, effectivePermissions)
     : null;
 
   return (
@@ -91,15 +100,8 @@ export function PermissionCommand({
         <label className="text-xs font-semibold text-muted-dark uppercase tracking-wider">
           Permission
         </label>
-        {permissionExists === true && (
-          <span className="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded-md">
-            ✓ in AccessModel
-          </span>
-        )}
-        {permissionExists === false && (
-          <span className="text-[10px] text-amber-400 bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded-md">
-            not in AccessModel
-          </span>
+        {permissionBadge && (
+          <SourceBadge badge={permissionBadge} />
         )}
       </div>
 
@@ -143,7 +145,7 @@ export function PermissionCommand({
         {isFocused && suggestions.length > 0 && (
           <div className="absolute left-0 right-0 top-full mt-1 z-50 rounded-xl border border-border/20 bg-surface shadow-2xl shadow-black/30 overflow-hidden">
             {suggestions.map((permission, index) => {
-              const isAvailable = availablePermissions.includes(permission);
+              const badge = getPermissionSourceBadge(permission, effectivePermissions);
               return (
                 <button
                   key={permission}
@@ -158,17 +160,15 @@ export function PermissionCommand({
                     }
                   `}
                 >
-                  {isAvailable ? (
-                    <span className="text-emerald-400 shrink-0">✓</span>
+                  {badge !== "Missing" ? (
+                    <span className="text-emerald-400 shrink-0" aria-hidden="true">✓</span>
                   ) : (
-                    <span className="text-muted-dark/40 shrink-0">·</span>
+                    <span className="text-muted-dark/40 shrink-0" aria-hidden="true">·</span>
                   )}
                   <span className="font-mono">{permission}</span>
-                  {isAvailable && (
-                    <span className="ml-auto text-[9px] text-emerald-400/60">
-                      in model
-                    </span>
-                  )}
+                  <span className="ml-auto">
+                    <SourceBadge badge={badge} compact />
+                  </span>
                 </button>
               );
             })}
@@ -192,5 +192,34 @@ export function PermissionCommand({
         </div>
       )}
     </div>
+  );
+}
+
+function SourceBadge({
+  badge,
+  compact,
+}: {
+  badge: ReturnType<typeof getPermissionSourceBadge>;
+  compact?: boolean;
+}) {
+  const style =
+    badge === "Raw"
+      ? "border-sky-500/20 bg-sky-500/10 text-sky-300"
+      : badge === "Role"
+        ? "border-violet-500/20 bg-violet-500/10 text-violet-300"
+        : badge === "Wildcard"
+          ? "border-amber-500/20 bg-amber-500/10 text-amber-300"
+          : badge === "Flag"
+            ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-300"
+            : "border-border/20 bg-surface/40 text-muted-dark";
+
+  return (
+    <span
+      className={`rounded-md border font-medium ${style} ${
+        compact ? "px-1.5 py-0.5 text-[9px]" : "px-2 py-0.5 text-[10px]"
+      }`}
+    >
+      {badge}
+    </span>
   );
 }

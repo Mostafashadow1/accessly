@@ -12,6 +12,7 @@ interface DecisionReplayProps {
   granted: boolean | null;
   backendId: BackendId;
   permission: string;
+  decisionLabel?: string;
 }
 
 export function DecisionReplay({
@@ -21,6 +22,7 @@ export function DecisionReplay({
   granted,
   backendId,
   permission,
+  decisionLabel,
 }: DecisionReplayProps) {
   const backend = BACKEND_PRESETS.find((b) => b.id === backendId);
 
@@ -33,9 +35,12 @@ export function DecisionReplay({
       if (step.id === "check" && permission) {
         label = `Permission checked: ${permission}`;
       }
+      if (step.id === "decision" && decisionLabel) {
+        label = decisionLabel;
+      }
       return { ...step, label, enrichedIndex: index };
     });
-  }, [backend, permission]);
+  }, [backend, permission, decisionLabel]);
 
   return (
     <div>

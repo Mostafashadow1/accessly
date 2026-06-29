@@ -341,7 +341,7 @@ function buildLogs(
 
   if (decision) {
     logs.push({ time: "06ms", icon: "🔍", message: `Checking permission: ${decision.permission}` });
-    logs.push({ time: "08ms", icon: "⚖️", message: `Decision: ${decision.granted ? "ALLOWED" : "DENIED"} (${decision.direct ? "direct match" : decision.wildcardMatch ? "wildcard match" : "role expansion"})` });
+    logs.push({ time: "08ms", icon: "⚖️", message: `${decision.pipelineLabel}: ${decision.granted ? "ALLOWED" : "DENIED"}` });
     logs.push({ time: "10ms", icon: "🖥️", message: `React UI updated — ${decision.granted ? "rendering" : "hiding"} <Can> content` });
   }
 

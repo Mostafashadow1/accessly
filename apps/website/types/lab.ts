@@ -34,14 +34,40 @@ export interface ReplayStep {
 export interface LabDecision {
   granted: boolean;
   permission: string;
+  title: string;
   explanation: string;
+  details: {
+    requestedPermission: string;
+    role?: string;
+    grantedBy?: string;
+    matchedPermission: string;
+    wildcardMatched?: string;
+    source: string;
+    notFoundInRaw: boolean;
+    notFoundInRoleExpanded: boolean;
+    notMatchedByWildcard: boolean;
+  };
+  effectivePermissions: {
+    raw: string[];
+    roleExpanded: {
+      role: string;
+      permission: string;
+      grantedBy: string;
+    }[];
+    final: string[];
+    flags: string[];
+    roles: string[];
+  };
+  pipelineLabel: string;
   matched: string;
-  source: string;
+  source: "direct" | "role_expansion" | "wildcard" | "missing";
   direct: boolean;
   wildcardMatch: boolean;
   wildcards: string[];
   timing: number;
 }
+
+export type PermissionSourceBadge = "Raw" | "Role" | "Wildcard" | "Missing" | "Flag";
 
 export interface JsonValidationResult {
   valid: boolean;

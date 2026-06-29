@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "pnpm --filter accessly build && next build",
     "start": "next start",
+    "test": "pnpm --dir ../../packages/accessly exec vitest run --root ../../apps/website --config ../../apps/website/vitest.config.ts",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

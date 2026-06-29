@@ -1,10 +1,13 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect, useMemo } from "react";
-import { PermissionProvider } from "accessly";
-import type { AccessModel } from "accessly";
 import type { LabMode, BackendId, LabDecision } from "@/types/lab";
 import { BACKEND_PRESETS, COMMON_PERMISSIONS as COMMON_PERMS_DATA } from "@/data/lab-examples";
+import {
+  computeLabDecision,
+  extractPermissions,
+  getEffectivePermissions,
+} from "@/lib/lab-decision";
 import { LabModeTabs } from "./lab-mode-tabs";
 import { BackendSelector } from "./backend-selector";
 import { BackendJsonEditor } from "./backend-json-editor";
@@ -25,8 +28,6 @@ export function LabShell() {
   const [hasRun, setHasRun] = useState(false);
   const [pipelineActive, setPipelineActive] = useState(-1);
   const [pipelineDone, setPipelineDone] = useState(false);
-  const [decision, setDecision] = useState<LabDecision | null>(null);
-  const [jsonError, setJsonError] = useState<string | null>(null);
   const pipelineTimeoutRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const backend = BACKEND_PRESETS.find((b) => b.id === selectedBackend) ?? BACKEND_PRESETS[0];
@@ -39,23 +40,40 @@ export function LabShell() {
   }, [selectedBackend, mode]);
 
   // Validate JSON
-  const parsedJson = useMemo(() => {
-    if (!jsonText.trim()) return null;
+  const jsonValidation = useMemo(() => {
+    if (!jsonText.trim()) return { data: null, error: null };
     try {
       const parsed = JSON.parse(jsonText);
-      setJsonError(null);
-      return parsed as Record<string, unknown>;
+      return { data: parsed as Record<string, unknown>, error: null };
     } catch {
-      setJsonError("Invalid JSON — fix syntax to continue");
-      return null;
+      return { data: null, error: "Invalid JSON - fix syntax to continue" };
     }
   }, [jsonText]);
+  const parsedJson = jsonValidation.data;
+  const jsonError = jsonValidation.error;
 
   // Extract available permissions from the JSON
   const availablePermissions = useMemo(() => {
+    if (jsonError) return [];
     if (!parsedJson) return backend.permissions;
     return extractPermissions(parsedJson);
-  }, [parsedJson, backend]);
+  }, [jsonError, parsedJson, backend]);
+
+  const effectivePermissions = useMemo(() => {
+    if (jsonError) {
+      return { raw: [], roleExpanded: [], final: [], flags: [], roles: [] };
+    }
+    return getEffectivePermissions(parsedJson ?? backend.payload, selectedBackend);
+  }, [jsonError, parsedJson, backend, selectedBackend]);
+
+  const decision = useMemo<LabDecision | null>(() => {
+    if (!hasRun || !pipelineDone || !permissionQuery.trim() || jsonError) return null;
+    return computeLabDecision(
+      permissionQuery,
+      parsedJson ?? backend.payload,
+      selectedBackend,
+    );
+  }, [hasRun, pipelineDone, permissionQuery, jsonError, parsedJson, backend, selectedBackend]);
 
   // Reset when backend changes
   const handleBackendChange = useCallback((id: BackendId) => {
@@ -64,49 +82,41 @@ export function LabShell() {
     if (newBackend) {
       setJsonText(JSON.stringify(newBackend.payload, null, 2));
     }
-    setPermissionQuery("");
-    setHasRun(false);
-    setPipelineActive(-1);
-    setPipelineDone(false);
-    setDecision(null);
-    setJsonError(null);
+    setPipelineActive(hasRun ? 5 : -1);
+    setPipelineDone(hasRun && Boolean(permissionQuery.trim()));
     pipelineTimeoutRef.current.forEach(clearTimeout);
     pipelineTimeoutRef.current = [];
-  }, []);
+  }, [hasRun, permissionQuery]);
 
   // JSON editor handlers
   const handleJsonChange = useCallback((value: string) => {
     setJsonText(value);
-    setHasRun(false);
-    setPipelineActive(-1);
-    setPipelineDone(false);
-    setDecision(null);
-  }, []);
+    if (!hasRun) {
+      setPipelineActive(-1);
+      setPipelineDone(false);
+    }
+  }, [hasRun]);
 
   const handleLoadExample = useCallback(() => {
     setJsonText(JSON.stringify(backend.payload, null, 2));
-    setJsonError(null);
-    setHasRun(false);
-    setPipelineActive(-1);
-    setPipelineDone(false);
-    setDecision(null);
-  }, [backend]);
+    if (!hasRun) {
+      setPipelineActive(-1);
+      setPipelineDone(false);
+    }
+  }, [backend, hasRun]);
 
   const handleReset = useCallback(() => {
     setJsonText(JSON.stringify(backend.payload, null, 2));
     setPermissionQuery("");
-    setJsonError(null);
     setHasRun(false);
     setPipelineActive(-1);
     setPipelineDone(false);
-    setDecision(null);
   }, [backend]);
 
   const handleFormat = useCallback(() => {
     try {
       const parsed = JSON.parse(jsonText);
       setJsonText(JSON.stringify(parsed, null, 2));
-      setJsonError(null);
     } catch {
       // can't format invalid JSON
     }
@@ -124,7 +134,6 @@ export function LabShell() {
     setHasRun(true);
     setPipelineActive(0);
     setPipelineDone(false);
-    setDecision(null);
 
     const stages = ["received", "adapter", "model", "check", "decision", "ui"];
 
@@ -134,14 +143,6 @@ export function LabShell() {
         setPipelineActive(index);
 
         if (index === stages.length - 1) {
-          // Compute the final decision
-          const computed = computeDecision(
-            permissionQuery,
-            parsedJson ?? backend.payload,
-            selectedBackend,
-          );
-          setDecision(computed);
-
           setTimeout(() => {
             setPipelineDone(true);
           }, 400);
@@ -170,7 +171,8 @@ export function LabShell() {
   }, []);
 
   // Can run?
-  const canRun = permissionQuery.trim().length > 0 && !jsonError && !pipelineDone;
+  const isRunning = hasRun && !pipelineDone;
+  const canRun = permissionQuery.trim().length > 0 && !jsonError && !isRunning;
 
   return (
     <div className="w-full max-w-6xl mx-auto">
@@ -246,6 +248,7 @@ export function LabShell() {
                 onChange={setPermissionQuery}
                 availablePermissions={availablePermissions}
                 commonPermissions={COMMON_PERMS_DATA}
+                effectivePermissions={effectivePermissions}
               />
             </SectionCard>
 
@@ -329,11 +332,18 @@ export function LabShell() {
               >
                 <DecisionReplay
                   activeStep={pipelineActive}
-                  isRunning={hasRun && !pipelineDone}
+                  isRunning={isRunning}
                   isDone={pipelineDone}
                   granted={decision?.granted ?? null}
                   backendId={selectedBackend}
                   permission={permissionQuery}
+                  decisionLabel={
+                    pipelineDone
+                      ? decision?.pipelineLabel
+                      : hasRun
+                        ? "Decision pending: loading"
+                        : undefined
+                  }
                 />
               </SectionCard>
 
@@ -344,6 +354,16 @@ export function LabShell() {
                     decision={decision}
                     backendId={selectedBackend}
                     isVisible={true}
+                  />
+                </div>
+              )}
+
+              {pipelineDone && !jsonError && (
+                <div className="mt-4">
+                  <EffectivePermissionsPanel
+                    raw={effectivePermissions.raw}
+                    roleExpanded={effectivePermissions.roleExpanded}
+                    final={effectivePermissions.final}
                   />
                 </div>
               )}
@@ -481,201 +501,72 @@ function CopyButton({ label, value }: { label: string; value: string }) {
   );
 }
 
-/* ── Decision Engine ── */
-
-function computeDecision(
-  permission: string,
-  payload: Record<string, unknown>,
-  backendId: BackendId,
-): LabDecision {
-  const startTime = performance.now();
-
-  // Extract permissions from the payload
-  const allPerms = extractPermissions(payload);
-
-  // Direct match
-  const directMatch = allPerms.includes(permission);
-
-  // Wildcard match (e.g., "repositories.*" matches "repositories.write")
-  const wildcardMatches: string[] = [];
-  const permParts = permission.split(".");
-  for (const p of allPerms) {
-    if (p.includes("*")) {
-      const pattern = p.replace(/\./g, "\\.").replace(/\*/g, ".*");
-      const regex = new RegExp(`^${pattern}$`);
-      if (regex.test(permission)) {
-        wildcardMatches.push(p);
-      }
-    }
-  }
-
-  // Role expansion (e.g., "admin" role grants all permissions)
-  const backend = BACKEND_PRESETS.find((b) => b.id === backendId);
-  const roles = extractRoles(payload, backend);
-  const rolePermissions = expandRoles(roles);
-
-  const roleMatch = rolePermissions.includes(permission);
-
-  const granted = directMatch || wildcardMatches.length > 0 || roleMatch;
-
-  const endTime = performance.now();
-  const timing = Math.round((endTime - startTime) * 10) / 10;
-
-  // Build plain English explanation
-  let explanation = "";
-  if (directMatch) {
-    explanation = `Accessly allowed this request because the ${backend?.name ?? "Unknown"} adapter normalized the backend response into an AccessModel that contains "${permission}". The permission matched directly.`;
-  } else if (wildcardMatches.length > 0) {
-    explanation = `Accessly allowed this request because "${permission}" matched the wildcard pattern "${wildcardMatches[0]}" in the AccessModel.`;
-  } else if (roleMatch) {
-    explanation = `Accessly allowed this request because the user's role "${roles.join(", ")}" grants the "${permission}" permission through role expansion.`;
-  } else {
-    explanation = `Accessly denied this request because "${permission}" was not found in the normalized permissions and no wildcard or role expansion matched.`;
-  }
-
-  return {
-    granted,
-    permission,
-    explanation,
-    matched: directMatch
-      ? permission
-      : wildcardMatches.length > 0
-        ? wildcardMatches[0]
-        : roleMatch
-          ? `role:${roles[0] ?? "unknown"}`
-          : "N/A",
-    source: directMatch
-      ? "permissions"
-      : wildcardMatches.length > 0
-        ? "wildcard"
-        : roleMatch
-          ? "role_expansion"
-          : "N/A",
-    direct: directMatch,
-    wildcardMatch: wildcardMatches.length > 0,
-    wildcards: wildcardMatches,
-    timing,
-  };
+function EffectivePermissionsPanel({
+  raw,
+  roleExpanded,
+  final,
+}: {
+  raw: string[];
+  roleExpanded: LabDecision["effectivePermissions"]["roleExpanded"];
+  final: string[];
+}) {
+  return (
+    <section
+      aria-label="Effective permissions"
+      className="rounded-xl border border-border/15 bg-surface/20 p-4"
+    >
+      <div className="mb-3">
+        <h2 className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">
+          Effective Permissions
+        </h2>
+        <p className="mt-1 text-[11px] leading-5 text-muted-dark">
+          Raw backend permissions plus role expansion become the final set used
+          for checks.
+        </p>
+      </div>
+      <div className="space-y-3">
+        <PermissionGroup title="Raw backend permissions" items={raw} empty="No raw backend permissions" />
+        <PermissionGroup
+          title="Role-expanded permissions"
+          items={roleExpanded.map((item) => `${item.role} -> ${item.permission}`)}
+          empty="No role-expanded permissions"
+        />
+        <PermissionGroup title="Final effective permissions" items={final} empty="No effective permissions" />
+      </div>
+    </section>
+  );
 }
 
-/* ── Permission Extraction ── */
-
-function extractPermissions(payload: Record<string, unknown>): string[] {
-  // all_permissions (Laravel)
-  if (Array.isArray(payload.all_permissions)) {
-    return payload.all_permissions as string[];
-  }
-  // abilities (NestJS)
-  if (Array.isArray(payload.abilities)) {
-    return payload.abilities as string[];
-  }
-  // permissions (Custom, Supabase)
-  if (Array.isArray(payload.permissions)) {
-    return payload.permissions as string[];
-  }
-  // authorities (Spring Boot)
-  if (Array.isArray(payload.authorities)) {
-    return (payload.authorities as { authority?: string }[]).map(
-      (a) => a.authority ?? "",
-    ).filter(Boolean);
-  }
-  // claims (ASP.NET)
-  if (Array.isArray(payload.claims)) {
-    return (payload.claims as { type?: string; value?: string }[])
-      .filter((c) => c.type === "permission")
-      .map((c) => c.value ?? "")
-      .filter(Boolean);
-  }
-  // scope (Express)
-  if (
-    payload.session &&
-    typeof payload.session === "object" &&
-    !Array.isArray(payload.session)
-  ) {
-    const session = payload.session as Record<string, unknown>;
-    if (session.user && typeof session.user === "object") {
-      const user = session.user as Record<string, unknown>;
-      if (Array.isArray(user.scope)) {
-        return user.scope as string[];
-      }
-    }
-  }
-  // user.abilities or user.permissions
-  if (payload.user && typeof payload.user === "object" && !Array.isArray(payload.user)) {
-    const u = payload.user as Record<string, unknown>;
-    if (Array.isArray(u.abilities)) return u.abilities as string[];
-    if (Array.isArray(u.permissions)) return u.permissions as string[];
-  }
-  // app_metadata.permissions (Supabase)
-  if (payload.app_metadata && typeof payload.app_metadata === "object") {
-    const meta = payload.app_metadata as Record<string, unknown>;
-    if (Array.isArray(meta.permissions)) {
-      return meta.permissions as string[];
-    }
-  }
-
-  return [];
+function PermissionGroup({
+  title,
+  items,
+  empty,
+}: {
+  title: string;
+  items: string[];
+  empty: string;
+}) {
+  return (
+    <div>
+      <div className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-dark/70">
+        {title}
+      </div>
+      {items.length > 0 ? (
+        <div className="flex flex-wrap gap-1">
+          {items.map((item) => (
+            <code
+              key={item}
+              className="rounded-md border border-border/15 bg-surface/35 px-1.5 py-0.5 text-[10px] text-foreground"
+            >
+              {item}
+            </code>
+          ))}
+        </div>
+      ) : (
+        <div className="rounded-md border border-dashed border-border/20 px-2 py-1.5 text-[11px] text-muted-dark/70">
+          {empty}
+        </div>
+      )}
+    </div>
+  );
 }
-
-function extractRoles(
-  payload: Record<string, unknown>,
-  backend?: typeof BACKEND_PRESETS[number],
-): string[] {
-  // Direct roles array
-  if (Array.isArray(payload.roles)) return payload.roles as string[];
-  // role (string or array)
-  if (Array.isArray(payload.role)) return payload.role as string[];
-  if (typeof payload.role === "string") return [payload.role];
-  // user.roles
-  if (payload.user && typeof payload.user === "object") {
-    const u = payload.user as Record<string, unknown>;
-    if (Array.isArray(u.roles)) return u.roles as string[];
-    if (typeof u.role === "string") return [u.role];
-  }
-  // session.roles
-  if (payload.session && typeof payload.session === "object") {
-    const s = payload.session as Record<string, unknown>;
-    if (Array.isArray(s.roles)) return s.roles as string[];
-  }
-  // Spring Boot ROLE_ prefix
-  if (Array.isArray(payload.roles)) {
-    return (payload.roles as string[]).map((r) =>
-      r.replace(/^ROLE_/, "").toLowerCase(),
-    );
-  }
-
-  return backend?.roles ?? [];
-}
-
-function expandRoles(roles: string[]): string[] {
-  const rolePermissions: string[] = [];
-
-  for (const role of roles) {
-    if (role === "admin" || role === "Administrator" || role === "administrator" || role === "owner") {
-      rolePermissions.push(
-        ...LOCAL_COMMON.slice(0, 10),
-      );
-    }
-    if (role === "editor" || role === "developer" || role === "manager") {
-      rolePermissions.push("repositories.read", "repositories.write", "posts.create", "posts.write", "users.view");
-    }
-    if (role === "viewer" || role === "member") {
-      rolePermissions.push("repositories.read", "billing.view");
-    }
-  }
-
-  return rolePermissions;
-}
-
-const LOCAL_COMMON = [
-  "repositories.read",
-  "repositories.write",
-  "repositories.create",
-  "repositories.delete",
-  "repositories.admin",
-  "posts.read",
-  "posts.create",
-  "posts.write",
-  "posts.delete",
-  "posts.publish",
-];

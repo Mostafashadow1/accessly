@@ -67,7 +67,7 @@ export function ResultSummary({
               decision.granted ? "text-emerald-400" : "text-red-400"
             }`}
           >
-            {decision.granted ? "Allowed" : "Denied"}
+            {decision.title}
           </span>
           <span className="text-xs font-mono text-muted-dark/60">
             {decision.permission}
@@ -77,6 +77,41 @@ export function ResultSummary({
         <p className="text-xs text-muted-dark leading-relaxed">
           {decision.explanation}
         </p>
+      </div>
+
+      <div className="mb-3 rounded-lg bg-surface/20 border border-border/10 px-3 py-2">
+        <div className="text-[9px] text-muted-dark/50 uppercase tracking-wider mb-1.5">
+          Decision path
+        </div>
+        <dl className="space-y-1 text-[11px] leading-5">
+          <DecisionDetail label="Requested permission" value={decision.details.requestedPermission} />
+          {decision.source === "direct" && (
+            <>
+              <DecisionDetail label="Source" value="normalized backend permissions" />
+              <DecisionDetail label="Matched permission" value={decision.details.matchedPermission} />
+            </>
+          )}
+          {decision.source === "role_expansion" && (
+            <>
+              <DecisionDetail label="Role" value={decision.details.role ?? "unknown"} />
+              <DecisionDetail label="Granted by" value={decision.details.grantedBy ?? "rolePermissions"} />
+              <DecisionDetail label="Matched permission" value={decision.details.matchedPermission} />
+            </>
+          )}
+          {decision.source === "wildcard" && (
+            <>
+              <DecisionDetail label="Wildcard matched" value={decision.details.wildcardMatched ?? decision.matched} />
+              <DecisionDetail label="Source" value={decision.details.source} />
+            </>
+          )}
+          {decision.source === "missing" && (
+            <>
+              <DecisionDetail label="Raw permissions" value="Not found" />
+              <DecisionDetail label="Role-expanded permissions" value="Not found" />
+              <DecisionDetail label="Wildcard permissions" value="Not matched" />
+            </>
+          )}
+        </dl>
       </div>
 
       {/* Detail grid */}
@@ -137,6 +172,15 @@ export function ResultSummary({
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function DecisionDetail({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-start justify-between gap-3">
+      <dt className="text-muted-dark">{label}</dt>
+      <dd className="text-right font-mono text-foreground">{value}</dd>
     </div>
   );
 }
