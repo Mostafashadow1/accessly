@@ -1,5 +1,6 @@
 import type React from "react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { CodeBlock } from "@/components/ui/code-block";
 
 export const metadata: Metadata = {
@@ -30,12 +31,13 @@ Create a minimal example that:
 - includes a short explanation of where backend authorization still belongs`,
   },
   {
-    title: "Prompt: Next.js Integration",
-    code: `Help me integrate Accessly into a Next.js app using TypeScript.
+    title: "Prompt: Next.js Client Component Integration",
+    code: `Help me integrate Accessly into a Next.js app using TypeScript client components.
 
 ${sharedRules}
 
 Create a small app-shell example that:
+- marks Accessly UI files with "use client" when needed
 - fetches or receives a backend access payload outside Accessly
 - normalizes it into an AccessModel
 - passes it to PermissionProvider
@@ -194,6 +196,28 @@ export default function AiPromptsPage() {
           </section>
         ))}
       </div>
+
+      <section className="mt-10 rounded-xl border border-border bg-surface/55 p-5">
+        <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+          Related Docs
+        </h2>
+        <div className="mt-4 grid gap-3 md:grid-cols-4">
+          {[
+            ["/docs/installation", "Installation"],
+            ["/docs/quick-start", "Quick Start"],
+            ["/docs/debugging", "Debugging"],
+            ["/docs/known-limitations", "Known Limitations"],
+          ].map(([href, label]) => (
+            <Link
+              key={href}
+              href={href}
+              className="rounded-lg border border-border bg-background/45 px-4 py-3 text-sm font-medium text-foreground no-underline transition hover:bg-surface-hover"
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
+      </section>
     </article>
   );
 }

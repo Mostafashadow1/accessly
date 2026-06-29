@@ -2,66 +2,26 @@ import type { NavGroup } from "@/types/navigation";
 
 export const docsSidebarGroups: NavGroup[] = [
   {
-    title: "Introduction",
+    title: "Start",
     links: [
-      { href: "/docs#what-is-accessly", label: "What is Accessly?" },
-      { href: "/docs#why-accessly", label: "Why Accessly?" },
-      { href: "/docs#installation", label: "Installation" },
-      { href: "/docs#quick-start", label: "Quick Start" },
+      { href: "/docs", label: "Overview" },
+      { href: "/docs/getting-started", label: "Getting Started" },
+      { href: "/docs/installation", label: "Installation" },
+      { href: "/docs/quick-start", label: "Quick Start" },
     ],
   },
   {
-    title: "Core Concepts",
+    title: "Learn",
     links: [
-      { href: "/docs#access-model", label: "AccessModel" },
-      { href: "/docs#permission-provider", label: "PermissionProvider" },
-      { href: "/docs#permission-engine", label: "Permission Engine" },
-      { href: "/docs#access-decision", label: "AccessDecision" },
-      { href: "/docs#backend-adapters", label: "Backend Adapters" },
+      { href: "/docs/core-concepts", label: "Core Concepts" },
+      { href: "/docs/react-apis", label: "React APIs" },
+      { href: "/docs/backend-adapters", label: "Backend Adapters" },
+      { href: "/docs/navigation", label: "Navigation" },
+      { href: "/docs/debugging", label: "Debugging" },
     ],
   },
   {
-    title: "React APIs",
-    links: [
-      { href: "/docs#react-permission-provider", label: "PermissionProvider" },
-      { href: "/docs#can", label: "Can", badge: "component" },
-      { href: "/docs#cannot", label: "Cannot", badge: "component" },
-      { href: "/docs#protected-route", label: "ProtectedRoute" },
-      { href: "/docs#use-permission", label: "usePermission", badge: "hook" },
-      {
-        href: "/docs#use-access-decision",
-        label: "useAccessDecision",
-        badge: "hook",
-      },
-      {
-        href: "/docs#use-access-model",
-        label: "useAccessModel",
-        badge: "hook",
-      },
-    ],
-  },
-  {
-    title: "Backend Adapters",
-    links: [
-      { href: "/docs#create-adapter", label: "createAdapter" },
-      { href: "/docs#built-in-adapters", label: "Built-in adapters" },
-      { href: "/docs#adapter-recipes", label: "Adapter recipes" },
-    ],
-  },
-  {
-    title: "Navigation",
-    links: [{ href: "/docs#filter-navigation", label: "filterNavigation" }],
-  },
-  {
-    title: "Debugging",
-    links: [
-      { href: "/docs#decision-explanations", label: "Decision explanations" },
-      { href: "/docs#format-decision", label: "formatDecision" },
-      { href: "/docs#inspect-access", label: "inspectAccess" },
-    ],
-  },
-  {
-    title: "Validation",
+    title: "Guides",
     links: [
       { href: "/docs/use-cases", label: "Use Cases" },
       { href: "/docs/ai", label: "AI Prompts" },
@@ -70,38 +30,23 @@ export const docsSidebarGroups: NavGroup[] = [
   {
     title: "Reference",
     links: [
-      { href: "/docs#api-reference", label: "API Reference" },
-      { href: "/docs#faq", label: "FAQ" },
-      { href: "/docs#known-limitations", label: "Known Limitations" },
+      { href: "/docs/api-reference", label: "API Reference" },
+      { href: "/docs/faq", label: "FAQ" },
+      { href: "/docs/known-limitations", label: "Known Limitations" },
     ],
   },
 ];
 
-export const plannedDocUrls = [
+export const docsRouteUrls = [
   ["/docs", "Documentation home"],
-  ["/docs/what-is-accessly", "What is Accessly?"],
-  ["/docs/why-accessly", "Why Accessly?"],
+  ["/docs/getting-started", "Getting Started"],
   ["/docs/installation", "Installation"],
   ["/docs/quick-start", "Quick Start"],
-  ["/docs/core-concepts/access-model", "AccessModel"],
-  ["/docs/core-concepts/permission-provider", "PermissionProvider"],
-  ["/docs/core-concepts/permission-engine", "Permission Engine"],
-  ["/docs/core-concepts/access-decision", "AccessDecision"],
-  ["/docs/core-concepts/backend-adapters", "Backend Adapters"],
-  ["/docs/react/permission-provider", "PermissionProvider"],
-  ["/docs/react/can", "Can"],
-  ["/docs/react/cannot", "Cannot"],
-  ["/docs/react/protected-route", "ProtectedRoute"],
-  ["/docs/react/use-permission", "usePermission"],
-  ["/docs/react/use-access-decision", "useAccessDecision"],
-  ["/docs/react/use-access-model", "useAccessModel"],
-  ["/docs/backend/create-adapter", "createAdapter"],
-  ["/docs/backend/built-in-adapters", "Built-in adapters"],
-  ["/docs/backend/adapter-recipes", "Adapter recipes"],
-  ["/docs/navigation/filter-navigation", "filterNavigation"],
-  ["/docs/debugging/decision-explanations", "Decision explanations"],
-  ["/docs/debugging/format-decision", "formatDecision"],
-  ["/docs/debugging/inspect-access", "inspectAccess"],
+  ["/docs/core-concepts", "Core Concepts"],
+  ["/docs/react-apis", "React APIs"],
+  ["/docs/backend-adapters", "Backend Adapters"],
+  ["/docs/navigation", "Navigation"],
+  ["/docs/debugging", "Debugging"],
   ["/docs/use-cases", "Use Cases"],
   ["/docs/ai", "AI Prompts"],
   ["/docs/api-reference", "API Reference"],

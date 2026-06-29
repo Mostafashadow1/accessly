@@ -4,8 +4,8 @@ import {
   docsLearningFlow,
   docsPagePatterns,
   docsPageTemplate,
+  docsRouteUrls,
   docsSidebarGroups,
-  plannedDocUrls,
 } from "@/data/docs-architecture";
 import { CodeBlock } from "@/components/ui/code-block";
 import { TerminalBlock } from "@/components/ui/terminal-block";
@@ -162,7 +162,7 @@ const docsSections = [
     points: [
       "Show the backend response before the normalized access model.",
       "Explain when to write an adapter versus passing an access model directly.",
-      "Keep recipes task-oriented, not showcase-oriented.",
+      "Keep backend mapping examples task-oriented, not showcase-oriented.",
     ],
   },
   {
@@ -274,14 +274,14 @@ const docsSections = [
     ],
   },
   {
-    id: "adapter-recipes",
+    id: "adapter-patterns",
     eyebrow: "Backend adapter",
-    title: "Adapter recipes",
+    title: "Adapter patterns",
     summary:
-      "Adapter recipes are task guides for common backend integration problems.",
+      "Adapter patterns are small task guides for common backend integration problems.",
     points: [
-      "Keep recipes inside docs, not as marketing showcases.",
-      "Each recipe should solve one backend mapping problem.",
+      "Keep patterns inside docs, not as marketing showcases.",
+      "Each pattern should solve one backend mapping problem.",
       "Always end with the normalized AccessModel.",
     ],
   },
@@ -676,13 +676,12 @@ export default function DocsOverview() {
             title="URL structure"
           >
             Search depends on stable titles and predictable paths. These URLs
-            are planned destinations for the documentation set; this pass keeps
-            the current website routes unchanged.
+            are the current documentation routes for the release-ready docs set.
           </SectionHeader>
 
           <Panel className="mt-8 overflow-hidden">
             <div className="grid divide-y divide-border">
-              {plannedDocUrls.map(([href, label]) => (
+              {docsRouteUrls.map(([href, label]) => (
                 <div
                   key={href}
                   className="grid gap-2 px-5 py-3 text-sm md:grid-cols-[minmax(210px,0.7fr)_1fr]"

@@ -37,6 +37,8 @@ Accessly is a small React permission layer for rendering UI from a normalized ac
 
 This repository contains the published `accessly` package and the public website/docs/Lab.
 
+Accessly is frontend access control. It controls what React renders for the current authenticated user; it does not replace backend authorization.
+
 ## Why Accessly?
 
 Frontend access logic often starts as simple conditionals and grows into scattered role checks, permission strings, feature flag branches, and duplicated navigation rules.
@@ -102,6 +104,17 @@ export function App() {
   );
 }
 ```
+
+## Important Model Rules
+
+- `AccessModel` is for the current authenticated user/session only.
+- Do not pass every user in your system to `PermissionProvider`.
+- `PermissionProvider` stores access data in React Context.
+- `usePermission` reads from `PermissionProvider`.
+- `checkPermission` is pure and requires access data manually.
+- Wildcards are optional and segment-based.
+- Feature flags are exact-match only.
+- `ProtectedRoute` renders children, loading, or fallback UI; it does not redirect automatically.
 
 ## Explainable Decisions
 

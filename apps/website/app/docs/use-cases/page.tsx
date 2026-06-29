@@ -1,5 +1,6 @@
 import type React from "react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { accesslyScenarios } from "@/data/scenarios";
 import { ScenarioRunner } from "@/components/scenarios/scenario-runner";
 
@@ -612,7 +613,7 @@ export default function UseCasesPage() {
         )}
       </section>
 
-      <section>
+      <section className="mb-12">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-2xl font-semibold tracking-tight text-foreground">
             Lightweight Scenario Packs
@@ -620,6 +621,28 @@ export default function UseCasesPage() {
           <Badge>{accesslyScenarios.length} scenarios</Badge>
         </div>
         <ScenarioRunner scenarios={accesslyScenarios} />
+      </section>
+
+      <section className="rounded-xl border border-border bg-surface/55 p-5">
+        <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+          Related Docs
+        </h2>
+        <div className="mt-4 grid gap-3 md:grid-cols-4">
+          {[
+            ["/docs/react-apis", "React APIs"],
+            ["/docs/backend-adapters", "Backend Adapters"],
+            ["/docs/debugging", "Debugging"],
+            ["/docs/api-reference", "API Reference"],
+          ].map(([href, label]) => (
+            <Link
+              key={href}
+              href={href}
+              className="rounded-lg border border-border bg-background/45 px-4 py-3 text-sm font-medium text-foreground no-underline transition hover:bg-surface-hover"
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
       </section>
     </article>
   );

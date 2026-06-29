@@ -35,6 +35,8 @@ Accessly is a small permission layer for React applications. It helps you render
 
 It is designed for product teams that need frontend access logic to be consistent, debuggable, and easy to integrate with real backends.
 
+Accessly is frontend access control. It controls what React renders for the current authenticated user; it does not replace backend authorization.
+
 ## Highlights
 
 - **Explainable decisions**: every check returns an `AccessDecision` with `allowed`, `reason`, `requested`, `matched`, `missing`, and `checkedFrom`.
@@ -104,6 +106,8 @@ Accessly reads one normalized shape: `AccessModel`.
 
 Your backend can look however it wants. Accessly only needs the data normalized into this model.
 
+`AccessModel` is for the current authenticated user/session only. Do not pass every user in your system to `PermissionProvider`.
+
 ```ts
 type AccessModel = {
   user?: {
@@ -140,6 +144,8 @@ Accessly gives your UI one consistent model, while adapters keep backend-specifi
 ## PermissionProvider
 
 `PermissionProvider` makes an access model available to Accessly components and hooks.
+
+The provider stores access data in React Context. `usePermission`, `useAccessDecision`, and `useAccessModel` read from that provider context. `checkPermission` is pure and requires access data manually.
 
 ```tsx
 import { PermissionProvider } from "accessly";
@@ -219,6 +225,8 @@ import { ProtectedRoute } from "accessly";
   <AdminPage />
 </ProtectedRoute>;
 ```
+
+`ProtectedRoute` renders children, loading, or fallback UI. It does not redirect automatically; put router-specific redirects in your fallback when your app needs them.
 
 ### Render-prop access
 
@@ -765,6 +773,7 @@ It does **not** replace server-side authorization. Sensitive actions, data fetch
 - Wildcard matching is segment-based and does not support deep globstar patterns like `users.**`.
 - Feature flag checks are exact-match only.
 - Navigation items support one `permission` string per item.
+- `ProtectedRoute` does not redirect automatically.
 - `user.attributes` is available on the model, but Accessly does not currently evaluate attribute expressions for you.
 - Adapter output is trusted. Validate backend data before returning an `AccessModel` in production.
 
