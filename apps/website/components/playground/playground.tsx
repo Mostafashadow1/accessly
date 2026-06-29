@@ -279,7 +279,7 @@ export function Playground() {
                 Accessly
               </span>
               <span className="ml-auto text-[9px] text-muted-dark font-mono">
-                v0.1.0
+                0.1.2
               </span>
             </div>
 
@@ -381,9 +381,7 @@ export function Playground() {
                 num="04"
                 title="Decision"
                 status={getPanelStatus(3)}
-                accentIdle={
-                  decision.allowed ? "bg-success/50" : "bg-danger/50"
-                }
+                accentIdle={decision.allowed ? "bg-success/50" : "bg-danger/50"}
                 accentActive={decision.allowed ? "bg-success" : "bg-danger"}
               >
                 {/* Status badge */}
@@ -432,9 +430,7 @@ export function Playground() {
                     </span>
                     <span
                       className={`font-mono ${
-                        decision.allowed
-                          ? "text-foreground"
-                          : "text-muted-dark"
+                        decision.allowed ? "text-foreground" : "text-muted-dark"
                       }`}
                     >
                       {decision.matchedBy}

@@ -1,48 +1,73 @@
 <p align="center">
-  <img src="/packages/accessly/assets/accessly-readme.webp" alt="Accessly logo" />
+  <img
+    src="https://raw.githubusercontent.com/Mostafashadow1/accessly/main/packages/accessly/assets/accessly-readme.webp"
+    alt="Accessly - Explainable access control for React"
+    width="100%"
+  />
 </p>
 
 <h1 align="center">Accessly</h1>
 
 <p align="center">
-  Explainable access control for React.
+  Explainable access control for React and Next.js.
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/accessly"><img alt="npm" src="https://img.shields.io/npm/v/accessly?color=7c5cff" /></a>
-  <a href="https://github.com/Mostafashadow1/accessly"><img alt="license" src="https://img.shields.io/badge/license-MIT-8b95b7" /></a>
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-ready-3178c6" />
-  <img alt="React" src="https://img.shields.io/badge/React-first-61dafb" />
+  <a href="https://accessly-website.vercel.app/"><strong>Website</strong></a>
+  ·
+  <a href="https://accessly-website.vercel.app/docs">Docs</a>
+  ·
+  <a href="https://accessly-website.vercel.app/lab">Lab</a>
+  ·
+  <a href="https://www.npmjs.com/package/accessly">npm</a>
+  ·
+  <a href="https://bundlephobia.com/package/accessly">Bundle size</a>
 </p>
 
-Accessly is a React-first access control library for rendering UI from a clear, normalized access model. It gives you permission components, hooks, backend adapters, navigation filtering, and explainable allow/deny decisions without forcing your backend into a new shape.
+<p align="center">
+  <a href="https://www.npmjs.com/package/accessly"><img alt="npm version" src="https://img.shields.io/npm/v/accessly?color=7c5cff" /></a>
+  <a href="https://bundlephobia.com/package/accessly"><img alt="bundle size" src="https://img.shields.io/bundlephobia/minzip/accessly?label=minzip&color=22c55e" /></a>
+  <a href="https://www.npmjs.com/package/accessly"><img alt="dependencies" src="https://img.shields.io/badge/runtime%20deps-0-22c55e" /></a>
+  <a href="https://github.com/Mostafashadow1/accessly/blob/main/packages/accessly/package.json"><img alt="tree shaking" src="https://img.shields.io/badge/tree--shaking-friendly-7c5cff" /></a>
+  <a href="https://www.typescriptlang.org/"><img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-ready-3178c6" /></a>
+  <a href="https://github.com/Mostafashadow1/accessly/blob/main/LICENSE"><img alt="license" src="https://img.shields.io/badge/license-MIT-8b95b7" /></a>
+</p>
+
+Accessly is a small React permission layer for rendering UI from a normalized access model. It provides permission components, hooks, backend adapters, navigation filtering, feature flag checks, RBAC expansion, wildcard matching, and explainable allow/deny decisions.
+
+This repository contains the published `accessly` package and the public website/docs/Lab.
 
 ## Why Accessly?
 
-Frontend permission logic often starts small and then spreads across components as string checks, role checks, feature flag checks, and copied conditionals. Accessly centralizes that logic behind a small API so product UI can ask permission questions consistently.
+Frontend access logic often starts as simple conditionals and grows into scattered role checks, permission strings, feature flag branches, and duplicated navigation rules.
 
-Accessly is designed to help you:
+Accessly gives React apps one consistent way to ask access questions:
 
-- Keep permission checks readable in React components.
-- Normalize backend permission payloads into one `AccessModel`.
-- Render allowed and denied UI with `Can` and `Cannot`.
-- Inspect why a decision was allowed or denied.
-- Filter navigation from the same access model.
-- Keep frontend access control complementary to backend authorization.
+- Can this user see this UI?
+- Which permission matched?
+- Was access granted directly, through a role, by wildcard, or by feature flag?
+- Which permission is missing?
+- Can this backend response be normalized without changing the backend?
 
-## Key Features
+## Package Features
 
-- `PermissionProvider` for supplying the current access model.
-- `Can` and `Cannot` for declarative UI gating.
-- `usePermission` for boolean checks in custom components.
-- `useAccessDecision` for explainable decisions.
-- `createAdapter` for normalizing backend responses.
-- `filterNavigation` for permission-aware navigation.
-- TypeScript-first API with small, composable primitives.
+- **PermissionProvider** for supplying access data to React.
+- **Can, Cannot, ProtectedRoute** for declarative UI gating.
+- **usePermission** for boolean permission checks.
+- **useAccessDecision** for inspectable allow/deny decisions.
+- **useAccessModel** for reading the normalized model.
+- **RBAC expansion** with `rolePermissions`.
+- **Wildcard permissions** such as `users.*`, `reports.*`, and `*`.
+- **Feature flag checks** with `{ flag: "features.new-dashboard" }`.
+- **Backend adapters** with `createAdapter`.
+- **Built-in adapters** for flat permissions, grouped actions, pages, nested modules, and feature flags.
+- **Navigation filtering** with nested menu support.
+- **Debug utilities** for formatting decisions and inspecting access models.
+- **TypeScript declarations** for ESM and CJS consumers.
+- **Zero runtime dependencies**: no regular `dependencies`; React is a peer dependency.
+- **Tree-shaking friendly**: ESM build, package exports, and `"sideEffects": false`.
 
 ## Installation
-
-Default:
 
 ```bash
 npm install accessly
@@ -65,14 +90,46 @@ export function App() {
   return (
     <PermissionProvider
       access={{
+        user: { id: "user_1", roles: ["admin"] },
         permissions: ["users.create", "reports.view"],
+        flags: ["features.new-dashboard"],
       }}
     >
-      <Can permission="users.create">
+      <Can permission="users.create" fallback={<span>Read only</span>}>
         <button>Create user</button>
       </Can>
     </PermissionProvider>
   );
+}
+```
+
+## Explainable Decisions
+
+Accessly does not only return `true` or `false`. It returns a decision object that explains the result.
+
+```tsx
+import { useAccessDecision } from "accessly";
+
+export function ExportButton() {
+  const decision = useAccessDecision("reports.export");
+
+  if (!decision.allowed) {
+    return <span>Missing: {decision.missing?.join(", ")}</span>;
+  }
+
+  return <button>Export report</button>;
+}
+```
+
+Example decision:
+
+```json
+{
+  "allowed": true,
+  "reason": "allowed",
+  "requested": ["reports.export"],
+  "matched": ["reports.*"],
+  "checkedFrom": "wildcard"
 }
 ```
 
@@ -99,151 +156,83 @@ const backendAdapter = createAdapter((source: BackendUser) => ({
   flags: source.featureFlags,
 }));
 
-export function App({ user }: { user: BackendUser }) {
+export function Product({ user }: { user: BackendUser }) {
   return (
     <PermissionProvider source={user} adapter={backendAdapter}>
-      <Product />
+      <App />
     </PermissionProvider>
   );
 }
 ```
 
-## Can / Cannot Example
+## Website
 
-```tsx
-import { Can, Cannot } from "accessly";
+The public website is deployed here:
 
-export function UserActions() {
-  return (
-    <>
-      <Can permission="users.invite" fallback={<span>Invite unavailable</span>}>
-        <button>Invite user</button>
-      </Can>
+[https://accessly-website.vercel.app/](https://accessly-website.vercel.app/)
 
-      <Cannot permission="billing.manage">
-        <p>You do not have access to billing settings.</p>
-      </Cannot>
-    </>
-  );
-}
-```
+Useful routes:
 
-## Hooks Example
+- Docs: [https://accessly-website.vercel.app/docs](https://accessly-website.vercel.app/docs)
+- AI prompts: [https://accessly-website.vercel.app/docs/ai](https://accessly-website.vercel.app/docs/ai)
+- Use cases: [https://accessly-website.vercel.app/docs/use-cases](https://accessly-website.vercel.app/docs/use-cases)
+- Lab: [https://accessly-website.vercel.app/lab](https://accessly-website.vercel.app/lab)
 
-```tsx
-import { usePermission, useAccessDecision } from "accessly";
-
-export function BillingLink() {
-  const canViewBilling = usePermission("billing.view");
-  const decision = useAccessDecision("billing.manage");
-
-  if (!canViewBilling) return null;
-
-  return (
-    <a href="/billing" title={decision.reason}>
-      Billing
-    </a>
-  );
-}
-```
-
-## Navigation Filtering Example
-
-```tsx
-import {
-  filterNavigation,
-  type AccessModel,
-  type NavigationItem,
-} from "accessly";
-
-const navigation: NavigationItem[] = [
-  { label: "Dashboard", href: "/dashboard", permission: "dashboard.view" },
-  { label: "Users", href: "/users", permission: "users.view" },
-  { label: "Billing", href: "/billing", permission: "billing.view" },
-];
-
-export function getVisibleNavigation(access: AccessModel) {
-  return filterNavigation(navigation, access);
-}
-```
-
-## Explainable Decision Example
-
-```tsx
-import { useAccessDecision } from "accessly";
-
-export function DecisionDebug() {
-  const decision = useAccessDecision("reports.export");
-
-  return (
-    <pre>
-      {JSON.stringify(
-        {
-          allowed: decision.allowed,
-          reason: decision.reason,
-          matched: decision.matched,
-          missing: decision.missing,
-          checkedFrom: decision.checkedFrom,
-        },
-        null,
-        2,
-      )}
-    </pre>
-  );
-}
-```
-
-## Known V1 Limitations
-
-Accessly V1 intentionally keeps the API small.
-
-- Wildcard permission matching is prefix-oriented and does not support deep globstar patterns like `users.**`.
-- Feature flag checks are exact-match only.
-- Navigation items support a single `permission` string.
-- Adapter output is trusted. Validate backend data before returning an `AccessModel` in production.
-- Frontend UI gating is not a security boundary.
-
-## Security Note
-
-Accessly helps React applications render the right UI for the current user. It complements backend authorization; it does not replace it. Sensitive actions and data access must still be authorized on the server.
-
-## Workspace
+## Monorepo Structure
 
 This repository is a pnpm monorepo.
 
-- `packages/accessly` - the stable Accessly package.
-- `apps/website` - the website, docs, and Lab.
-
-Stable website routes:
-
-- `/`
-- `/docs`
-- `/lab`
+```text
+apps/
+  website/       Website, docs, and Accessly Lab
+packages/
+  accessly/      Published accessly package
+```
 
 ## Development
 
+Install dependencies:
+
 ```bash
 pnpm install
-pnpm type-check
-pnpm build
-pnpm test
 ```
 
-Useful package-level commands:
+Run all workspace builds:
 
 ```bash
-pnpm --filter accessly type-check
+pnpm build
+```
+
+Run package build:
+
+```bash
 pnpm --filter accessly build
-pnpm --filter website type-check
+```
+
+Run website build:
+
+```bash
 pnpm --filter website build
 ```
 
-## Links
+Run tests:
 
-- Docs: [https://accessly-website.vercel.app/docs](https://accessly-website.vercel.app/docs)
-- Lab: [https://accessly-website.vercel.app/lab](https://accessly-website.vercel.app/lab)
+```bash
+pnpm test
+```
+
+## Package Links
+
 - npm: [https://www.npmjs.com/package/accessly](https://www.npmjs.com/package/accessly)
-- GitHub: [https://github.com/Mostafashadow1/accessly](https://github.com/Mostafashadow1/accessly)
+- Bundle size: [https://bundlephobia.com/package/accessly](https://bundlephobia.com/package/accessly)
+- Package README: [packages/accessly/README.md](packages/accessly/README.md)
+- Package source: [packages/accessly/src](packages/accessly/src)
+
+## Security Note
+
+Accessly controls frontend rendering. It helps React apps hide, show, explain, and organize UI based on access data.
+
+It does **not** replace server-side authorization. Sensitive actions, private API routes, data fetching, mutations, billing operations, and admin actions must still be authorized on the server.
 
 ## License
 

@@ -1,15 +1,6 @@
-/**
- * HeroBackground — layered atmospheric system for the hero.
- *
- * Three-layer stack:
- *  1. Deep radial bloom (canvas-level glow)
- *  2. Grid + dot texture (adds spatial depth)
- *  3. Ambient accent lights (left/right fill)
- */
 export function HeroBackground() {
   return (
     <>
-      {/* ── Layer 1: Primary bloom — massive top-center radial ── */}
       <div
         aria-hidden="true"
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[1600px] h-[900px] pointer-events-none"

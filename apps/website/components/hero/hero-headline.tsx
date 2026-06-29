@@ -1,13 +1,3 @@
-/**
- * HeroHeadline — the most important element on the page.
- *
- * Two-line structure:
- *  Line 1: "Permission checks that" — white, vertical-fade masked
- *  Line 2: "explain themselves" — slow-shifting indigo→violet gradient
- *
- * Font size scales from 48px (mobile) to 96px (desktop).
- * Tight negative tracking (-0.04em) reads as premium confidence.
- */
 export function HeroHeadline() {
   return (
     <h1 className="font-bold select-none leading-[1.0] -tracking-[0.04em] mb-10 w-full">

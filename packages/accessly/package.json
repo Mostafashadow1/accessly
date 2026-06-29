@@ -1,6 +1,6 @@
 {
   "name": "accessly",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Explainable access control for React and Next.js — permission checks, RBAC, feature flags, backend adapters, and explainable decisions",
   "type": "module",
   "sideEffects": false,
