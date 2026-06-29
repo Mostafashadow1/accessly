@@ -5,7 +5,7 @@ import {
   pagesOnlyAdapter,
   nestedModulesAdapter,
   featureFlagsAdapter,
-} from "./built-in-adapters";
+} from "./index";
 
 describe("directPermissionsAdapter", () => {
   it("normalizes flat permissions", () => {

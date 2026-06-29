@@ -8,7 +8,7 @@ export type {
   RolePermissions,
   PermissionCheckInput,
   AccessAdapter,
-} from "./types/access";
+} from "./types";
 
 // Engine
 export { checkPermission, matchPermission } from "./engine";
@@ -21,20 +21,25 @@ export {
   pagesOnlyAdapter,
   nestedModulesAdapter,
   featureFlagsAdapter,
-} from "./adapter";
+} from "./adapters";
 
 // Provider
-export { PermissionProvider } from "./provider";
-export type { PermissionProviderProps } from "./provider";
+export { PermissionProvider } from "./react/provider";
+export type { PermissionProviderProps } from "./react/provider";
 
 // Hooks
-export { usePermission, useAccessDecision, useAccessModel } from "./hooks";
+export {
+  usePermission,
+  useAccessDecision,
+  useAccessModel,
+} from "./react/hooks";
 
 // Components
-export { Can, Cannot, ProtectedRoute } from "./components";
+export { Can, Cannot, ProtectedRoute } from "./react/components";
 
 // Navigation
-export { filterNavigation, useFilteredNavigation } from "./navigation";
+export { filterNavigation } from "./navigation";
+export { useFilteredNavigation } from "./react/hooks";
 
 // Debug
 export { formatDecision, inspectAccess } from "./debug";

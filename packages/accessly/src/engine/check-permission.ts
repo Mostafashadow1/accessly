@@ -3,25 +3,15 @@ import type {
   AccessDecision,
   RolePermissions,
   PermissionCheckInput,
-} from "../types/access";
+} from "../types";
 import { matchPermission } from "./match-permission";
+import { expandRolePermissions } from "./role-permissions";
+import {
+  isUnknownPermission,
+  shouldReturnUnknownPermission,
+} from "./unknown-permission";
 
 type CheckedFrom = AccessDecision["checkedFrom"];
-
-function expandRolePermissions(
-  roles: string[] | undefined,
-  rolePermissions: RolePermissions | undefined,
-): string[] {
-  if (!roles || !rolePermissions) return [];
-  const expanded: string[] = [];
-  for (const role of roles) {
-    const perms = rolePermissions[role];
-    if (perms) {
-      expanded.push(...perms);
-    }
-  }
-  return expanded;
-}
 
 /**
  * Find the first effective permission that matches `target`.
@@ -48,44 +38,6 @@ function findMatch(
     }
   }
   return null;
-}
-
-/**
- * Determine whether a target permission is "unknown" (not recognised by
- * the system).  Without a registry we conservatively treat every missing
- * permission as potentially unknown.
- */
-export function isUnknownPermission(
-  target: string,
-  registry?: readonly string[],
-): boolean {
-  return registry ? !registry.includes(target) : true;
-}
-
-/**
- * Handle the unknownPermission strategy for a list of targets that were
- * all denied.  Returns `true` if the caller should return early with an
- * `unknown_permission` decision (when the strategy is "throw").
- *
- * Note: this function is pure — warning about unknown permissions is
- * handled by the debug layer, not the engine.
- */
-function handleUnknownStrategy(
-  deniedTargets: string[],
-  unknownPermission: "ignore" | "warn" | "throw" | undefined,
-  registry: readonly string[] | undefined,
-): boolean {
-  // Only "throw" changes the decision output.
-  // "ignore" and "warn" both fall through to "missing_permission".
-  if (unknownPermission !== "throw") return false;
-
-  for (const target of deniedTargets) {
-    if (isUnknownPermission(target, registry)) {
-      return true;
-    }
-  }
-
-  return false;
 }
 
 export function checkPermission(
@@ -159,7 +111,9 @@ export function checkPermission(
     }
 
     // None matched – apply unknownPermission strategy before deciding
-    if (handleUnknownStrategy(requested, unknownPermission, registry)) {
+    if (
+      shouldReturnUnknownPermission(requested, unknownPermission, registry)
+    ) {
       return {
         allowed: false,
         reason: "unknown_permission",
@@ -202,7 +156,9 @@ export function checkPermission(
 
     if (missing.length > 0) {
       // Some items denied – apply unknownPermission strategy
-      if (handleUnknownStrategy(missing, unknownPermission, registry)) {
+      if (
+        shouldReturnUnknownPermission(missing, unknownPermission, registry)
+      ) {
         return {
           allowed: false,
           reason: "unknown_permission",
@@ -266,4 +222,3 @@ function checkSinglePermission(
     checkedFrom: "none",
   };
 }
-

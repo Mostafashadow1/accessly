@@ -1,8 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import { filterNavigation, useFilteredNavigation } from "./index";
-import type { AccessModel, NavigationItem } from "../types/access";
+import { filterNavigation } from "./index";
+import { useFilteredNavigation } from "../react/hooks";
+import type { AccessModel, NavigationItem } from "../types";
 
 const items: NavigationItem[] = [
   { label: "Dashboard", href: "/", permission: "pages.dashboard" },

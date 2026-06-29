@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import { PermissionProvider, useAccessContext } from "./index";
 import { useAccessModel } from "../hooks";
-import type { AccessAdapter } from "../types/access";
+import type { AccessAdapter } from "../../types";
 
 function TestConsumer() {
   const ctx = useAccessContext();

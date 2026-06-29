@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { formatDecision, inspectAccess, checkPermission, resetWarnings } from "./index";
-import type { AccessDecision, AccessModel } from "../types/access";
+import type { AccessDecision, AccessModel } from "../types";
 
 describe("formatDecision", () => {
   it("formats an allowed decision", () => {

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { checkPermission } from "./check-permission";
-import type { AccessModel } from "../types/access";
+import type { AccessModel } from "../types";
 
 const baseModel: AccessModel = {
   permissions: ["users.create", "users.delete", "reports.export"],
