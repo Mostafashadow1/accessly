@@ -1,4 +1,5 @@
 {
   "installCommand": "pnpm install",
-  "buildCommand": "pnpm --filter accessly build && pnpm --filter website build"
+  "buildCommand": "pnpm --filter accessly build && pnpm --filter website build",
+  "outputDirectory": ".next"
 }
