@@ -29,7 +29,7 @@ export function HeroSection() {
           {/* Version badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[0.1em] uppercase text-accent bg-primary-light border border-primary/20 mb-8 opacity-0 animate-[fadeUp_0.5s_ease_0.05s_forwards]">
             <span className="w-1.5 h-1.5 rounded-full bg-success inline-block animate-[pulse-live_2s_ease-in-out_infinite]" />
-            0.1.2 &middot; Open Source &middot; MIT Licensed
+            0.1.3 &middot; Open Source &middot; MIT Licensed
           </div>
 
           {/* Headline */}

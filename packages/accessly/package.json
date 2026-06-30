@@ -1,6 +1,6 @@
 {
   "name": "accessly",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Explainable access control for React and Next.js — permission checks, RBAC, feature flags, backend adapters, and explainable decisions",
   "type": "module",
   "sideEffects": false,
@@ -11,6 +11,7 @@
     "url": "git+https://github.com/Mostafashadow1/accessly.git"
   },
   "bugs": {
+    "type": "git",
     "url": "https://github.com/Mostafashadow1/accessly/issues"
   },
   "homepage": "https://accessly-website.vercel.app/",
