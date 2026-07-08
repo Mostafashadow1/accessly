@@ -31,6 +31,22 @@ Explainable access control for React and Next.js.
   <a href="https://bundlephobia.com/package/accessly">Bundle size</a>
 </p>
 
+---
+
+<p align="center">
+  <img
+    src="./assets/palestine-solidarity-banner.png"
+    alt="This project stands with Palestine — Freedom, dignity, and justice."
+    width="100%"
+  />
+</p>
+
+<p align="center">
+  <strong>🇵🇸 This project stands with Palestine — freedom, dignity, and justice.</strong>
+</p>
+
+---
+
 Accessly is a small permission layer for React applications. It helps you render UI from a normalized access model, check permissions and feature flags, filter navigation, adapt backend responses, and inspect exactly why a decision was allowed or denied.
 
 It is designed for product teams that need frontend access logic to be consistent, debuggable, and easy to integrate with real backends.
@@ -931,7 +947,11 @@ export type {
 } from "accessly";
 
 // Engine
-export { checkPermission, createAccessChecker, matchPermission } from "accessly";
+export {
+  checkPermission,
+  createAccessChecker,
+  matchPermission,
+} from "accessly";
 
 // Type guards
 export {

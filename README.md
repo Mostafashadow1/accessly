@@ -33,6 +33,22 @@
   <a href="https://github.com/Mostafashadow1/accessly/blob/main/LICENSE"><img alt="license" src="https://img.shields.io/badge/license-MIT-8b95b7" /></a>
 </p>
 
+---
+
+<p align="center">
+  <img
+    src="./assets/palestine-solidarity-banner.png"
+    alt="This project stands with Palestine — Freedom, dignity, and justice."
+    width="100%"
+  />
+</p>
+
+<p align="center">
+  <strong>🇵🇸 This project stands with Palestine — freedom, dignity, and justice.</strong>
+</p>
+
+---
+
 Accessly is a small React permission layer for rendering UI from a normalized access model. It provides permission components, hooks, backend adapters, navigation filtering, feature flag checks, RBAC expansion, wildcard matching, and explainable allow/deny decisions.
 
 This repository contains the published `accessly` package and the public website/docs/Lab.
@@ -220,7 +236,11 @@ import {
   createAccessChecker,
   isAccessModel,
 } from "accessly";
-import type { AccessDecision, AccessModel, PermissionCheckInput } from "accessly";
+import type {
+  AccessDecision,
+  AccessModel,
+  PermissionCheckInput,
+} from "accessly";
 ```
 
 Invalid permission inputs are caught by TypeScript:
