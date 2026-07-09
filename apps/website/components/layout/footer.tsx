@@ -162,8 +162,7 @@ export function Footer() {
 
               <p className="mt-5 max-w-[520px] text-sm leading-6 text-muted">
                 A small React permission layer for rendering UI from an
-                inspectable access model, with adapters for real backend
-                shapes.
+                inspectable access model, with adapters for real backend shapes.
               </p>
             </div>
 
@@ -227,7 +226,7 @@ export function Footer() {
             <span>
               Built by{" "}
               <a
-                href="https://shadowcoding.com"
+                href="https://shadow-coding.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-semibold text-foreground no-underline transition-colors duration-150 hover:text-accent"
