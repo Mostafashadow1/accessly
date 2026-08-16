@@ -143,9 +143,9 @@ export function Footer() {
                 href="/"
                 className="group inline-flex items-center gap-3 text-foreground no-underline"
               >
-                <span className="inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg border border-primary/25 bg-primary/8 shadow-[0_0_28px_rgba(124,92,255,0.20)] transition-all duration-200 group-hover:border-primary/45 group-hover:bg-primary/12">
+                <span className="inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg  bg-primary/8 shadow-[0_0_28px_rgba(124,92,255,0.20)] transition-all duration-200 group-hover:border-primary/45 group-hover:bg-primary/12">
                   <Image
-                    src="/brand/accesly-logo.webp"
+                    src="/brand/acessly-logo.svg"
                     alt="Accessly"
                     width={300}
                     height={300}

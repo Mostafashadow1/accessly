@@ -40,9 +40,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Accessly" }],
   creator: "Accessly",
   icons: {
-    icon: "/brand/accesly-logo.webp",
-    shortcut: "/brand/accesly-logo.webp",
-    apple: "/brand/accesly-logo.webp",
+    icon: "/brand/acessly-logo.svg",
+    shortcut: "/brand/acessly-logo.svg",
+    apple: "/brand/acessly-logo.svg",
   },
   openGraph: {
     type: "website",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
       "React-first access control with backend adapters, permission components, hooks, navigation filtering, and explainable allow/deny decisions.",
     images: [
       {
-        url: "/og/accessly-og.webp",
+        url: "/og/cover.png",
         width: 1200,
         height: 630,
         alt: "Accessly — Explainable access control for React",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     title: "Accessly — Explainable access control for React",
     description:
       "React-first access control with backend adapters, permission components, hooks, navigation filtering, and explainable allow/deny decisions.",
-    images: ["/og/accessly-og.webp"],
+    images: ["/og/cover.png"],
   },
   robots: {
     index: true,

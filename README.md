@@ -1,6 +1,6 @@
 <p align="center">
   <img
-    src="https://raw.githubusercontent.com/Mostafashadow1/accessly/main/packages/accessly/assets/accessly-readme.webp"
+    src="https://raw.githubusercontent.com/Mostafashadow1/accessly/main/packages/accessly/assets/cover.png"
     alt="Accessly - Explainable access control for React"
     width="100%"
   />
@@ -401,4 +401,3 @@ It does **not** replace server-side authorization. Sensitive actions, private AP
 ## License
 
 MIT © [Mostafa Mohamed Abdalla](https://github.com/Mostafashadow1)
-

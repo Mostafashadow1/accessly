@@ -15,9 +15,9 @@ export function HeroSection() {
 
       <div className="relative z-10 w-full max-w-[1280px] mx-auto px-6 lg:px-12">
         <div className="flex flex-col items-center text-center max-w-[1000px] mx-auto pt-28 pb-24 md:pt-32 md:pb-28">
-          <div className="mb-5 inline-flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl border border-primary/25 bg-primary/8 shadow-[0_0_48px_rgba(124,92,255,0.22)] opacity-0 animate-[fadeUp_0.5s_ease_forwards]">
+          <div className="mb-5 inline-flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl   bg-primary/8 shadow-[0_0_48px_rgba(124,92,255,0.22)] opacity-0 animate-[fadeUp_0.5s_ease_forwards]">
             <Image
-              src="/brand/accesly-logo.webp"
+              src="/brand/acessly-logo.svg"
               alt="Accessly"
               width={300}
               height={300}
@@ -29,7 +29,7 @@ export function HeroSection() {
           {/* Version badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[0.1em] uppercase text-accent bg-primary-light border border-primary/20 mb-8 opacity-0 animate-[fadeUp_0.5s_ease_0.05s_forwards]">
             <span className="w-1.5 h-1.5 rounded-full bg-success inline-block animate-[pulse-live_2s_ease-in-out_infinite]" />
-            0.1.3 &middot; Open Source &middot; MIT Licensed
+            0.1.5 &middot; Open Source &middot; MIT Licensed
           </div>
 
           {/* Headline */}

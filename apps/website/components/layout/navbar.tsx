@@ -87,14 +87,14 @@ export function Navbar() {
         >
           <span
             className={cn(
-              "inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg border shadow-[0_0_26px_rgba(124,92,255,0.22)] transition-all duration-200",
+              "inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg  shadow-[0_0_26px_rgba(124,92,255,0.22)] transition-all duration-200",
               isActive("/")
                 ? "border-primary/45 bg-primary/10"
                 : "border-primary/25 bg-primary/8 group-hover:border-primary/40 group-hover:bg-primary/12",
             )}
           >
             <Image
-              src="/brand/accesly-logo.webp"
+              src="/brand/acessly-logo.svg"
               alt="Accessly"
               width={300}
               height={300}

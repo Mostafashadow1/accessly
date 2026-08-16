@@ -1,6 +1,6 @@
 <p align="center">
   <img
-    src="https://raw.githubusercontent.com/Mostafashadow1/accessly/main/packages/accessly/assets/accessly-readme.webp"
+    src="https://raw.githubusercontent.com/Mostafashadow1/accessly/main/packages/accessly/assets/cover.png"
     alt="Accessly - Explainable access control for React"
     width="100%"
   />
@@ -731,7 +731,11 @@ import {
 const items: NavigationItem[] = [
   { label: "Dashboard", href: "/dashboard", permission: "dashboard.view" },
   { label: "Admin", href: "/admin", any: ["role:admin", "role:owner"] },
-  { label: "Audit Reports", href: "/reports", all: ["reports:read", "reports:export"] },
+  {
+    label: "Audit Reports",
+    href: "/reports",
+    all: ["reports:read", "reports:export"],
+  },
   { label: "Beta Lab", href: "/lab", flag: "beta-lab" },
 ];
 
@@ -1038,4 +1042,3 @@ It does **not** replace server-side authorization. Sensitive actions, data fetch
 ## License
 
 MIT © [Mostafa Mohamed Abdalla](https://github.com/Mostafashadow1)
-
