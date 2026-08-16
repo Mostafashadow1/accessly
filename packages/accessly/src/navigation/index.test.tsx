@@ -125,6 +125,29 @@ describe("filterNavigation", () => {
     expect(result).toHaveLength(1);
     expect(result[0].children).toHaveLength(1);
   });
+
+  it("filters items using any, all, and flag conditions", () => {
+    const complexItems: NavigationItem[] = [
+      { label: "AnyMatch", href: "/any", any: ["role:admin", "role:editor"] },
+      { label: "AnyFail", href: "/any-fail", any: ["role:admin", "role:superadmin"] },
+      { label: "AllMatch", href: "/all", all: ["reports:read", "reports:export"] },
+      { label: "AllFail", href: "/all-fail", all: ["reports:read", "reports:delete"] },
+      { label: "FlagMatch", href: "/flag", flag: "beta-analytics" },
+      { label: "FlagFail", href: "/flag-fail", flag: "alpha-feature" },
+    ];
+
+    const model: AccessModel = {
+      permissions: ["role:editor", "reports:read", "reports:export"],
+      flags: ["beta-analytics"],
+    };
+
+    const result = filterNavigation(complexItems, model);
+    expect(result.map((i) => i.label)).toEqual([
+      "AnyMatch",
+      "AllMatch",
+      "FlagMatch",
+    ]);
+  });
 });
 
 describe("useFilteredNavigation", () => {

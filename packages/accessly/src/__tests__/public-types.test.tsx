@@ -16,11 +16,14 @@ import {
   useAccessDecision,
   useAccessModel,
   usePermission,
+  usePermissions,
 } from "accessly";
 import type {
   AccessAdapter,
   AccessDecision,
   AccessModel,
+  BatchPermissionsInput,
+  BatchPermissionsResult,
   NavigationItem,
   PermissionCheckInput,
   PermissionProviderProps,
@@ -108,12 +111,18 @@ const componentExamples: React.ReactNode[] = [
 
 function HookConsumer() {
   const allowed = usePermission("users.create");
+  const batch = usePermissions({
+    canEdit: "users.edit",
+    canBeta: { flag: "features.beta" },
+  });
   const hookDecision = useAccessDecision({ all: ["reports.view"] });
   const hookModel = useAccessModel();
 
   return (
     <div>
       {String(allowed)}
+      {String(batch.canEdit)}
+      {String(batch.canBeta)}
       {hookDecision.reason}
       {hookModel?.user?.id}
     </div>

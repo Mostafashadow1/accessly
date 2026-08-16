@@ -79,10 +79,29 @@ describe("type guards", () => {
       ).toBe(true);
     });
 
+    it("accepts navigation items with any, all, and flag", () => {
+      expect(
+        isNavigationItem({
+          label: "Dashboard",
+          any: ["admin", "editor"],
+          flag: "new-dashboard",
+        }),
+      ).toBe(true);
+      expect(
+        isNavigationItem({
+          label: "Reports",
+          all: ["reports:read", "reports:export"],
+        }),
+      ).toBe(true);
+    });
+
     it("rejects invalid navigation items", () => {
       expect(isNavigationItem({ href: "/users" })).toBe(false);
       expect(isNavigationItem({ label: "Users", children: [{ href: "/" }] }))
         .toBe(false);
+      expect(isNavigationItem({ label: "Users", any: "admin" })).toBe(false);
+      expect(isNavigationItem({ label: "Users", all: [123] })).toBe(false);
+      expect(isNavigationItem({ label: "Users", flag: 123 })).toBe(false);
     });
   });
 

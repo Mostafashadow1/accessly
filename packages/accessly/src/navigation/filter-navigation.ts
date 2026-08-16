@@ -12,6 +12,18 @@ export function filterNavigation(
       const decision = checkPermission(model, { permission: item.permission });
       if (!decision.allowed) return acc;
     }
+    if (item.any && item.any.length > 0) {
+      const decision = checkPermission(model, { any: item.any });
+      if (!decision.allowed) return acc;
+    }
+    if (item.all && item.all.length > 0) {
+      const decision = checkPermission(model, { all: item.all });
+      if (!decision.allowed) return acc;
+    }
+    if (item.flag) {
+      const decision = checkPermission(model, { flag: item.flag });
+      if (!decision.allowed) return acc;
+    }
 
     if (item.children) {
       const filteredChildren = filterNavigation(item.children, model);

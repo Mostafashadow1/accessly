@@ -37,8 +37,13 @@ export type { PermissionProviderProps } from "./react/provider";
 // Hooks
 export {
   usePermission,
+  usePermissions,
   useAccessDecision,
   useAccessModel,
+} from "./react/hooks";
+export type {
+  BatchPermissionsInput,
+  BatchPermissionsResult,
 } from "./react/hooks";
 
 // Components

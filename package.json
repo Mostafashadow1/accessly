@@ -1,6 +1,8 @@
 {
   "name": "accessly-monorepo",
   "private": true,
+  "license": "MIT",
+  "author": "Mostafa Mohamed Abdalla (https://github.com/Mostafashadow1)",
   "packageManager": "pnpm@10.11.0",
   "scripts": {
     "build": "turbo run build",

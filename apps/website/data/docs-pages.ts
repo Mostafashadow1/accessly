@@ -18,6 +18,7 @@ const publicApi = [
   "Cannot",
   "ProtectedRoute",
   "usePermission",
+  "usePermissions",
   "useAccessDecision",
   "useAccessModel",
   "checkPermission",
@@ -178,8 +179,12 @@ checkPermission({ flags: ["features.audit"] }, { flag: "features.audit" });`,
       {
         title: "Hooks",
         body:
-          "usePermission returns a boolean. useAccessDecision returns the full decision. useAccessModel returns the current model from PermissionProvider.",
+          "usePermission returns a boolean. usePermissions evaluates multiple permissions concurrently. useAccessDecision returns the full decision. useAccessModel returns the current model from PermissionProvider.",
         code: `const canExport = usePermission("reports.export");
+const { canEdit, canDelete } = usePermissions({
+  canEdit: "posts:edit",
+  canDelete: { any: ["posts:delete", "admin"] },
+});
 const decision = useAccessDecision("reports.export");
 const model = useAccessModel();`,
         language: "tsx",
@@ -229,15 +234,17 @@ const backendAdapter = createAdapter((source: {
       {
         title: "Filter Links",
         body:
-          "Hidden navigation is a UX behavior, not a security boundary. Backend routes still need authorization.",
+          "Hidden navigation is a UX behavior, not a security boundary. Items support single permission, any, all, or feature flags.",
         code: `import { filterNavigation } from "accessly";
 
 const visible = filterNavigation(
   [
     { label: "Dashboard", href: "/dashboard" },
     { label: "Billing", href: "/billing", permission: "billing.view" },
+    { label: "Admin", href: "/admin", any: ["role:admin", "role:owner"] },
+    { label: "Beta Lab", href: "/lab", flag: "beta-features" },
   ],
-  { permissions: ["dashboard.view"] },
+  { permissions: ["dashboard.view", "role:admin"], flags: ["beta-features"] },
 );`,
         language: "ts",
       },

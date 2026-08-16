@@ -280,6 +280,32 @@ export function ExportButton() {
 }
 ```
 
+### usePermissions
+
+Evaluates multiple permissions and flags concurrently and returns a strongly-typed boolean map:
+
+```tsx
+import { usePermissions } from "accessly";
+
+export function PostActionBar() {
+  const { canEdit, canDelete, canPublish, canBetaFeature } = usePermissions({
+    canEdit: "posts:edit",
+    canDelete: "posts:delete",
+    canPublish: { all: ["posts:edit", "posts:publish"] },
+    canBetaFeature: { flag: "beta-editor" },
+  });
+
+  return (
+    <div>
+      <button disabled={!canEdit}>Edit</button>
+      <button disabled={!canDelete}>Delete</button>
+      {canPublish && <button>Publish</button>}
+      {canBetaFeature && <span>Beta Enabled</span>}
+    </div>
+  );
+}
+```
+
 ### useAccessDecision
 
 Returns the full decision object.
@@ -704,8 +730,9 @@ import {
 
 const items: NavigationItem[] = [
   { label: "Dashboard", href: "/dashboard", permission: "dashboard.view" },
-  { label: "Users", href: "/users", permission: "users.view" },
-  { label: "Billing", href: "/billing", permission: "billing.view" },
+  { label: "Admin", href: "/admin", any: ["role:admin", "role:owner"] },
+  { label: "Audit Reports", href: "/reports", all: ["reports:read", "reports:export"] },
+  { label: "Beta Lab", href: "/lab", flag: "beta-lab" },
 ];
 
 export function visibleNavigation(access: AccessModel) {
@@ -977,7 +1004,12 @@ export { PermissionProvider } from "accessly";
 export type { PermissionProviderProps } from "accessly";
 
 // Hooks
-export { usePermission, useAccessDecision, useAccessModel } from "accessly";
+export {
+  usePermission,
+  usePermissions,
+  useAccessDecision,
+  useAccessModel,
+} from "accessly";
 
 // Components
 export { Can, Cannot, ProtectedRoute } from "accessly";
@@ -999,11 +1031,11 @@ It does **not** replace server-side authorization. Sensitive actions, data fetch
 
 - Wildcard matching is segment-based and does not support deep globstar patterns like `users.**`.
 - Feature flag checks are exact-match only.
-- Navigation items support one `permission` string per item.
 - `ProtectedRoute` does not redirect automatically.
 - `user.attributes` is available on the model, but Accessly does not currently evaluate attribute expressions for you.
 - Adapter output is trusted. Validate backend data before returning an `AccessModel` in production.
 
 ## License
 
-MIT
+MIT © [Mostafa Mohamed Abdalla](https://github.com/Mostafashadow1)
+

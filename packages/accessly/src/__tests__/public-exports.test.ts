@@ -7,6 +7,7 @@ const publicRuntimeExports = [
   "Cannot",
   "ProtectedRoute",
   "usePermission",
+  "usePermissions",
   "useAccessDecision",
   "useAccessModel",
   "checkPermission",

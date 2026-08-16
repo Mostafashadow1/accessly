@@ -22,6 +22,15 @@ export function isNavigationItem(value: unknown): value is NavigationItem {
   ) {
     return false;
   }
+  if (value.any !== undefined && !isStringArray(value.any)) {
+    return false;
+  }
+  if (value.all !== undefined && !isStringArray(value.all)) {
+    return false;
+  }
+  if (value.flag !== undefined && typeof value.flag !== "string") {
+    return false;
+  }
   if (value.children !== undefined) {
     return (
       Array.isArray(value.children) &&

@@ -2,7 +2,12 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import { PermissionProvider } from "../provider";
-import { usePermission, useAccessDecision, useAccessModel } from "./index";
+import {
+  usePermission,
+  usePermissions,
+  useAccessDecision,
+  useAccessModel,
+} from "./index";
 
 function PermissionCheck({ permission }: { permission: string }) {
   const allowed = usePermission(permission);
@@ -113,3 +118,42 @@ describe("useAccessModel", () => {
     expect(screen.getByTestId("loading-model").textContent).toBe("loading");
   });
 });
+
+describe("usePermissions", () => {
+  function BatchCheck() {
+    const { canEdit, canDelete, canExport, canBeta } = usePermissions({
+      canEdit: "posts:edit",
+      canDelete: "posts:delete",
+      canExport: { any: ["export:csv", "export:pdf"] },
+      canBeta: { flag: "beta-ui" },
+    });
+
+    return (
+      <div>
+        <span data-testid="canEdit">{canEdit ? "yes" : "no"}</span>
+        <span data-testid="canDelete">{canDelete ? "yes" : "no"}</span>
+        <span data-testid="canExport">{canExport ? "yes" : "no"}</span>
+        <span data-testid="canBeta">{canBeta ? "yes" : "no"}</span>
+      </div>
+    );
+  }
+
+  it("evaluates multiple permissions and flags concurrently", () => {
+    render(
+      <PermissionProvider
+        access={{
+          permissions: ["posts:edit", "export:pdf"],
+          flags: ["beta-ui"],
+        }}
+      >
+        <BatchCheck />
+      </PermissionProvider>,
+    );
+
+    expect(screen.getByTestId("canEdit").textContent).toBe("yes");
+    expect(screen.getByTestId("canDelete").textContent).toBe("no");
+    expect(screen.getByTestId("canExport").textContent).toBe("yes");
+    expect(screen.getByTestId("canBeta").textContent).toBe("yes");
+  });
+});
+

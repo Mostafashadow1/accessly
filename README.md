@@ -70,8 +70,9 @@ Accessly gives React apps one consistent way to ask access questions:
 ## Package Features
 
 - **PermissionProvider** for supplying access data to React.
-- **Can, Cannot, ProtectedRoute** for declarative UI gating.
+- **Can, Cannot, ProtectedRoute** for declarative UI gating (with render props support).
 - **usePermission** for boolean permission checks.
+- **usePermissions** for concurrent batch permission & flag evaluations.
 - **useAccessDecision** for inspectable allow/deny decisions.
 - **useAccessModel** for reading the normalized model.
 - **RBAC expansion** with `rolePermissions`.
@@ -79,7 +80,7 @@ Accessly gives React apps one consistent way to ask access questions:
 - **Feature flag checks** with `{ flag: "features.new-dashboard" }`.
 - **Backend adapters** with `createAdapter`.
 - **Built-in adapters** for flat permissions, grouped actions, pages, nested modules, and feature flags.
-- **Navigation filtering** with nested menu support.
+- **Navigation filtering** with `any`, `all`, `flag`, and nested menu pruning.
 - **Debug utilities** for formatting decisions and inspecting access models.
 - **TypeScript declarations** for ESM and CJS consumers.
 - **Zero runtime dependencies**: no regular `dependencies`; React is a peer dependency.
@@ -399,4 +400,5 @@ It does **not** replace server-side authorization. Sensitive actions, private AP
 
 ## License
 
-MIT
+MIT © [Mostafa Mohamed Abdalla](https://github.com/Mostafashadow1)
+
