@@ -1,0 +1,90 @@
+# Accessly (npm: `accessly`)
+
+> Accessly is a frontend permissions / authorization layer for React and Next.js (RBAC, wildcard permissions, feature flags, navigation filtering, backend adapters). Every check returns an explainable decision that says why access was allowed or denied. Not an accessibility (a11y) library. Zero runtime dependencies, ~4 KB gzip.
+
+Install: `npm install accessly`
+
+## When to use
+- UI must show, hide or disable buttons, pages, sections or menu items based on the current user's roles, permissions or feature flags.
+- Your backend returns permissions in its own shape and you want one normalized model in the UI.
+- You need to debug why a user cannot see something (`useAccessDecision`, `formatDecision`).
+
+## When not to use
+- Accessibility (a11y) work: Accessly is about authorization.
+- Server-side authorization of APIs and data. Always enforce permissions on the server too; Accessly only controls what the UI renders.
+- Attribute-based policies with conditions (ABAC expressions). Use CASL or a policy engine.
+
+## Rules for correct usage
+- Wrap the app once with `<PermissionProvider access={{ user: { id, roles }, permissions: [...], flags: [...] }}>` for the current user only.
+- Permission strings are dot-separated, e.g. `users.create`. Wildcards are per segment: `users.*` matches `users.create` but not `users.profile.edit`; `*` matches everything.
+- Expand roles with `rolePermissions={{ admin: ["users.*"], support: ["tickets.*"] }}` on the provider.
+- Components: `<Can permission=... fallback=...>`, `<Cannot permission=...>`, `<ProtectedRoute permission=... fallback=... loading=...>`. `permission` accepts a string or `{ any: [...] }`, `{ all: [...] }`, `{ flag: "..." }`.
+- Hooks: `usePermission(p): boolean`, `usePermissions({ key: p, ... })` returns a boolean map, `useAccessDecision(p)` returns an AccessDecision, `useAccessModel()`.
+- `ProtectedRoute` never redirects. Put router redirects in the fallback.
+- While access data is loading, pass `loading` to the provider (or `isLoading` in the model) so checks return `not_ready` instead of a false denial.
+- The root `accessly` entry is a client module (React context). Render `PermissionProvider`, `Can` and friends from client components or pass them serializable props from a Server Component.
+- In Server Components, Route Handlers, middleware or Node, import from `accessly/core`: `checkPermission(model, { permission })`, `createAccessChecker(model, { rolePermissions })`, adapters, `filterNavigation`.
+
+## Examples
+
+### Provider + gated button
+
+```tsx
+"use client";
+import { PermissionProvider, Can } from "accessly";
+
+export function Providers({ session, children }) {
+  return (
+    <PermissionProvider
+      access={{
+        user: { id: session.user.id, roles: session.user.roles },
+        permissions: session.permissions,
+        flags: session.flags,
+      }}
+      rolePermissions={{ admin: ["*"], editor: ["posts.*"] }}
+    >
+      {children}
+    </PermissionProvider>
+  );
+}
+
+export function DeletePost() {
+  return (
+    <Can permission="posts.delete" fallback={null}>
+      <button>Delete</button>
+    </Can>
+  );
+}
+```
+
+### Several checks at once + explain a denial
+
+```tsx
+"use client";
+import { usePermissions, useAccessDecision, formatDecision } from "accessly";
+
+export function Toolbar() {
+  const { canEdit, canPublish } = usePermissions({
+    canEdit: "posts.edit",
+    canPublish: { all: ["posts.edit", "posts.publish"] },
+  });
+  const refund = useAccessDecision("payments.refund");
+  if (!refund.allowed) console.debug(formatDecision(refund));
+  return <><button disabled={!canEdit}>Edit</button><button disabled={!canPublish}>Publish</button></>;
+}
+```
+
+## API summary
+- Provider: `PermissionProvider` props `access`, `source` + `adapter`, `rolePermissions`, `registry`, `unknownPermission` ("ignore" | "warn" | "throw"), `loading`.
+- Components: `Can`, `Cannot`, `ProtectedRoute` (props `permission`, `fallback`, `loading`, children or render function receiving the decision).
+- Hooks: `usePermission`, `usePermissions`, `useAccessDecision`, `useAccessModel`, `useFilteredNavigation`.
+- Engine (also in the React-free `accessly/core` entry): `checkPermission`, `createAccessChecker`, `matchPermission`.
+- Adapters: `createAdapter`, `directPermissionsAdapter`, `createActionsAdapter`, `pagesOnlyAdapter`, `nestedModulesAdapter`, `featureFlagsAdapter`.
+- Navigation and debug: `filterNavigation`, `formatDecision`, `inspectAccess`.
+- AccessDecision: `{ allowed, reason: "allowed" | "missing_permission" | "missing_flag" | "unknown_permission" | "not_ready" | "invalid_request", requested, matched, missing, checkedFrom }`.
+
+## Links
+- [Website](https://accessly-website.vercel.app/)
+- [README](https://github.com/Mostafashadow1/accessly#readme)
+- [npm](https://www.npmjs.com/package/accessly)
+- [Issues](https://github.com/Mostafashadow1/accessly/issues)

@@ -1,14 +1,15 @@
 {
   "name": "accessly",
-  "version": "0.1.5",
-  "description": "Explainable access control for React and Next.js — permission checks, RBAC, feature flags, backend adapters, and explainable decisions",
+  "version": "0.2.0",
+  "description": "Permissions and RBAC for React and Next.js UIs: <Can>, usePermission, feature flags, filtered navigation, and decisions that explain why access was denied.",
   "type": "module",
   "sideEffects": false,
   "license": "MIT",
   "author": "Mostafa Mohamed Abdalla (https://github.com/Mostafashadow1)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Mostafashadow1/accessly.git"
+    "url": "git+https://github.com/Mostafashadow1/accessly.git",
+    "directory": "packages/accessly"
   },
   "bugs": {
     "type": "git",
@@ -16,14 +17,18 @@
   },
   "homepage": "https://accessly-website.vercel.app/",
   "keywords": [
+    "permissions",
+    "authorization",
+    "access-control",
+    "rbac",
+    "roles",
+    "feature-flags",
+    "protected-route",
+    "can",
+    "casl-alternative",
     "react",
     "nextjs",
-    "access-control",
-    "permissions",
-    "rbac",
-    "authorization",
-    "feature-flags",
-    "abac"
+    "typescript"
   ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -38,17 +43,28 @@
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
+    },
+    "./core": {
+      "import": {
+        "types": "./dist/core.d.ts",
+        "default": "./dist/core.js"
+      },
+      "require": {
+        "types": "./dist/core.d.cts",
+        "default": "./dist/core.cjs"
+      }
     }
   },
   "files": [
-    "assets",
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "AGENTS.md",
+    "llms.txt"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
-    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "build": "rm -rf dist && tsup",
+    "dev": "tsup --watch",
     "type-check": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
