@@ -55,6 +55,18 @@ This repository contains the published `accessly` package and the public website
 
 Accessly is frontend access control. It controls what React renders for the current authenticated user; it does not replace backend authorization.
 
+## When to use Accessly
+
+- UI must show, hide or disable buttons, pages, sections or menu items based on the current user's roles, permissions or feature flags.
+- Your backend returns permissions in its own shape and you want one normalized model in the UI.
+- You need to debug why a user cannot see something (`useAccessDecision`, `formatDecision`).
+
+**Not for:** Accessibility (a11y) work: Accessly is about authorization. Server-side authorization of APIs and data. Always enforce permissions on the server too; Accessly only controls what the UI renders. Attribute-based policies with conditions (ABAC expressions). Use CASL or a policy engine.
+
+> **Using an AI coding agent?** This package ships an [`AGENTS.md`](https://github.com/Mostafashadow1/accessly/blob/main/packages/accessly/AGENTS.md) and an [`llms.txt`](https://github.com/Mostafashadow1/accessly/blob/main/packages/accessly/llms.txt) with usage rules and examples. Agents with the Context7 MCP can fetch these docs directly.
+
+---
+
 ## Why Accessly?
 
 Frontend access logic often starts as simple conditionals and grows into scattered role checks, permission strings, feature flag branches, and duplicated navigation rules.

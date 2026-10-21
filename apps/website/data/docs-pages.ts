@@ -364,6 +364,16 @@ console.log(formatDecision(decision));`,
         body:
           "No. Feature flag checks are exact-match only.",
       },
+      {
+        title: "Can I check permissions in Server Components or middleware?",
+        body:
+          "Yes, from accessly/core. The root accessly entry is a client module because it includes React context. accessly/core exports checkPermission, createAccessChecker, matchPermission, the adapters, filterNavigation and the debug helpers without React.",
+        code: `import { checkPermission } from "accessly/core";
+
+const decision = checkPermission(access, { permission: "billing.manage" });
+if (!decision.allowed) redirect("/403");`,
+        language: "ts",
+      },
     ],
   },
   {

@@ -35,7 +35,7 @@ Explainable access control for React and Next.js.
 
 <p align="center">
   <img
-    src="./assets/palestine-solidarity-banner.png"
+    src="https://raw.githubusercontent.com/Mostafashadow1/accessly/main/packages/accessly/assets/palestine-solidarity-banner.png"
     alt="This project stands with Palestine — Freedom, dignity, and justice."
     width="100%"
   />
@@ -52,6 +52,18 @@ Accessly is a small permission layer for React applications. It helps you render
 It is designed for product teams that need frontend access logic to be consistent, debuggable, and easy to integrate with real backends.
 
 Accessly is frontend access control. It controls what React renders for the current authenticated user; it does not replace backend authorization.
+
+## When to use Accessly
+
+- UI must show, hide or disable buttons, pages, sections or menu items based on the current user's roles, permissions or feature flags.
+- Your backend returns permissions in its own shape and you want one normalized model in the UI.
+- You need to debug why a user cannot see something (`useAccessDecision`, `formatDecision`).
+
+**Not for:** Accessibility (a11y) work: Accessly is about authorization. Server-side authorization of APIs and data. Always enforce permissions on the server too; Accessly only controls what the UI renders. Attribute-based policies with conditions (ABAC expressions). Use CASL or a policy engine.
+
+> **Using an AI coding agent?** This package ships an [`AGENTS.md`](https://github.com/Mostafashadow1/accessly/blob/main/packages/accessly/AGENTS.md) and an [`llms.txt`](https://github.com/Mostafashadow1/accessly/blob/main/packages/accessly/llms.txt) with usage rules and examples. Agents with the Context7 MCP can fetch these docs directly.
+
+---
 
 ## Highlights
 
@@ -854,6 +866,19 @@ if (decision.allowed) {
 
 `checkPermission` is intentionally stateless. It requires the access model
 manually because it does not read React Context or any global store.
+
+### Server usage: `accessly/core`
+
+The root `accessly` entry contains React context, so it is a client module.
+For Server Components, Route Handlers, middleware or plain Node, import the
+React-free engine from `accessly/core`:
+
+```ts
+import { checkPermission, createAccessChecker, filterNavigation } from "accessly/core";
+
+const decision = checkPermission(session.access, { permission: "billing.manage" });
+if (!decision.allowed) redirect("/403");
+```
 
 ### createAccessChecker
 

@@ -12,6 +12,7 @@ const sharedRules = `Important rules:
 - Use only public Accessly APIs. Do not invent APIs.
 - Install with npm install accessly by default.
 - Keep backend authorization separate from frontend UI gating.
+- In Server Components, Route Handlers or middleware, import checkPermission and createAccessChecker from "accessly/core" (React-free).
 - Use PermissionProvider, Can, Cannot, usePermission, useAccessDecision, createAdapter, and filterNavigation correctly.
 - Explain assumptions before writing code.
 - Produce TypeScript code.`;

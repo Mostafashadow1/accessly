@@ -279,7 +279,7 @@ export function Playground() {
                 Accessly
               </span>
               <span className="ml-auto text-[9px] text-muted-dark font-mono">
-                0.1.2
+                0.2.0
               </span>
             </div>
 
